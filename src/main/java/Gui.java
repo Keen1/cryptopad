@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Gui {
-
     public Gui(){
         initComponents();
     }
@@ -38,6 +37,7 @@ public class Gui {
     private JPanel initUntitledInitPanel(){
         JPanel panel = new JPanel(new BorderLayout());
         JTextArea textArea = new JTextArea();
+        textArea.setLineWrap(true);
         JScrollPane scrollPane = new JScrollPane(textArea);
         panel.add(scrollPane, BorderLayout.CENTER);
         return panel;
