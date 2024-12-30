@@ -27,16 +27,19 @@ public class Gui {
 
     }
 
-    private JTabbedPane initTabbedPane(){
+    private JPanel initTabbedPane(){
+        JPanel panel = new JPanel(new BorderLayout());
         JTabbedPane tabPane = new JTabbedPane();
         tabPane.add("untitled", initUntitledInitPanel());
-        return tabPane;
+        panel.add(tabPane, BorderLayout.CENTER);
+        return panel;
     }
 
     private JPanel initUntitledInitPanel(){
         JPanel panel = new JPanel(new BorderLayout());
         JTextArea textArea = new JTextArea();
-        panel.add(textArea, BorderLayout.CENTER);
+        JScrollPane scrollPane = new JScrollPane(textArea);
+        panel.add(scrollPane, BorderLayout.CENTER);
         return panel;
     }
 
@@ -51,8 +54,8 @@ public class Gui {
         JFrame frame = initFrame();
         JToolBar toolbar = initToolbar();
         frame.add(toolbar, BorderLayout.NORTH);
-        JTabbedPane tabPane = initTabbedPane();
-        frame.add(tabPane, BorderLayout.CENTER);
+        JPanel tabPanel = initTabbedPane();
+        frame.add(tabPanel, BorderLayout.CENTER);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
