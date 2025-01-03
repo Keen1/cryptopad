@@ -96,9 +96,27 @@ public class Gui {
     private void initEditButton(){
         this.editButton = new JButton("edit");
     }
+
+    private JMenuBar getMenuBar(){
+        JMenuBar menuBar = new JMenuBar();
+
+        JMenu menu = new JMenu("file");
+        JMenuItem item1 = new JMenuItem("item1");
+        JMenuItem item2 = new JMenuItem("item2");
+        JMenuItem item3 = new JMenuItem("item3");
+        menu.add(item1);
+        menu.add(item2);
+        menu.add(item3);
+        menuBar.add(menu);
+
+
+
+        return menuBar;
+    }
+
     private void initComponents(){
         JFrame frame = this.getFrame();
-        frame.add(getToolBar(), BorderLayout.NORTH);
+        frame.add(getMenuBar(), BorderLayout.NORTH);
         frame.add(getTabbedPane(), BorderLayout.CENTER);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.pack();
