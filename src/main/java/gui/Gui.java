@@ -9,6 +9,7 @@ public class Gui {
     private JButton editButton;
     private JTabbedPane tabPane;
     private JFrame frame;
+    private JMenuBar menuBar;
 
     public Gui(){
         initComponents();
@@ -97,22 +98,25 @@ public class Gui {
         this.editButton = new JButton("edit");
     }
 
-    private JMenuBar getMenuBar(){
-        JMenuBar menuBar = new JMenuBar();
-
-        JMenu menu = new JMenu("file");
-        JMenuItem item1 = new JMenuItem("item1");
-        JMenuItem item2 = new JMenuItem("item2");
-        JMenuItem item3 = new JMenuItem("item3");
-        menu.add(item1);
-        menu.add(item2);
-        menu.add(item3);
-        menuBar.add(menu);
-
-
-
-        return menuBar;
+    public JMenuBar getMenuBar(){
+        if(this.menuBar == null){
+             initMenuBar();
+        }
+        return this.menuBar;
     }
+    private void initMenuBar(){
+        this.menuBar = new JMenuBar();
+        JMenu menu = new JMenu("File");
+        JMenuItem saveItem = new JMenuItem("Save");
+        JMenuItem saveAsItem = new JMenuItem("Save As...");
+        JMenuItem cipherItem = new JMenuItem("Cipher...");
+        menu.add(saveItem);
+        menu.add(saveAsItem);
+        menu.add(cipherItem);
+        this.menuBar.add(menu);
+    }
+
+    public void addSaveListener(){}
 
     private void initComponents(){
         JFrame frame = this.getFrame();
