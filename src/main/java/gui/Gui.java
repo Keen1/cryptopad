@@ -62,8 +62,29 @@ public class Gui {
     private void initTabbedPane(){
 
         this.tabPane  = new JTabbedPane();
-        tabPane.add("untitled", initUntitledTextArea());
+        addTabButtonTest("untitled");
+        //tabPane.add("untitled", initUntitledTextArea());
     }
+
+    public void addTabButtonTest(String title){
+        this.getTabbedPane().add(title, initUntitledTextArea());
+        int index = this.getTabbedPane().indexOfTab(title);
+        JPanel panel = new JPanel(new GridBagLayout());
+        panel.setOpaque(false);
+        JLabel tabTitle = new JLabel(title);
+        JButton closeButton = new JButton("X");
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.weightx = 1;
+        panel.add(tabTitle, gbc);
+        gbc.gridx++;
+        gbc.weightx = 0;
+        panel.add(closeButton, gbc);
+        this.getTabbedPane().setTabComponentAt(index, panel);
+    }
+
+
 
 
     private JPanel initUntitledTextArea(){

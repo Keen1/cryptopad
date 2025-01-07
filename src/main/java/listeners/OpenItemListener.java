@@ -21,6 +21,7 @@ public class OpenItemListener extends AbstractMenuItemListener {
                 String content = this.getModel().getFileContent(file);
                 this.getController().addNewTabToView(file.getName(), content);
 
+
             }else{
                 System.out.printf("invalid file selected: %s", file.getName());
             }
