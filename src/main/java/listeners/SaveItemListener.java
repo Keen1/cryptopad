@@ -2,9 +2,11 @@ package listeners;
 
 import gui.Gui;
 
+import java.awt.event.ActionEvent;
+
 public class SaveItemListener implements MenuItemListener{
-    @Override
-    public boolean performAction() {
+
+    public void actionPerformed(ActionEvent event){
 
     }
 }

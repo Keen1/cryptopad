@@ -1,7 +1,12 @@
 package gui;
 
+import controllers.GuiController;
+import listeners.OpenItemListener;
+import models.FileModel;
+
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 public class Gui {
     private JToolBar toolBar;
@@ -10,9 +15,15 @@ public class Gui {
     private JTabbedPane tabPane;
     private JFrame frame;
     private JMenuBar menuBar;
+    private JMenuItem saveItem;
+    private JMenuItem openItem;
+    private JMenuItem saveAsItem;
+    private JMenuItem cipherItem;
+    private GuiController controller;
 
     public Gui(){
         initComponents();
+        this.controller = new GuiController(this, new FileModel());
     }
 
 
@@ -104,19 +115,54 @@ public class Gui {
         }
         return this.menuBar;
     }
+
+    private void initOpenItem(){
+        this.openItem = new JMenuItem("Open...");
+    }
+    public JMenuItem getOpenItem(){
+        if(this.openItem == null){
+            initOpenItem();
+        }
+        return openItem;
+    }
+    public void initSaveItem(){
+        this.saveItem = new JMenuItem("Save");
+    }
+    public JMenuItem getSaveItem(){
+        if(this.saveItem == null){
+            initSaveItem();
+        }
+        return this.saveItem;
+    }
+    private void initSaveAsItem(){
+        this.saveAsItem = new JMenuItem("Save As...");
+    }
+    public JMenuItem getSaveAsItem(){
+        if(this.saveAsItem == null){
+            initSaveAsItem();
+        }
+        return this.saveAsItem;
+    }
+    private void initCipherItem(){
+        this.cipherItem = new JMenuItem("Cipher...");
+    }
+    public JMenuItem getCipherItem(){
+        if(this.cipherItem == null){
+            initCipherItem();
+        }
+        return this.cipherItem;
+    }
+
     private void initMenuBar(){
         this.menuBar = new JMenuBar();
         JMenu menu = new JMenu("File");
-        JMenuItem saveItem = new JMenuItem("Save");
-        JMenuItem saveAsItem = new JMenuItem("Save As...");
-        JMenuItem cipherItem = new JMenuItem("Cipher...");
-        menu.add(saveItem);
-        menu.add(saveAsItem);
-        menu.add(cipherItem);
+        menu.add(getOpenItem());
+        menu.add(getSaveItem());
+        menu.add(getSaveAsItem());
+        menu.add(getCipherItem());
         this.menuBar.add(menu);
     }
 
-    public void addSaveListener(){}
 
     private void initComponents(){
         JFrame frame = this.getFrame();
