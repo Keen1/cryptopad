@@ -1,10 +1,7 @@
 package models;
 
 import javax.swing.*;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 
 public class FileModel {
     public FileModel(){
@@ -26,6 +23,21 @@ public class FileModel {
             return fileChooser.getSelectedFile();
         }
         return null;
+    }
+
+    public String getFileContent(File file){
+        StringBuilder sb = new StringBuilder();
+        try(BufferedReader reader = new BufferedReader(new FileReader(file))){
+            String line;
+            while((line = reader.readLine()) != null){
+                sb.append(line).append("\n");
+
+            }
+
+        } catch (IOException e) {
+            System.out.printf("error reading file contents: %s", e.getMessage());
+        }
+        return sb.toString();
     }
 
 

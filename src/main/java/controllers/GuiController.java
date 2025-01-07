@@ -25,6 +25,9 @@ public class GuiController {
 
     public void registerMenuListeners(){
         JMenuItem openItem = this.getGui().getOpenItem();
-        openItem.addActionListener(new OpenItemListener(this.getModel()));
+        openItem.addActionListener(new OpenItemListener(this.getModel(), this));
+    }
+    public void addNewTabToView(String name, String content){
+        this.getGui().addNewTab(name, content);
     }
 }

@@ -1,12 +1,10 @@
 package gui;
 
 import controllers.GuiController;
-import listeners.OpenItemListener;
 import models.FileModel;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
 
 public class Gui {
     private JToolBar toolBar;
@@ -50,6 +48,15 @@ public class Gui {
         this.frame.setPreferredSize(new Dimension(800, 1000));
         this.frame.setLayout(new BorderLayout());
 
+    }
+    public void addNewTab(String name, String content){
+        JPanel panel = new JPanel(new BorderLayout());
+        JTextArea textArea = new JTextArea(content);
+        textArea.setLineWrap(true);
+        JScrollPane scrollPane = new JScrollPane(textArea);
+        panel.add(scrollPane, BorderLayout.CENTER);
+        this.getTabbedPane().add(name, panel);
+        this.getTabbedPane().setSelectedComponent(panel);
     }
 
     private void initTabbedPane(){
@@ -172,5 +179,7 @@ public class Gui {
         frame.pack();
         frame.setVisible(true);
     }
+
+
 
 }

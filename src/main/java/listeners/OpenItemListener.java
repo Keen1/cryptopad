@@ -1,5 +1,6 @@
 package listeners;
 
+import controllers.GuiController;
 import models.FileModel;
 
 import java.awt.event.ActionEvent;
@@ -7,8 +8,8 @@ import java.io.File;
 
 public class OpenItemListener extends AbstractMenuItemListener {
 
-    public OpenItemListener(FileModel model){
-        super(model);
+    public OpenItemListener(FileModel model, GuiController controller){
+        super(model, controller);
     }
 
     public void actionPerformed(ActionEvent event) {
@@ -17,6 +18,9 @@ public class OpenItemListener extends AbstractMenuItemListener {
         if(file != null){
             if(this.isFileReadable(file)){
                 System.out.printf("file selected : %s", file.getName());
+                String content = this.getModel().getFileContent(file);
+                this.getController().addNewTabToView(file.getName(), content);
+
             }else{
                 System.out.printf("invalid file selected: %s", file.getName());
             }
