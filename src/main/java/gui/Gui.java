@@ -2,11 +2,13 @@ package gui;
 
 import controllers.GuiController;
 import models.FileModel;
-
 import javax.swing.*;
 import java.awt.*;
 
+/*
+* gui view class.*/
 public class Gui {
+
     private JToolBar toolBar;
     private JButton fileButton;
     private JButton editButton;
@@ -57,6 +59,8 @@ public class Gui {
         panel.add(scrollPane, BorderLayout.CENTER);
         this.getTabbedPane().add(name, panel);
         this.getTabbedPane().setSelectedComponent(panel);
+
+
     }
 
     private void initTabbedPane(){
