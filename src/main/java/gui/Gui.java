@@ -51,23 +51,36 @@ public class Gui {
         this.frame.setLayout(new BorderLayout());
 
     }
-    public void addNewTab(String name, String content){
+    public void addNewTab(String title, String content){
+
+
+
         JPanel panel = new JPanel(new BorderLayout());
         JTextArea textArea = new JTextArea(content);
         textArea.setLineWrap(true);
         JScrollPane scrollPane = new JScrollPane(textArea);
         panel.add(scrollPane, BorderLayout.CENTER);
-        this.getTabbedPane().add(name, panel);
+        this.getTabbedPane().add(title, panel);
         this.getTabbedPane().setSelectedComponent(panel);
 
+        int index = this.getTabbedPane().indexOfTab(title);
+        JPanel titlePanel = new JPanel(new GridBagLayout());
+        titlePanel.setOpaque(false);
+        JLabel tabTitle = new JLabel(title);
+        JButton closeButton = new JButton("X");
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.weightx = 1;
+        titlePanel.add(tabTitle, gbc);
+        gbc.gridx++;
+        gbc.weightx = 0;
+        titlePanel.add(closeButton, gbc);
+        this.getTabbedPane().setTabComponentAt(index, titlePanel);
 
-    }
 
-    private void initTabbedPane(){
 
-        this.tabPane  = new JTabbedPane();
-        addTabButtonTest("untitled");
-        //tabPane.add("untitled", initUntitledTextArea());
+
     }
 
     public void addTabButtonTest(String title){
@@ -87,6 +100,23 @@ public class Gui {
         panel.add(closeButton, gbc);
         this.getTabbedPane().setTabComponentAt(index, panel);
     }
+
+    private JPanel initTextArea(String content){
+        JPanel panel = new JPanel(new BorderLayout());
+        JTextArea textArea = new JTextArea(content);
+        textArea.setLineWrap(true);
+        JScrollPane scrollPane = new JScrollPane(textArea);
+        panel.add(scrollPane, BorderLayout.CENTER);
+        return panel;
+    }
+
+    private void initTabbedPane(){
+
+        this.tabPane  = new JTabbedPane();
+        addTabButtonTest("untitled");
+        //tabPane.add("untitled", initUntitledTextArea());
+    }
+
 
 
 
