@@ -1,6 +1,7 @@
 package gui;
 
 import controllers.GuiController;
+import listeners.CloseTabListener;
 import models.FileModel;
 import javax.swing.*;
 import java.awt.*;
@@ -66,6 +67,7 @@ public class Gui {
         titlePanel.setOpaque(false);
         JLabel tabTitle = new JLabel(title);
         JButton closeButton = new JButton("X");
+        closeButton.addActionListener(new CloseTabListener(this.getTabbedPane()));
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
