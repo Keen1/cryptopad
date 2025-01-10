@@ -1,4 +1,4 @@
-package listeners;
+package listeners.menu;
 
 import controllers.GuiController;
 import models.FileModel;

@@ -1,11 +1,11 @@
-package listeners;
+package listeners.menu;
 
 import controllers.GuiController;
 import models.FileModel;
 
 import java.io.File;
 
-public abstract class AbstractMenuItemListener implements MenuItemListener{
+public abstract class AbstractMenuItemListener implements MenuItemListener {
     private final FileModel model;
     private final GuiController controller;
 
