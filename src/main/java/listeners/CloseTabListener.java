@@ -19,6 +19,7 @@ public class CloseTabListener implements ActionListener {
         if(index != -1){
             tabPane.removeTabAt(index);
         }
+        sourceBtn.removeActionListener(this);
 
     }
 
