@@ -39,8 +39,6 @@ public class Gui {
         this.controller = new GuiController(this, new FileModel());
     }
 
-
-
     public JTabbedPane getTabbedPane(){
 
         if(this.tabPane == null){
@@ -49,6 +47,7 @@ public class Gui {
         return this.tabPane;
 
     }
+
     public JFrame getFrame(){
 
         if(this.frame == null){
@@ -62,9 +61,10 @@ public class Gui {
         this.frame = new JFrame("cryptopad");
         this.frame.setPreferredSize(new Dimension(800, 1000));
         this.frame.setLayout(new BorderLayout());
-
     }
+
     public void addNewTab(String title, String content){
+
         //create the panel for the content provided
         JPanel panel = new JPanel(new BorderLayout());
         JTextArea textArea = new JTextArea(content);
@@ -96,13 +96,10 @@ public class Gui {
         //add a document handler to the textArea to track changes to content
         textArea.getDocument()
                 .addDocumentListener(new UnsavedChangesHandler(textArea, this.getController().getFileModelForTab(title)));
-
-
-
-
-
     }
+
     public JTextArea getTextAreaForSelectedTab(){
+
         JPanel panel  = (JPanel)this.getTabbedPane().getSelectedComponent();
         JScrollPane scrollPane = (JScrollPane)panel.getComponent(0);
         return (JTextArea)scrollPane.getViewport().getView();
@@ -117,20 +114,11 @@ public class Gui {
         return null;
     }
 
-
-
-
-
     private void initTabbedPane(){
 
         this.tabPane  = new JTabbedPane();
-        addNewTab("untitled", "");
+        //addNewTab("untitled", "");
     }
-
-
-
-
-
 
     public JToolBar getToolBar(){
         if(this.toolBar == null){
@@ -160,6 +148,7 @@ public class Gui {
         this.fileButton = new JButton("file");
 
     }
+
     public JButton getEditButton(){
 
         if(this.editButton == null){
@@ -182,33 +171,41 @@ public class Gui {
     private void initOpenItem(){
         this.openItem = new JMenuItem("Open...");
     }
+
     public JMenuItem getOpenItem(){
         if(this.openItem == null){
             initOpenItem();
         }
         return openItem;
     }
+
     public void initSaveItem(){
         this.saveItem = new JMenuItem("Save");
     }
+
     public JMenuItem getSaveItem(){
         if(this.saveItem == null){
             initSaveItem();
         }
         return this.saveItem;
     }
+
     private void initSaveAsItem(){
         this.saveAsItem = new JMenuItem("Save As...");
     }
+
     public JMenuItem getSaveAsItem(){
         if(this.saveAsItem == null){
             initSaveAsItem();
         }
         return this.saveAsItem;
     }
+
     private void initCipherItem(){
         this.cipherItem = new JMenuItem("Cipher...");
     }
+
+
     public JMenuItem getCipherItem(){
         if(this.cipherItem == null){
             initCipherItem();
@@ -226,7 +223,6 @@ public class Gui {
         this.menuBar.add(menu);
     }
 
-
     private void initComponents(){
         initController();
         JFrame frame = this.getFrame();
@@ -236,7 +232,4 @@ public class Gui {
         frame.pack();
         frame.setVisible(true);
     }
-
-
-
 }

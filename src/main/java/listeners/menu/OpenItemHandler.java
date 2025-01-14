@@ -17,7 +17,7 @@ public class OpenItemHandler extends AbstractMenuItemHandler{
         File file = this.getController().getGui().chooseFileToOpen();
 
         if(this.isFileReadable(file)){
-            System.out.printf("file selected : %s", file.getName());
+            System.out.printf("file selected : %s\n", file.getName());
             NewFileModel model = new NewFileModel(file);
 
             try{
