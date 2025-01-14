@@ -14,7 +14,7 @@ public class OpenItemListener extends AbstractMenuItemListener {
 
     public void actionPerformed(ActionEvent event) {
 
-        File file = this.getModel().chooseFileToOpen();
+        File file = this.getController().getGui().chooseFileToOpen();
         if(file != null){
             if(this.isFileReadable(file)){
                 System.out.printf("file selected : %s", file.getName());

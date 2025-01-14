@@ -2,9 +2,11 @@ package gui;
 
 import controllers.GuiController;
 import listeners.CloseTabListener;
+import listeners.menu.UnsavedChangesHandler;
 import models.FileModel;
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
 
 /*
 * gui view class.*/
@@ -53,7 +55,7 @@ public class Gui {
 
     }
     public void addNewTab(String title, String content){
-
+        //create the panel for the content provided
         JPanel panel = new JPanel(new BorderLayout());
         JTextArea textArea = new JTextArea(content);
         textArea.setLineWrap(true);
@@ -62,12 +64,15 @@ public class Gui {
         this.getTabbedPane().add(title, panel);
         this.getTabbedPane().setSelectedComponent(panel);
 
+        //create the tab's title panel with the close button
         int index = this.getTabbedPane().indexOfTab(title);
         JPanel titlePanel = new JPanel(new GridBagLayout());
         titlePanel.setOpaque(false);
         JLabel tabTitle = new JLabel(title);
         JButton closeButton = new JButton("X");
-        closeButton.addActionListener(new CloseTabListener(this.getTabbedPane()));
+
+        //add the listener to the tab's close button
+        closeButton.addActionListener(new CloseTabListener(this.getTabbedPane(), this.controller));
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
@@ -78,10 +83,31 @@ public class Gui {
         titlePanel.add(closeButton, gbc);
         this.getTabbedPane().setTabComponentAt(index, titlePanel);
 
+        //add a document handler to the textArea to track changes to content
+        textArea.getDocument()
+                .addDocumentListener(new UnsavedChangesHandler(textArea, this.controller.getFileModelForTab(title)));
+
+
 
 
 
     }
+    public JTextArea getTextAreaForSelectedTab(){
+        JPanel panel  = (JPanel)this.getTabbedPane().getSelectedComponent();
+        JScrollPane scrollPane = (JScrollPane)panel.getComponent(0);
+        return (JTextArea)scrollPane.getViewport().getView();
+    }
+
+    public File chooseFileToOpen(){
+        JFileChooser fileChooser = new JFileChooser();
+        int res = fileChooser.showOpenDialog(this.getFrame());
+        if(res == JFileChooser.APPROVE_OPTION){
+            return fileChooser.getSelectedFile();
+        }
+        return null;
+    }
+
+
 
 
 

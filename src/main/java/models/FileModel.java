@@ -21,6 +21,7 @@ public class FileModel {
         int res = fileChooser.showOpenDialog(null);
         if(res == JFileChooser.APPROVE_OPTION){
             return fileChooser.getSelectedFile();
+
         }
         return null;
     }
@@ -29,6 +30,7 @@ public class FileModel {
         StringBuilder sb = new StringBuilder();
         try(BufferedReader reader = new BufferedReader(new FileReader(file))){
             String line;
+
             while((line = reader.readLine()) != null){
                 sb.append(line).append("\n");
 
