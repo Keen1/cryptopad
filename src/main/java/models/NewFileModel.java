@@ -63,17 +63,18 @@ public class NewFileModel{
             Files.copy(this.getFile().toPath(), backup.toPath());
         }
         try{
-            BufferedWriter writer = new BufferedWriter(new FileWriter(this.getFile(), false));
+            BufferedWriter writer = new BufferedWriter(new FileWriter(this.getFile()));
             writer.write(content);
+            writer.flush();
             this.setSavedContent(content);
             this.setUnsavedChanges(false);
             boolean deleted = backup.delete();
-            System.out.printf("Save content success operation: %b", deleted);
+            System.out.printf("Save content success operation: %b\n", deleted);
         }catch(IOException e){
             if(backup.exists()){
                 Files.copy(backup.toPath(), this.getFile().toPath());
             }
-            System.out.printf("error saving file, backup restored: %s", e.getMessage());
+            System.out.printf("error saving file, backup restored: %s\n", e.getMessage());
         }
 
 

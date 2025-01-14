@@ -3,6 +3,7 @@ package controllers;
 import gui.Gui;
 import listeners.menu.OpenItemHandler;
 import listeners.menu.OpenItemListener;
+import listeners.menu.SaveItemHandler;
 import models.FileModel;
 import models.NewFileModel;
 
@@ -61,7 +62,10 @@ public class GuiController {
     public void registerMenuListeners(){
         JMenuItem openItem = this.getGui().getOpenItem();
         openItem.addActionListener(new OpenItemHandler(this));
-        //openItem.addActionListener(new OpenItemListener(this.getModel(), this));
+        JMenuItem saveItem = this.getGui().getSaveItem();
+        saveItem.addActionListener(new SaveItemHandler(this));
+
+
     }
 
     public void addNewTabToView(String name, String content){

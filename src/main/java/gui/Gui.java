@@ -26,6 +26,16 @@ public class Gui {
 
     public Gui(){
         initComponents();
+    }
+
+    public GuiController getController(){
+        if(this.controller == null){
+            initController();
+        }
+        return this.controller;
+    }
+
+    public void initController(){
         this.controller = new GuiController(this, new FileModel());
     }
 
@@ -72,7 +82,7 @@ public class Gui {
         JButton closeButton = new JButton("X");
 
         //add the listener to the tab's close button
-        closeButton.addActionListener(new CloseTabListener(this.getTabbedPane(), this.controller));
+        closeButton.addActionListener(new CloseTabListener(this.getTabbedPane(), this.getController()));
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
@@ -85,7 +95,7 @@ public class Gui {
 
         //add a document handler to the textArea to track changes to content
         textArea.getDocument()
-                .addDocumentListener(new UnsavedChangesHandler(textArea, this.controller.getFileModelForTab(title)));
+                .addDocumentListener(new UnsavedChangesHandler(textArea, this.getController().getFileModelForTab(title)));
 
 
 
@@ -218,6 +228,7 @@ public class Gui {
 
 
     private void initComponents(){
+        initController();
         JFrame frame = this.getFrame();
         frame.add(getMenuBar(), BorderLayout.NORTH);
         frame.add(getTabbedPane(), BorderLayout.CENTER);
