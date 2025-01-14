@@ -9,7 +9,8 @@ import java.awt.*;
 import java.io.File;
 
 /*
-* gui view class.*/
+* gui view class.
+*/
 public class Gui {
 
     private JToolBar toolBar;
@@ -69,6 +70,7 @@ public class Gui {
         JPanel panel = new JPanel(new BorderLayout());
         JTextArea textArea = new JTextArea(content);
         textArea.setLineWrap(true);
+        textArea.setWrapStyleWord(true);
         JScrollPane scrollPane = new JScrollPane(textArea);
         panel.add(scrollPane, BorderLayout.CENTER);
         this.getTabbedPane().add(title, panel);
