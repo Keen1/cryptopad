@@ -14,6 +14,12 @@ public class CloseTabListener implements ActionListener {
         this.tabPane = tabPane;
         this.controller = controller;
     }
+    public GuiController getController(){
+        return this.controller;
+    }
+    public JTabbedPane getTabPane(){
+        return this.tabPane;
+    }
 
     @Override
     public void actionPerformed(ActionEvent event){
@@ -22,11 +28,20 @@ public class CloseTabListener implements ActionListener {
         JPanel titlePanel = (JPanel)sourceBtn.getParent();
         JLabel label = (JLabel)titlePanel.getComponent(0);
         String title = label.getText();
-        this.controller.removeModelForTab(title);
 
-        int index = tabPane.indexOfTabComponent(titlePanel);
+        /*
+         * TODO need to conduct a check to see if the file has unsaved changes
+         *  inform user that unsaved changes will be lost with dialog
+         *   give user option to save changes and close, or not
+         */
+        if(this.getController().getFileModelForTab(title).hasUnsavedChanges()){
+
+        }
+        this.getController().removeModelForTab(title);
+
+        int index = this.getTabPane().indexOfTabComponent(titlePanel);
         if(index != -1){
-            tabPane.removeTabAt(index);
+            this.getTabPane().removeTabAt(index);
         }
 
         sourceBtn.removeActionListener(this);

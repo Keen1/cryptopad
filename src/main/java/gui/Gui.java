@@ -22,6 +22,7 @@ public class Gui {
     private JMenuItem saveItem;
     private JMenuItem openItem;
     private JMenuItem saveAsItem;
+    private JMenuItem newItem;
     private JMenuItem cipherItem;
     private GuiController controller;
 
@@ -215,9 +216,21 @@ public class Gui {
         return this.cipherItem;
     }
 
+    private void initNewItem(){
+        this.newItem = new JMenuItem("New...");
+    }
+
+    public JMenuItem getNewItem(){
+        if(this.newItem == null){
+            initNewItem();
+        }
+        return this.newItem;
+    }
+
     private void initMenuBar(){
         this.menuBar = new JMenuBar();
         JMenu menu = new JMenu("File");
+        menu.add(getNewItem());
         menu.add(getOpenItem());
         menu.add(getSaveItem());
         menu.add(getSaveAsItem());
