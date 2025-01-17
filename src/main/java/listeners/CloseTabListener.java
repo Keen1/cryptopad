@@ -31,15 +31,12 @@ public class CloseTabListener implements ActionListener {
         JLabel label = (JLabel)titlePanel.getComponent(0);
         String title = label.getText();
 
-        /*
-         * TODO need to conduct a check to see if the file has unsaved changes
-         *  inform user that unsaved changes will be lost with dialog
-         *   give user option to save changes and close, or not
-         */
         if(this.getController().getFileModelForTab(title).hasUnsavedChanges()){
+
             String prompt = title + UNSAVED_CHANGES_PROMPT;
             String[] options = {"Save", "Don't Save", "Cancel"};
             String unsavedChanges = "Unsaved Changes";
+
             int choice = JOptionPane.showOptionDialog(this.getController().getGui().getFrame(),
                     prompt,
                     unsavedChanges,
@@ -50,31 +47,48 @@ public class CloseTabListener implements ActionListener {
                     options[0]);
 
             if(choice == JOptionPane.YES_OPTION){
+
                 try{
+
                     this.getController().saveTabContent(title);
                     this.getController().removeModelForTab(title);
                     int index = this.getTabPane().indexOfTabComponent(titlePanel);
+
                     if(index != -1){
+
                         this.getTabPane().removeTabAt(index);
+
                     }
 
 
                 }catch(IOException e){
+
                     System.out.printf("error saving file: %s", e.getMessage());
+
                 }
             }
+
             else if(choice == JOptionPane.NO_OPTION){
+
                 this.getController().removeModelForTab(title);
                 int index = this.getTabPane().indexOfTab(title);
+
                 if(index != -1){
+
                     this.getTabPane().removeTabAt(index);
+
                 }
             }
+
         }else{
+
             this.getController().removeModelForTab(title);
             int index = this.getTabPane().indexOfTab(title);
+
             if(index != -1){
+
                 this.getTabPane().removeTabAt(index);
+
             }
         }
     }
