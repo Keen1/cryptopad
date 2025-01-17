@@ -8,6 +8,7 @@ import models.FileModel;
 import models.NewFileModel;
 
 import javax.swing.*;
+import java.io.IOException;
 import java.util.HashMap;
 
 public class GuiController {
@@ -53,6 +54,17 @@ public class GuiController {
     }
     private void initMap(){
         this.fileTabMap = new HashMap<>();
+    }
+
+    public void saveTabContent(String title)throws IOException {
+        NewFileModel model = this.getFileModelForTab(title);
+        String newContent = getContentForTab(title);
+        model.saveContent(newContent);
+
+    }
+
+    public String getContentForTab(String title){
+        return this.getGui().getTabContent(title);
     }
 
     public String getSelectedTextAreaContent(){

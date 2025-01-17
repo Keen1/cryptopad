@@ -100,6 +100,25 @@ public class Gui {
         textArea.getDocument()
                 .addDocumentListener(new UnsavedChangesHandler(textArea, this.getController().getFileModelForTab(title)));
     }
+    public String getTabContent(String title){
+        int index = this.getTabbedPane().indexOfTab(title);
+        JTextArea textArea = getTextAreaForIndex(index);
+        if(textArea != null){
+            return textArea.getText();
+        }
+        return null;
+
+    }
+
+    public JTextArea getTextAreaForIndex(int index){
+        if(index != -1){
+            JPanel panel = (JPanel) this.getTabbedPane().getComponentAt(index);
+            JScrollPane scrollPane = (JScrollPane) panel.getComponent(0);
+            return (JTextArea)scrollPane.getViewport().getView();
+        }
+        return null;
+    }
+
 
     public JTextArea getTextAreaForSelectedTab(){
 
