@@ -1,9 +1,8 @@
 package gui;
 
 import controllers.GuiController;
-import listeners.CloseTabListener;
+import listeners.tabs.CloseTabHandler;
 import listeners.menu.UnsavedChangesHandler;
-import models.FileModel;
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
@@ -41,7 +40,7 @@ public class Gui {
 
     //init the controller
     public void initController(){
-        this.controller = new GuiController(this, new FileModel());
+        this.controller = new GuiController(this);
     }
 
     //get the tabbed pane where all our text files are opened and displayed
@@ -99,7 +98,7 @@ public class Gui {
         JButton closeButton = new JButton("X");
 
         //add the listener to the tab's close button
-        closeButton.addActionListener(new CloseTabListener(this.getTabbedPane(), this.getController()));
+        closeButton.addActionListener(new CloseTabHandler(this.getTabbedPane(), this.getController()));
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;

@@ -1,4 +1,4 @@
-package listeners;
+package listeners.tabs;
 
 import controllers.GuiController;
 import javax.swing.*;
@@ -6,13 +6,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
-public class CloseTabListener implements ActionListener {
+public class CloseTabHandler implements ActionListener {
 
     private JTabbedPane tabPane;
     private GuiController controller;
     private static final String UNSAVED_CHANGES_PROMPT = "has unsaved changes. Do you want to change them?";
 
-    public CloseTabListener(JTabbedPane tabPane, GuiController controller){
+    public CloseTabHandler(JTabbedPane tabPane, GuiController controller){
 
         this.tabPane = tabPane;
         this.controller = controller;

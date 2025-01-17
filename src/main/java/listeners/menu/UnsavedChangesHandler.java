@@ -1,6 +1,6 @@
 package listeners.menu;
 
-import models.NewFileModel;
+import models.FileModel;
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -8,16 +8,16 @@ import javax.swing.event.DocumentListener;
 public  class UnsavedChangesHandler implements DocumentListener {
 
     private JTextArea textArea;
-    private NewFileModel model;
+    private FileModel model;
 
-    public UnsavedChangesHandler(JTextArea textArea, NewFileModel model){
+    public UnsavedChangesHandler(JTextArea textArea, FileModel model){
 
         this.textArea = textArea;
         this.model = model;
 
     }
 
-    public NewFileModel getModel(){
+    public FileModel getModel(){
 
         return this.model;
 

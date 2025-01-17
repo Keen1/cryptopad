@@ -1,7 +1,7 @@
 package listeners.menu;
 
 import controllers.GuiController;
-import models.NewFileModel;
+import models.FileModel;
 
 import java.awt.event.ActionEvent;
 import java.io.File;
@@ -18,7 +18,7 @@ public class OpenItemHandler extends AbstractMenuItemHandler{
 
         if(this.isFileReadable(file)){
             System.out.printf("file selected : %s\n", file.getName());
-            NewFileModel model = new NewFileModel(file);
+            FileModel model = new FileModel(file);
 
             try{
                 model.initState();

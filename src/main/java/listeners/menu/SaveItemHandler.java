@@ -1,7 +1,7 @@
 package listeners.menu;
 
 import controllers.GuiController;
-import models.NewFileModel;
+import models.FileModel;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
 
@@ -19,7 +19,7 @@ public class SaveItemHandler extends AbstractMenuItemHandler{
         String content = this.getController().getSelectedTextAreaContent();
         int index = this.getController().getGui().getTabbedPane().getSelectedIndex();
         String title = this.getController().getGui().getTabbedPane().getTitleAt(index);
-        NewFileModel model = this.getController().getFileModelForTab(title);
+        FileModel model = this.getController().getFileModelForTab(title);
 
         try{
 
