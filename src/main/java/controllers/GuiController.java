@@ -2,7 +2,6 @@ package controllers;
 
 import gui.Gui;
 import listeners.menu.OpenItemHandler;
-import listeners.menu.OpenItemListener;
 import listeners.menu.SaveItemHandler;
 import models.FileModel;
 import models.NewFileModel;

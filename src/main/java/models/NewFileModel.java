@@ -3,6 +3,10 @@ package models;
 import java.io.*;
 import java.nio.file.Files;
 
+/*
+* File model class. All file work handled here.
+*/
+
 public class NewFileModel{
     private int index;
     private String savedContent;
