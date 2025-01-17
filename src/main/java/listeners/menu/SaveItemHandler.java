@@ -22,10 +22,13 @@ public class SaveItemHandler extends AbstractMenuItemHandler{
         NewFileModel model = this.getController().getFileModelForTab(title);
 
         try{
+
             model.saveContent(content);
 
         }catch(IOException e){
+
             System.out.printf("error saving content: %s", e.getMessage());
+
         }
     }
 

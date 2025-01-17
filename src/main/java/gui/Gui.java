@@ -117,6 +117,7 @@ public class Gui {
 
     //get the content of a tab given a title
     public String getTabContent(String title){
+
         int index = this.getTabbedPane().indexOfTab(title);
         JTextArea textArea = getTextAreaForIndex(index);
         if(textArea != null){
@@ -128,6 +129,7 @@ public class Gui {
 
     //get the text area for a tab given an index
     public JTextArea getTextAreaForIndex(int index){
+
         if(index != -1){
             JPanel panel = (JPanel) this.getTabbedPane().getComponentAt(index);
             JScrollPane scrollPane = (JScrollPane) panel.getComponent(0);
@@ -146,6 +148,7 @@ public class Gui {
 
     //get a file that the user has chosen to open through a dialog
     public File chooseFileToOpen(){
+
         JFileChooser fileChooser = new JFileChooser();
         int res = fileChooser.showOpenDialog(this.getFrame());
         if(res == JFileChooser.APPROVE_OPTION){
@@ -169,6 +172,7 @@ public class Gui {
 
     //get the open menu item
     public JMenuItem getOpenItem(){
+
         if(this.openItem == null){
             initOpenItem();
         }
@@ -182,6 +186,7 @@ public class Gui {
 
     //get the save menu item
     public JMenuItem getSaveItem(){
+
         if(this.saveItem == null){
             initSaveItem();
         }
@@ -195,6 +200,7 @@ public class Gui {
 
     //get the save as menu item
     public JMenuItem getSaveAsItem(){
+
         if(this.saveAsItem == null){
             initSaveAsItem();
         }
@@ -208,6 +214,7 @@ public class Gui {
 
     //get the cipher menu item
     public JMenuItem getCipherItem(){
+
         if(this.cipherItem == null){
             initCipherItem();
         }
@@ -221,6 +228,7 @@ public class Gui {
 
     //get the new menu item
     public JMenuItem getNewItem(){
+
         if(this.newItem == null){
             initNewItem();
         }
@@ -229,6 +237,7 @@ public class Gui {
 
     //init the menu bar. adds all of our menu items under the appropriate menu
     private void initMenuBar(){
+
         this.menuBar = new JMenuBar();
         JMenu menu = new JMenu("File");
         menu.add(getNewItem());
@@ -237,11 +246,13 @@ public class Gui {
         menu.add(getSaveAsItem());
         menu.add(getCipherItem());
         this.menuBar.add(menu);
+
     }
 
     //init all components of the gui.
     //any new component feature must be called here to be initialized and added to the frame
     private void initComponents(){
+
         initController();
         JFrame frame = this.getFrame();
         frame.add(getMenuBar(), BorderLayout.NORTH);
@@ -249,5 +260,6 @@ public class Gui {
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
+
     }
 }

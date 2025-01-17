@@ -35,38 +35,51 @@ public class NewFileModel{
     public void setFile(File file){
         this.file = file;
     }
+
     public File getFile(){
         return this.file;
     }
 
     public void setUnsavedChanges(boolean unsavedChanges){
+
         if(this.unsavedChanges != unsavedChanges){
+
             this.unsavedChanges = unsavedChanges;
         }
     }
+
     public boolean hasUnsavedChanges(){
         return this.unsavedChanges;
     }
+
     public void setIndex(int index){
         this.index = index;
     }
+
     public int getIndex(){
         return this.index;
     }
+
     public void setSavedContent(String savedContent){
         this.savedContent = savedContent;
     }
+
     public String getSavedContent(){
         return this.savedContent;
     }
 
     public void saveContent(String content) throws IOException {
+
         File backup = new File(this.getFile().getPath() + ".bak");
 
         if(this.getFile().exists()){
+
             Files.copy(this.getFile().toPath(), backup.toPath());
+
         }
+
         try{
+
             BufferedWriter writer = new BufferedWriter(new FileWriter(this.getFile()));
             writer.write(content);
             writer.flush();
@@ -74,11 +87,14 @@ public class NewFileModel{
             this.setUnsavedChanges(false);
             boolean deleted = backup.delete();
             System.out.printf("Save content success operation: %b\n", deleted);
+
         }catch(IOException e){
+
             if(backup.exists()){
                 Files.copy(backup.toPath(), this.getFile().toPath());
             }
             System.out.printf("error saving file, backup restored: %s\n", e.getMessage());
+
         }
 
 
