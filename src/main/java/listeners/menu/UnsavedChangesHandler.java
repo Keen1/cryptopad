@@ -5,7 +5,10 @@ import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-public  class UnsavedChangesHandler implements DocumentListener {
+/*
+* TODO: This can likely be refactored to an action but im not sure. Need to re-examine this.
+*/
+public class UnsavedChangesHandler implements DocumentListener {
 
     private JTextArea textArea;
     private FileModel model;

@@ -2,7 +2,6 @@ package controllers;
 
 import gui.Gui;
 import listeners.menu.OpenItemHandler;
-import listeners.menu.SaveItemHandler;
 import models.FileModel;
 
 import javax.swing.*;
@@ -74,8 +73,15 @@ public class GuiController {
 
         FileModel model = this.getFileModelForTab(title);
         String newContent = getContentForTab(title);
-        model.saveContent(newContent);
+        String status = model.saveContent(newContent);
+        this.updateStatus(status);
 
+
+
+    }
+
+    public void updateStatus(String update){
+        this.getGui().updateStatus(update);
     }
 
     //get the content of a tab given the title
@@ -93,8 +99,8 @@ public class GuiController {
 
         JMenuItem openItem = this.getGui().getOpenItem();
         openItem.addActionListener(new OpenItemHandler(this));
-        JMenuItem saveItem = this.getGui().getSaveItem();
-        saveItem.addActionListener(new SaveItemHandler(this));
+        //JMenuItem saveItem = this.getGui().getSaveItem();
+        //saveItem.addActionListener(new SaveItemHandler(this));
 
     }
 

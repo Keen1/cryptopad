@@ -68,10 +68,9 @@ public class FileModel {
         return this.savedContent;
     }
 
-    public void saveContent(String content) throws IOException {
+    public String saveContent(String content) throws IOException {
 
         File backup = new File(this.getFile().getPath() + ".bak");
-
         if(this.getFile().exists()){
 
             Files.copy(this.getFile().toPath(), backup.toPath());
@@ -87,13 +86,17 @@ public class FileModel {
             this.setUnsavedChanges(false);
             boolean deleted = backup.delete();
             System.out.printf("Save content success operation: %b\n", deleted);
+            return "Successfully saved " + this.getFile().getName();
+
 
         }catch(IOException e){
 
             if(backup.exists()){
                 Files.copy(backup.toPath(), this.getFile().toPath());
+                System.out.printf("error saving file, backup restored: %s\n", e.getMessage());
+
             }
-            System.out.printf("error saving file, backup restored: %s\n", e.getMessage());
+            return "Failed saving " + this.getFile().getName();
 
         }
 

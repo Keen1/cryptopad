@@ -27,14 +27,21 @@ public class Gui {
     private JTabbedPane tabPane;
     private JFrame frame;
     private GuiController controller;
+
+    /*
+    * TODO: This will need to be refactored and encapsulated in an extended class. Want to add a timer in the form of
+    *  a bar to clear the status bar so stale updates don't sit in the label.
+    */
     private JLabel statusLabel;
+
+    private SaveAction saveAction;
 
     //constructor
     public Gui(){
         initComponents();
     }
 
-    public void initStatusLabel(){
+    private void initStatusLabel(){
         this.statusLabel = new JLabel("status test");
     }
 
@@ -43,6 +50,17 @@ public class Gui {
             initStatusLabel();
         }
         return this.statusLabel;
+    }
+
+    private void initSaveAction(){
+        this.saveAction = new SaveAction(this.getController());
+    }
+
+    public SaveAction getSaveAction(){
+        if(this.saveAction == null){
+            initSaveAction();
+        }
+        return this.saveAction;
     }
 
     public void updateStatus(String update){
@@ -97,7 +115,7 @@ public class Gui {
     }
 
     private void addTextAreaShortcut(JTextArea textArea){
-        SaveAction saveAction = new SaveAction(this.getController());
+        SaveAction saveAction = this.getSaveAction();
         KeyStroke shortcut = (KeyStroke)saveAction.getValue(ACCELERATOR_KEY);
         textArea.getInputMap(JComponent.WHEN_FOCUSED).put(shortcut, "save");
         textArea.getActionMap().put("save", saveAction);
@@ -208,7 +226,10 @@ public class Gui {
 
     //init the save menu item
     public void initSaveItem(){
+
         this.saveItem = new JMenuItem("Save");
+        this.saveItem.setAction(this.getSaveAction());
+
     }
 
     //get the save menu item

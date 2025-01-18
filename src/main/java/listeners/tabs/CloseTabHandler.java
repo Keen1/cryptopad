@@ -6,6 +6,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
+/*
+* TODO: refactor this to an action and delete the handler
+*/
 public class CloseTabHandler implements ActionListener {
 
     private JTabbedPane tabPane;

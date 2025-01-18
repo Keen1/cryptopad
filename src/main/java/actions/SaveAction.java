@@ -31,7 +31,8 @@ public class SaveAction extends AbstractAction {
         String title = this.getController().getGui().getTabbedPane().getTitleAt(index);
         FileModel model = this.getController().getFileModelForTab(title);
         try{
-            model.saveContent(content);
+            String status = model.saveContent(content);
+            this.getController().updateStatus(status);
         }catch(IOException e){
             System.out.printf("Error saving file.\n %s", e.getMessage());
         }
