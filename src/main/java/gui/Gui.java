@@ -1,11 +1,14 @@
 package gui;
 
+import actions.SaveAction;
 import controllers.GuiController;
 import listeners.tabs.CloseTabHandler;
 import listeners.menu.UnsavedChangesHandler;
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
+
+import static javax.swing.Action.ACCELERATOR_KEY;
 
 /*
 * gui view class.
@@ -24,10 +27,26 @@ public class Gui {
     private JTabbedPane tabPane;
     private JFrame frame;
     private GuiController controller;
+    private JLabel statusLabel;
 
     //constructor
     public Gui(){
         initComponents();
+    }
+
+    public void initStatusLabel(){
+        this.statusLabel = new JLabel("status test");
+    }
+
+    public JLabel getStatusLabel(){
+        if(this.statusLabel == null){
+            initStatusLabel();
+        }
+        return this.statusLabel;
+    }
+
+    public void updateStatus(String update){
+        this.getStatusLabel().setText(update);
     }
 
     //get the controller associated with the gui
@@ -77,6 +96,13 @@ public class Gui {
         this.frame.setLayout(new BorderLayout());
     }
 
+    private void addTextAreaShortcut(JTextArea textArea){
+        SaveAction saveAction = new SaveAction(this.getController());
+        KeyStroke shortcut = (KeyStroke)saveAction.getValue(ACCELERATOR_KEY);
+        textArea.getInputMap(JComponent.WHEN_FOCUSED).put(shortcut, "save");
+        textArea.getActionMap().put("save", saveAction);
+    }
+
     //add a new tab given a title and the content for the tab
     public void addNewTab(String title, String content){
 
@@ -85,6 +111,7 @@ public class Gui {
         JTextArea textArea = new JTextArea(content);
         textArea.setLineWrap(true);
         textArea.setWrapStyleWord(true);
+        this.addTextAreaShortcut(textArea);
         JScrollPane scrollPane = new JScrollPane(textArea);
         panel.add(scrollPane, BorderLayout.CENTER);
         this.getTabbedPane().add(title, panel);
@@ -112,6 +139,7 @@ public class Gui {
         //add a document handler to the textArea to track changes to content
         textArea.getDocument()
                 .addDocumentListener(new UnsavedChangesHandler(textArea, this.getController().getFileModelForTab(title)));
+
     }
 
     //get the content of a tab given a title
@@ -256,6 +284,7 @@ public class Gui {
         JFrame frame = this.getFrame();
         frame.add(getMenuBar(), BorderLayout.NORTH);
         frame.add(getTabbedPane(), BorderLayout.CENTER);
+        frame.add(getStatusLabel(), BorderLayout.SOUTH);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);

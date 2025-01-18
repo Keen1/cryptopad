@@ -18,10 +18,6 @@ public class GuiController {
     private HashMap<String, FileModel> fileTabMap;
 
     //constructor
-    /*
-    * TODO remove the FileModel object and refactor NewFileModel
-    *  Should just be able to refactor this class and remove the old file model implementation and be good.
-    */
     public GuiController(Gui gui){
         this.gui = gui;
         registerMenuListeners();
