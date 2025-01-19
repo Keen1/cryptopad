@@ -3,7 +3,12 @@ package components;
 import javax.swing.*;
 import java.awt.*;
 
-//TODO: finish implementation and refactor gui using this component.
+/*
+* TODO want to reverse the count of the progress bar - the bar should start filled and defill until it reaches the end -
+*  then disappear. This behavior is more in line with what the progress is displaying - the amount of time left before
+*  the update text disappears.
+*/
+
 public class StatusLabel extends JPanel {
     private JLabel messageLabel;
     private JProgressBar progressBar;
@@ -57,7 +62,8 @@ public class StatusLabel extends JPanel {
 
     private void initProgressBar(){
         this.progressBar = new JProgressBar(0, MESSAGE_DURATION);
-        this.progressBar.setPreferredSize(new Dimension(this.progressBar.getPreferredSize().width, 5));
+        //TODO investigate how to reduce size of the progress bar - it currently runs the length of the component in the frame
+        this.progressBar.setPreferredSize(new Dimension(50, 5));
 
     }
     private void addProgressBar(){

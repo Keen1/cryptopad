@@ -9,6 +9,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
 
+//TODO if the file hasn't had any changes made to it(if savedContent == textArea.getText()) we shouldn't run this action
+
 public class SaveAction extends AbstractAction {
 
     private GuiController controller;
