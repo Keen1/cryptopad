@@ -323,8 +323,11 @@ public class Gui {
         return this.themeMenu;
     }
 
-    //TODO need to add and support these themes more programmatically
 
+    /*
+    * TODO need to class this out or do something more programmatically.
+    *  There are a crapload of themes in the flatlaf project so supporting them this way is probably a bad idea.
+    */
     private void addThemeMenuItems(){
         addThemeItem("Light", new FlatLightLaf());
         addThemeItem("Dark", new FlatDarkLaf());
