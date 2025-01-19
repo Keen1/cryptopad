@@ -14,7 +14,7 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter'
     implementation group: 'org.bouncycastle', name:  'bcprov-jdk15on', version: '1.70'
     implementation 'com.formdev:flatlaf:3.4'
-    runtimeOnly 'com.formdev:flatlaf:3.5.4'
+    implementation 'com.formdev:flatlaf-intellij-themes:3.5.4'
 
 
 }

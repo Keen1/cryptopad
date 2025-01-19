@@ -5,6 +5,12 @@ import com.formdev.flatlaf.FlatDarculaLaf;
 import com.formdev.flatlaf.FlatDarkLaf;
 import com.formdev.flatlaf.FlatIntelliJLaf;
 import com.formdev.flatlaf.FlatLightLaf;
+import com.formdev.flatlaf.intellijthemes.FlatArcDarkIJTheme;
+import com.formdev.flatlaf.intellijthemes.FlatArcIJTheme;
+import com.formdev.flatlaf.intellijthemes.FlatMaterialDesignDarkIJTheme;
+import com.formdev.flatlaf.intellijthemes.FlatSolarizedDarkIJTheme;
+import com.formdev.flatlaf.intellijthemes.FlatSolarizedLightIJTheme;
+import com.formdev.flatlaf.intellijthemes.materialthemeuilite.*;
 import components.StatusLabel;
 import controllers.GuiController;
 import listeners.tabs.CloseTabHandler;
@@ -317,11 +323,27 @@ public class Gui {
         return this.themeMenu;
     }
 
+    //TODO need to add and support these themes more programmatically
+
     private void addThemeMenuItems(){
         addThemeItem("Light", new FlatLightLaf());
         addThemeItem("Dark", new FlatDarkLaf());
-        addThemeItem("Intellij", new FlatIntelliJLaf());
+        addThemeItem("Intellij(light)", new FlatIntelliJLaf());
         addThemeItem("Darcula", new FlatDarculaLaf());
+        addThemeItem("Arc(dark)", new FlatArcDarkIJTheme());
+        addThemeItem("Arc(light)", new FlatArcIJTheme());
+        addThemeItem("Material(dark)", new FlatMaterialDesignDarkIJTheme());
+        addThemeItem("Material(darker)", new FlatMaterialDarkerIJTheme());
+        addThemeItem("Material(light)", new FlatMaterialLighterIJTheme());
+        addThemeItem("Material(oceanic)", new FlatMaterialOceanicIJTheme());
+        addThemeItem("Material(pale night)", new FlatMaterialPalenightIJTheme());
+        addThemeItem("Material(deep ocean)", new FlatMaterialDeepOceanIJTheme());
+        addThemeItem("Solarized(light)", new FlatSolarizedLightIJTheme());
+        addThemeItem("Solarized(dark)", new FlatSolarizedDarkIJTheme());
+        addThemeItem("Github(light)", new FlatGitHubIJTheme());
+        addThemeItem("Github(dark)", new FlatGitHubDarkIJTheme());
+        addThemeItem("Monokai", new FlatMonokaiProIJTheme());
+
 
     }
 
