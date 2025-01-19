@@ -1,6 +1,7 @@
 package gui;
 
 import actions.SaveAction;
+import components.StatusLabel;
 import controllers.GuiController;
 import listeners.tabs.CloseTabHandler;
 import listeners.menu.UnsavedChangesHandler;
@@ -32,7 +33,7 @@ public class Gui {
     * TODO: This will need to be refactored and encapsulated in an extended class. Want to add a timer in the form of
     *  a bar to clear the status bar so stale updates don't sit in the label.
     */
-    private JLabel statusLabel;
+    private StatusLabel statusLabel;
 
     private SaveAction saveAction;
 
@@ -42,10 +43,10 @@ public class Gui {
     }
 
     private void initStatusLabel(){
-        this.statusLabel = new JLabel("status test");
+        this.statusLabel = new StatusLabel();
     }
 
-    public JLabel getStatusLabel(){
+    public StatusLabel getStatusLabel(){
         if(this.statusLabel == null){
             initStatusLabel();
         }
@@ -64,7 +65,7 @@ public class Gui {
     }
 
     public void updateStatus(String update){
-        this.getStatusLabel().setText(update);
+        this.getStatusLabel().setStatusText(update);
     }
 
     //get the controller associated with the gui

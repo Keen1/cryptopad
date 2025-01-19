@@ -10,57 +10,112 @@ public class StatusLabel extends JPanel {
     private Timer clearTimer;
     private Timer progressTimer;
 
+    private int timeElapsed;
+
+
     private static final int MESSAGE_DURATION = 3000;
     private static final int PROGRESS_UPDATE_FREQ = 50;
 
     public StatusLabel(){
+        this.initLayout();
+        this.initComponents();
+        this.initTimers();
+    }
+
+    private void initLayout(){
         setLayout(new BorderLayout());
-        initMessageLabel();
     }
 
+    private void initComponents(){
+        this.addMessageLabel();
+        this.addProgressBar();
+        this.hideProgressBar();
+    }
+    private void initTimers(){
+        this.initClearTimer();
+        this.initProgressTimer();
+    }
+
+    private int getTimeElapsed(){
+        return this.timeElapsed;
+    }
+    private void setTimeElapsed(int timeElapsed){
+        this.timeElapsed = timeElapsed;
+    }
+    private void resetTimeElapsed(){
+        this.setTimeElapsed(0);
+    }
     private void initMessageLabel(){
-
         this.messageLabel = new JLabel("");
-
     }
-
     private void addMessageLabel(){
-
         if(this.messageLabel == null){
             initMessageLabel();
         }
-
         add(this.messageLabel, BorderLayout.WEST);
     }
 
     private void initProgressBar(){
         this.progressBar = new JProgressBar(0, MESSAGE_DURATION);
         this.progressBar.setPreferredSize(new Dimension(this.progressBar.getPreferredSize().width, 5));
-    }
 
+    }
     private void addProgressBar(){
         if(this.progressBar == null){
             initProgressBar();
         }
-
-        /*
-        * TODO: Need to check this border layout position and make sure its the best place for the progress bar.
-        *  The actual status text is set in the WEST region so this might be best set in the CENTER.
-        */
-        add(this.progressBar, BorderLayout.SOUTH);
-
+        add(this.progressBar, BorderLayout.CENTER);
     }
-
+    private void hideProgressBar(){
+        this.progressBar.setVisible(false);
+    }
+    private void showProgressBar(){
+        this.progressBar.setVisible(true);
+    }
+    private void resetProgressBar(){
+        this.progressBar.setValue(0);
+    }
     private void initClearTimer(){
-        this.clearTimer = new Timer(MESSAGE_DURATION, e ->{
-           this.messageLabel.setText("");
-           this.progressBar.setValue(0);
-           this.progressBar.setVisible(false);
-        });
-        this.clearTimer.setRepeats(false);
+        this.clearTimer = new Timer(MESSAGE_DURATION, e -> handleClearTimerEvent());
+    }
+    private void handleClearTimerEvent(){
+        this.clearMessage();
+        this.resetProgressBar();
+        this.hideProgressBar();
     }
 
-    //TODO: Implement logic for the progress timer.
+    private void initProgressTimer(){
+        this.progressTimer = new Timer(PROGRESS_UPDATE_FREQ, e -> handleProgressTimerEvent());
+    }
+    private void handleProgressTimerEvent(){
+        this.updateProgress();
+        this.checkAndStopProgress();
+    }
+    private void updateProgress(){
+        int elapsed = this.getTimeElapsed();
+        this.setTimeElapsed(elapsed + PROGRESS_UPDATE_FREQ);
+        this.progressBar.setValue(this.getTimeElapsed());
+    }
+    private void checkAndStopProgress(){
+        if(this.getTimeElapsed() >= MESSAGE_DURATION){
+            this.progressTimer.stop();
+        }
+    }
+    private void clearMessage(){
+        this.messageLabel.setText("");
+    }
+    private void startTimers(){
+        this.clearTimer.restart();
+        this.progressTimer.restart();
+    }
+    public void setStatusText(String message){
+        this.messageLabel.setText(message);
+        this.resetProgressBar();
+        this.showProgressBar();
+        this.resetTimeElapsed();
+        this.startTimers();
+    }
+
 
 
 
