@@ -1,6 +1,10 @@
 package gui;
 
 import actions.SaveAction;
+import com.formdev.flatlaf.FlatDarculaLaf;
+import com.formdev.flatlaf.FlatDarkLaf;
+import com.formdev.flatlaf.FlatIntelliJLaf;
+import com.formdev.flatlaf.FlatLightLaf;
 import components.StatusLabel;
 import controllers.GuiController;
 import listeners.tabs.CloseTabHandler;
@@ -29,10 +33,8 @@ public class Gui {
     private JFrame frame;
     private GuiController controller;
 
-    /*
-    * TODO: This will need to be refactored and encapsulated in an extended class. Want to add a timer in the form of
-    *  a bar to clear the status bar so stale updates don't sit in the label.
-    */
+    private JMenu themeMenu;
+
     private StatusLabel statusLabel;
 
     private SaveAction saveAction;
@@ -288,14 +290,53 @@ public class Gui {
     private void initMenuBar(){
 
         this.menuBar = new JMenuBar();
+
         JMenu menu = new JMenu("File");
         menu.add(getNewItem());
         menu.add(getOpenItem());
         menu.add(getSaveItem());
         menu.add(getSaveAsItem());
         menu.add(getCipherItem());
-        this.menuBar.add(menu);
 
+        this.menuBar.add(menu);
+        this.initThemeMenu();
+        this.menuBar.add(this.getThemeMenu());
+
+
+    }
+
+    private void initThemeMenu(){
+        this.themeMenu = new JMenu("Theme");
+        addThemeMenuItems();
+
+    }
+    private JMenu getThemeMenu(){
+        if(this.themeMenu == null){
+            initThemeMenu();
+        }
+        return this.themeMenu;
+    }
+
+    private void addThemeMenuItems(){
+        addThemeItem("Light", new FlatLightLaf());
+        addThemeItem("Dark", new FlatDarkLaf());
+        addThemeItem("Intellij", new FlatIntelliJLaf());
+        addThemeItem("Darcula", new FlatDarculaLaf());
+
+    }
+
+    private void addThemeItem(String name, LookAndFeel laf){
+        JMenuItem item = new JMenuItem(name);
+        item.addActionListener(e -> {
+            try{
+                UIManager.setLookAndFeel(laf);
+                SwingUtilities.updateComponentTreeUI(this.getFrame());
+            }catch(UnsupportedLookAndFeelException ex){
+                System.out.printf("Error setting look and feel: %s", ex.getMessage());
+            }
+        });
+
+        this.themeMenu.add(item);
     }
 
     //init all components of the gui.
