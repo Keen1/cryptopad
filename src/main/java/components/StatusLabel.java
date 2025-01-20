@@ -1,25 +1,17 @@
 package components;
-
 import javax.swing.*;
 import java.awt.*;
-
-/*
-* TODO want to reverse the count of the progress bar - the bar should start filled and defill until it reaches the end -
-*  then disappear. This behavior is more in line with what the progress is displaying - the amount of time left before
-*  the update text disappears.
-*/
 
 public class StatusLabel extends JPanel {
     private JLabel messageLabel;
     private JProgressBar progressBar;
     private Timer clearTimer;
     private Timer progressTimer;
-
     private int timeElapsed;
 
 
     private static final int MESSAGE_DURATION = 3000;
-    private static final int PROGRESS_UPDATE_FREQ = 50;
+    private static final int PROGRESS_UPDATE_FREQ = 1;
 
     public StatusLabel(){
         this.initLayout();
@@ -28,7 +20,8 @@ public class StatusLabel extends JPanel {
     }
 
     private void initLayout(){
-        setLayout(new BorderLayout());
+        setLayout(new FlowLayout(FlowLayout.LEFT));
+        setPreferredSize(new Dimension(getPreferredSize().width, 25));
     }
 
     private void initComponents(){
@@ -57,12 +50,12 @@ public class StatusLabel extends JPanel {
         if(this.messageLabel == null){
             initMessageLabel();
         }
-        add(this.messageLabel, BorderLayout.WEST);
+        add(this.messageLabel);
     }
 
     private void initProgressBar(){
         this.progressBar = new JProgressBar(0, MESSAGE_DURATION);
-        //TODO investigate how to reduce size of the progress bar - it currently runs the length of the component in the frame
+        this.progressBar.setValue(MESSAGE_DURATION);
         this.progressBar.setPreferredSize(new Dimension(50, 5));
 
     }
@@ -70,7 +63,7 @@ public class StatusLabel extends JPanel {
         if(this.progressBar == null){
             initProgressBar();
         }
-        add(this.progressBar, BorderLayout.CENTER);
+        add(this.progressBar);
     }
     private void hideProgressBar(){
         this.progressBar.setVisible(false);
@@ -79,7 +72,8 @@ public class StatusLabel extends JPanel {
         this.progressBar.setVisible(true);
     }
     private void resetProgressBar(){
-        this.progressBar.setValue(0);
+
+        this.progressBar.setValue(MESSAGE_DURATION);
     }
     private void initClearTimer(){
         this.clearTimer = new Timer(MESSAGE_DURATION, e -> handleClearTimerEvent());
@@ -100,7 +94,8 @@ public class StatusLabel extends JPanel {
     private void updateProgress(){
         int elapsed = this.getTimeElapsed();
         this.setTimeElapsed(elapsed + PROGRESS_UPDATE_FREQ);
-        this.progressBar.setValue(this.getTimeElapsed());
+        int remainingTime = MESSAGE_DURATION - this.getTimeElapsed();
+        this.progressBar.setValue(remainingTime);
     }
     private void checkAndStopProgress(){
         if(this.getTimeElapsed() >= MESSAGE_DURATION){
