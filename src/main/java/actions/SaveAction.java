@@ -11,16 +11,14 @@ import java.io.IOException;
 
 //TODO if the file hasn't had any changes made to it(if savedContent == textArea.getText()) we shouldn't run this action
 
-public class SaveAction extends AbstractAction {
-
-    private GuiController controller;
+public class SaveAction extends AbstractMenuAction {
 
     public SaveAction(GuiController controller){
-        super("Save");
-        this.controller = controller;
+        super(controller, "Save");
         initShortcut();
     }
 
+    @Override
     public void initShortcut(){
         putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_S, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         putValue(SHORT_DESCRIPTION, "Save the current file");
@@ -39,9 +37,4 @@ public class SaveAction extends AbstractAction {
             System.out.printf("Error saving file.\n %s", e.getMessage());
         }
     }
-
-    public GuiController getController(){
-        return this.controller;
-    }
-
 }

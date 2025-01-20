@@ -10,29 +10,16 @@ import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
 
-public class OpenAction extends AbstractAction {
-    private GuiController controller;
+public class OpenAction extends AbstractMenuAction {
 
     public OpenAction(GuiController controller){
-        super("Open");
-        this.controller = controller;
+        super(controller, "Open");
         initShortcut();
     }
 
     public void initShortcut(){
         putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_O, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         putValue(SHORT_DESCRIPTION, "Open a file");
-    }
-
-    public GuiController getController(){
-        return this.controller;
-    }
-
-    public boolean isFileReadable(File file){
-        if(file != null){
-            return file.exists() && file.isFile() && file.canRead();
-        }
-        return false;
     }
 
     @Override
