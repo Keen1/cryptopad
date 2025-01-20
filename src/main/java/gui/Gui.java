@@ -1,5 +1,6 @@
 package gui;
 
+import actions.OpenAction;
 import actions.SaveAction;
 import com.formdev.flatlaf.FlatDarculaLaf;
 import com.formdev.flatlaf.FlatDarkLaf;
@@ -44,6 +45,7 @@ public class Gui {
     private StatusLabel statusLabel;
 
     private SaveAction saveAction;
+    private OpenAction openAction;
 
     //constructor
     public Gui(){
@@ -63,6 +65,17 @@ public class Gui {
 
     private void initSaveAction(){
         this.saveAction = new SaveAction(this.getController());
+    }
+
+    private void initOpenAction(){
+        this.openAction = new OpenAction(this.getController());
+    }
+
+    public OpenAction getOpenAction(){
+        if(this.openAction == null){
+            initOpenAction();
+        }
+        return this.openAction;
     }
 
     public SaveAction getSaveAction(){
@@ -121,6 +134,7 @@ public class Gui {
         this.frame = new JFrame("cryptopad");
         this.frame.setPreferredSize(new Dimension(800, 1000));
         this.frame.setLayout(new BorderLayout());
+        this.addOpenShortcut();
     }
 
     private void addTextAreaShortcut(JTextArea textArea){
@@ -128,6 +142,21 @@ public class Gui {
         KeyStroke shortcut = (KeyStroke)saveAction.getValue(ACCELERATOR_KEY);
         textArea.getInputMap(JComponent.WHEN_FOCUSED).put(shortcut, "save");
         textArea.getActionMap().put("save", saveAction);
+    }
+
+    //where should we call this???? ^^^ save Action shortcut is called every time we add a new tab(since this is where
+    //the shortcut is first needed and where it is called from -- when the user is typing in the text area and wants to
+    //save but not navigate the menu. I think this should just be called in the init frame method honestly.
+    private void addOpenShortcut(){
+        OpenAction openAction = this.getOpenAction();
+        KeyStroke shortcut = (KeyStroke)openAction.getValue(ACCELERATOR_KEY);
+        JRootPane rootPane = this.getFrame().getRootPane();
+        rootPane.getInputMap(JComponent.WHEN_FOCUSED).put(shortcut, "open");
+        rootPane.getActionMap().put("open", openAction);
+
+        JMenuItem openItem = this.getOpenItem();
+        openItem.setAction(openAction);
+
     }
 
     //add a new tab given a title and the content for the tab

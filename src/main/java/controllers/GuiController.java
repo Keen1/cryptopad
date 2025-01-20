@@ -99,8 +99,8 @@ public class GuiController {
     //register handlers for the main menu
     public void registerMenuListeners(){
 
-        JMenuItem openItem = this.getGui().getOpenItem();
-        openItem.addActionListener(new OpenItemHandler(this));
+        //JMenuItem openItem = this.getGui().getOpenItem();
+        //openItem.addActionListener(new OpenItemHandler(this));
         //JMenuItem saveItem = this.getGui().getSaveItem();
         //saveItem.addActionListener(new SaveItemHandler(this));
 
