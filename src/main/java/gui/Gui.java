@@ -1,5 +1,6 @@
 package gui;
 
+import actions.NewAction;
 import actions.OpenAction;
 import actions.SaveAction;
 import com.formdev.flatlaf.FlatDarculaLaf;
@@ -46,6 +47,7 @@ public class Gui {
 
     private SaveAction saveAction;
     private OpenAction openAction;
+    private NewAction newAction;
 
     //constructor
     public Gui(){
@@ -76,6 +78,15 @@ public class Gui {
             initOpenAction();
         }
         return this.openAction;
+    }
+    private void initNewAction(){
+        this.newAction = new NewAction(this.getController());
+    }
+    public NewAction getNewAction(){
+        if(this.newAction == null){
+            initNewAction();
+        }
+        return this.newAction;
     }
 
     public SaveAction getSaveAction(){
@@ -135,6 +146,7 @@ public class Gui {
         this.frame.setPreferredSize(new Dimension(800, 1000));
         this.frame.setLayout(new BorderLayout());
         this.addOpenShortcut();
+        this.addNewShortcut();
     }
 
     private void addTextAreaShortcut(JTextArea textArea){
@@ -157,6 +169,17 @@ public class Gui {
         JMenuItem openItem = this.getOpenItem();
         openItem.setAction(openAction);
 
+    }
+
+    private void addNewShortcut(){
+        NewAction newAction = this.getNewAction();
+        KeyStroke shortcut = (KeyStroke)newAction.getValue(ACCELERATOR_KEY);
+        JRootPane rootPane = this.getFrame().getRootPane();
+        rootPane.getInputMap(JComponent.WHEN_FOCUSED).put(shortcut, "new");
+        rootPane.getActionMap().put("new", newAction);
+
+        JMenuItem newItem = this.getNewItem();
+        newItem.setAction(newAction);
     }
 
     //add a new tab given a title and the content for the tab

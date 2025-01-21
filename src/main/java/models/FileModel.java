@@ -5,6 +5,10 @@ import java.nio.file.Files;
 
 /*
 * File model class. All file work handled here.
+* How to refactor this to account for files that do not exist on disk yet?
+* currently we are throwing exceptions in the reading of the file doesn't work but the file reading will never work
+* for untitled, unsaved new documents -- they don't exist on disk yet.
+* can just use a flag maybe? boolean onDisk = false; ??
 */
 
 public class FileModel {
@@ -12,6 +16,7 @@ public class FileModel {
     private String savedContent;
     private boolean unsavedChanges;
     private File file;
+
     public FileModel(File file){
         this.file = file;
         this.unsavedChanges = false;
