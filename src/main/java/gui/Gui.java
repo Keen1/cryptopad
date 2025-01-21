@@ -216,8 +216,11 @@ public class Gui {
         this.getTabbedPane().setTabComponentAt(index, titlePanel);
 
         //add a document handler to the textArea to track changes to content
-        textArea.getDocument()
-                .addDocumentListener(new UnsavedChangesHandler(textArea, this.getController().getFileModelForTab(title)));
+        if(!title.equalsIgnoreCase("untitled")){
+            textArea.getDocument()
+                    .addDocumentListener(new UnsavedChangesHandler(textArea, this.getController().getFileModelForTab(title)));
+        }
+
 
     }
 
@@ -261,6 +264,30 @@ public class Gui {
             return fileChooser.getSelectedFile();
         }
         return null;
+    }
+
+    public File chooseFileToSave(){
+        File file = null;
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("save a new file");
+
+        int res = fileChooser.showSaveDialog(this.getFrame());
+
+        if(res == JFileChooser.APPROVE_OPTION){
+            file  = fileChooser.getSelectedFile();
+            return file;
+        }
+        return file;
+
+
+
+    }
+
+    public void setTabTitle(int index, String title){
+        this.getTabbedPane().setTitleAt(index, title);
+        JPanel titlePanel = (JPanel)this.getTabbedPane().getTabComponentAt(index);
+        JLabel tabLabel = (JLabel)titlePanel.getComponent(0);
+        tabLabel.setText(title);
     }
 
     //get the menu bar

@@ -7,6 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.io.File;
 import java.io.IOException;
 
 //TODO if the file hasn't had any changes made to it(if savedContent == textArea.getText()) we shouldn't run this action
@@ -30,11 +31,34 @@ public class SaveAction extends AbstractMenuAction {
         int index = this.getController().getGui().getTabbedPane().getSelectedIndex();
         String title = this.getController().getGui().getTabbedPane().getTitleAt(index);
         FileModel model = this.getController().getFileModelForTab(title);
-        try{
-            String status = model.saveContent(content);
-            this.getController().updateStatus(status);
-        }catch(IOException e){
-            System.out.printf("Error saving file.\n %s", e.getMessage());
+        if(model != null){
+            try{
+                String status = model.saveContent(content);
+                this.getController().updateStatus(status);
+            }catch(IOException e){
+                System.out.printf("Error saving file.\n %s", e.getMessage());
+            }
+        }else{
+            /*
+            TODO This tab's text area needs to have an unsaved changes handler attached to it
+             The tab was untitled and the unsaved changes handler is only attached if the title does not equal "untitled"
+             */
+            File file = this.getController().getGui().chooseFileToSave();
+            if(file != null){
+                model = new FileModel(file);
+                String newTitle = file.getName();
+                this.getController().getGui().setTabTitle(index, newTitle);
+                this.getController().putFileModelForTab(newTitle, model);
+                try{
+                    String status = model.saveContent(content);
+                    this.getController().updateStatus(status);
+
+                }catch(IOException e){
+                    System.out.printf("Error saving file.\n%s", e.getMessage());
+                }
+
+            }
         }
+
     }
 }

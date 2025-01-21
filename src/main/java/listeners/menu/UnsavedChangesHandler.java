@@ -7,6 +7,9 @@ import javax.swing.event.DocumentListener;
 
 /*
 * TODO: This can likely be refactored to an action but im not sure. Need to re-examine this.
+*  Having issues with new tabs that do not have file models yet.
+*   Should we not attach this handler if the tab is untitled? Would make it easier -- plus we don't need to track any changes
+*   on a new tab that is untitled because ALL changes are usnaved for this file
 */
 public class UnsavedChangesHandler implements DocumentListener {
 
