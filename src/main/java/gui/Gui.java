@@ -201,7 +201,7 @@ public class Gui {
         JPanel titlePanel = new JPanel(new GridBagLayout());
         titlePanel.setOpaque(false);
         JLabel tabTitle = new JLabel(title);
-        JButton closeButton = new JButton("X");
+        JButton closeButton = new JButton("x");
 
         //add the listener to the tab's close button
         closeButton.addActionListener(new CloseTabHandler(this.getTabbedPane(), this.getController()));
