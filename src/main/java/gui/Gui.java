@@ -20,6 +20,7 @@ import listeners.menu.UnsavedChangesHandler;
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
+import java.util.prefs.Preferences;
 
 import static javax.swing.Action.ACCELERATOR_KEY;
 
@@ -170,6 +171,7 @@ public class Gui {
         openItem.setAction(openAction);
 
     }
+
 
     private void addNewShortcut(){
         NewAction newAction = this.getNewAction();
