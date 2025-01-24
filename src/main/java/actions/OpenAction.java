@@ -2,7 +2,6 @@ package actions;
 
 import controllers.GuiController;
 import models.FileModel;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;

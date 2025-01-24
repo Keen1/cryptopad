@@ -1,4 +1,4 @@
-package listeners.menu;
+package handlers.menu;
 
 import models.FileModel;
 import javax.swing.*;

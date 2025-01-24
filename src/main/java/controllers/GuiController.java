@@ -1,7 +1,6 @@
 package controllers;
 
 import gui.Gui;
-import listeners.menu.OpenItemHandler;
 import models.FileModel;
 
 import javax.swing.*;
@@ -19,7 +18,6 @@ public class GuiController {
     //constructor
     public GuiController(Gui gui){
         this.gui = gui;
-        registerMenuListeners();
         initMap();
     }
 
@@ -94,16 +92,6 @@ public class GuiController {
     //get the currently selected tab's content
     public String getSelectedTextAreaContent(){
         return this.getGui().getTextAreaForSelectedTab().getText();
-    }
-
-    //register handlers for the main menu
-    public void registerMenuListeners(){
-
-        //JMenuItem openItem = this.getGui().getOpenItem();
-        //openItem.addActionListener(new OpenItemHandler(this));
-        //JMenuItem saveItem = this.getGui().getSaveItem();
-        //saveItem.addActionListener(new SaveItemHandler(this));
-
     }
 
     //add a new tab to the gui given the title and its content

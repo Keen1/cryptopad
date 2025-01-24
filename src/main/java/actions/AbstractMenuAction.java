@@ -1,7 +1,6 @@
 package actions;
 
 import controllers.GuiController;
-
 import javax.swing.*;
 import java.io.File;
 

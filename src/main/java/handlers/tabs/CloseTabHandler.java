@@ -1,4 +1,4 @@
-package listeners.tabs;
+package handlers.tabs;
 
 import controllers.GuiController;
 import javax.swing.*;

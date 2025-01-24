@@ -15,12 +15,11 @@ import com.formdev.flatlaf.intellijthemes.FlatSolarizedLightIJTheme;
 import com.formdev.flatlaf.intellijthemes.materialthemeuilite.*;
 import components.StatusLabel;
 import controllers.GuiController;
-import listeners.tabs.CloseTabHandler;
-import listeners.menu.UnsavedChangesHandler;
+import handlers.tabs.CloseTabHandler;
+import handlers.menu.UnsavedChangesHandler;
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
-import java.util.prefs.Preferences;
 
 import static javax.swing.Action.ACCELERATOR_KEY;
 
