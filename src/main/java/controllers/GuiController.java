@@ -2,8 +2,6 @@ package controllers;
 
 import gui.Gui;
 import models.FileModel;
-
-import javax.swing.*;
 import java.io.IOException;
 import java.util.HashMap;
 

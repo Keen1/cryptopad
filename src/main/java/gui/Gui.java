@@ -26,6 +26,7 @@ import static javax.swing.Action.ACCELERATOR_KEY;
 /*
 * gui view class.
 */
+
 public class Gui {
     //basic components of our gi
     private JToolBar toolBar;
@@ -417,6 +418,7 @@ public class Gui {
     * TODO need to class this out or do something more programmatically.
     *  There are a crapload of themes in the flatlaf project so supporting them this way is probably a bad idea.
     */
+    
     private void addThemeMenuItems(){
         addThemeItem("Light", new FlatLightLaf());
         addThemeItem("Dark", new FlatDarkLaf());
