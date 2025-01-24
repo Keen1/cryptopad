@@ -159,6 +159,10 @@ public class Gui {
     //where should we call this???? ^^^ save Action shortcut is called every time we add a new tab(since this is where
     //the shortcut is first needed and where it is called from -- when the user is typing in the text area and wants to
     //save but not navigate the menu. I think this should just be called in the init frame method honestly.
+
+
+    //I'm more convinced now that this should be called in the init frame method. This is a FUNCTION of initializing the
+    //frame and should thus be called when the frame is being initialized
     private void addOpenShortcut(){
         OpenAction openAction = this.getOpenAction();
         KeyStroke shortcut = (KeyStroke)openAction.getValue(ACCELERATOR_KEY);
@@ -254,6 +258,11 @@ public class Gui {
         JPanel panel  = (JPanel)this.getTabbedPane().getSelectedComponent();
         JScrollPane scrollPane = (JScrollPane)panel.getComponent(0);
         return (JTextArea)scrollPane.getViewport().getView();
+    }
+
+    //TODO -- move implementation for unsaved changes dialog from handler to gui
+    public void showUnsavedChangesDialog(){
+
     }
 
     //get a file that the user has chosen to open through a dialog
