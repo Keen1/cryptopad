@@ -91,7 +91,7 @@ public class FileModel {
             this.setUnsavedChanges(false);
             boolean deleted = backup.delete();
             System.out.printf("Save content success operation: %b\n", deleted);
-            return "Successfully saved " + this.getFile().getName();
+            return "Saved " + this.getFile().getName();
 
 
         }catch(IOException e){
