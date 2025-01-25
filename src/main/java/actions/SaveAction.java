@@ -10,8 +10,6 @@ import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
 
-//TODO if the file hasn't had any changes made to it(if savedContent == textArea.getText()) we shouldn't run this action
-
 public class SaveAction extends AbstractMenuAction {
 
     public SaveAction(GuiController controller){
@@ -36,12 +34,15 @@ public class SaveAction extends AbstractMenuAction {
         FileModel model = this.getController().getFileModelForTab(title);
 
         if(model != null){
-            try{
-                String status = model.saveContent(content);
-                this.getController().updateStatus(status);
-            }catch(IOException e){
-                System.out.printf("Error saving file.\n %s", e.getMessage());
+            if(model.hasUnsavedChanges()){
+                try{
+                    String status = model.saveContent(content);
+                    this.getController().updateStatus(status);
+                }catch(IOException e){
+                    System.out.printf("Error saving file.\n %s", e.getMessage());
+                }
             }
+
 
         }else{
 
