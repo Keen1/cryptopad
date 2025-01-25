@@ -38,8 +38,11 @@ public class UnsavedChangesHandler implements DocumentListener {
     public void checkForChanges(){
 
         String currentContent = this.getTextArea().getText();
-        boolean hasChanged = !this.getModel().getSavedContent().equals(currentContent);
-        this.getModel().setUnsavedChanges(hasChanged);
+        if(this.getModel() != null){
+            boolean hasChanged = !this.getModel().getSavedContent().equals(currentContent);
+            this.getModel().setUnsavedChanges(hasChanged);
+        }
+
     }
 
     @Override

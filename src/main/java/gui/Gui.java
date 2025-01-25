@@ -17,6 +17,8 @@ import components.StatusLabel;
 import controllers.GuiController;
 import handlers.tabs.CloseTabHandler;
 import handlers.menu.UnsavedChangesHandler;
+import models.FileModel;
+
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
@@ -221,12 +223,15 @@ public class Gui {
         gbc.weightx = 0;
         titlePanel.add(closeButton, gbc);
         this.getTabbedPane().setTabComponentAt(index, titlePanel);
+        textArea.getDocument()
+                .addDocumentListener(new UnsavedChangesHandler(textArea, this.getController().getFileModelForTab(title)));
 
         //add a document handler to the textArea to track changes to content
-        if(!title.equalsIgnoreCase("untitled")){
+        /*if(!title.equalsIgnoreCase("untitled")){
             textArea.getDocument()
                     .addDocumentListener(new UnsavedChangesHandler(textArea, this.getController().getFileModelForTab(title)));
-        }
+        }*/
+
 
 
     }
@@ -293,6 +298,10 @@ public class Gui {
 
 
 
+    }
+
+    public void attachUnsavedChangesHandler(JTextArea textArea, FileModel model){
+        textArea.getDocument().addDocumentListener(new UnsavedChangesHandler(textArea, model));
     }
 
     public void setTabTitle(int index, String title){

@@ -77,7 +77,6 @@ public class GuiController {
 
     }
 
-
     public void updateStatus(String update){
         this.getGui().updateStatus(update);
     }
