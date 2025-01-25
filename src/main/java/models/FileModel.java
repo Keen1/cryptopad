@@ -21,6 +21,10 @@ public class FileModel {
         this.file = file;
         this.unsavedChanges = false;
     }
+    public FileModel(int index){
+        this.index = index;
+        this.unsavedChanges = false;
+    }
 
     public void initState() throws IOException{
         this.setSavedContent(this.getFileContent());

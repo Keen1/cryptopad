@@ -203,7 +203,8 @@ public class Gui {
         this.getTabbedPane().setSelectedComponent(panel);
 
         //create the tab's title panel with the close button
-        int index = this.getTabbedPane().indexOfTab(title);
+        //int index = this.getTabbedPane().indexOfTab(title);//this is causing problems for adding new tabs that are untitled
+        int index = this.getTabbedPane().getSelectedIndex();
         JPanel titlePanel = new JPanel(new GridBagLayout());
         titlePanel.setOpaque(false);
         JLabel tabTitle = new JLabel(title);
