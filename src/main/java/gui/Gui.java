@@ -179,6 +179,7 @@ public class Gui {
     }
 
 
+
     private void addNewShortcut(){
         NewAction newAction = this.getNewAction();
         KeyStroke shortcut = (KeyStroke)newAction.getValue(ACCELERATOR_KEY);
@@ -223,6 +224,8 @@ public class Gui {
         gbc.weightx = 0;
         titlePanel.add(closeButton, gbc);
         this.getTabbedPane().setTabComponentAt(index, titlePanel);
+        SwingUtilities.invokeLater(textArea::requestFocusInWindow);
+        textArea.setCaretPosition(textArea.getDocument().getLength());
         textArea.getDocument()
                 .addDocumentListener(new UnsavedChangesHandler(textArea, this.getController().getFileModelForTab(title)));
 
@@ -430,6 +433,7 @@ public class Gui {
     */
     
     private void addThemeMenuItems(){
+
         addThemeItem("Light", new FlatLightLaf());
         addThemeItem("Dark", new FlatDarkLaf());
         addThemeItem("Intellij(light)", new FlatIntelliJLaf());
@@ -448,8 +452,8 @@ public class Gui {
         addThemeItem("Github(dark)", new FlatGitHubDarkIJTheme());
         addThemeItem("Monokai", new FlatMonokaiProIJTheme());
 
-
     }
+
 
     private void addThemeItem(String name, LookAndFeel laf){
         JMenuItem item = new JMenuItem(name);
