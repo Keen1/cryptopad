@@ -30,16 +30,14 @@ import static javax.swing.Action.ACCELERATOR_KEY;
 */
 
 public class Gui {
-    //basic components of our gi
-    private JToolBar toolBar;
-    private JButton fileButton;
+
+    //basic components of our gui
     private JMenuBar menuBar;
     private JMenuItem saveItem;
     private JMenuItem openItem;
     private JMenuItem saveAsItem;
     private JMenuItem newItem;
     private JMenuItem cipherItem;
-    private JButton editButton;
     private JTabbedPane tabPane;
     private JFrame frame;
     private GuiController controller;
@@ -152,6 +150,7 @@ public class Gui {
         this.addNewShortcut();
     }
 
+    //TODO this should be refactored to specifcally be the addSaveAction shortcut
     private void addTextAreaShortcut(JTextArea textArea){
         SaveAction saveAction = this.getSaveAction();
         KeyStroke shortcut = (KeyStroke)saveAction.getValue(ACCELERATOR_KEY);
@@ -178,8 +177,7 @@ public class Gui {
 
     }
 
-
-
+    //add the new action
     private void addNewShortcut(){
         NewAction newAction = this.getNewAction();
         KeyStroke shortcut = (KeyStroke)newAction.getValue(ACCELERATOR_KEY);
@@ -205,8 +203,7 @@ public class Gui {
         this.getTabbedPane().add(title, panel);
         this.getTabbedPane().setSelectedComponent(panel);
 
-        //create the tab's title panel with the close button
-        //int index = this.getTabbedPane().indexOfTab(title);//this is causing problems for adding new tabs that are untitled
+        //create the title panel with a close button
         int index = this.getTabbedPane().getSelectedIndex();
         JPanel titlePanel = new JPanel(new GridBagLayout());
         titlePanel.setOpaque(false);
@@ -215,6 +212,8 @@ public class Gui {
 
         //add the listener to the tab's close button
         closeButton.addActionListener(new CloseTabHandler(this.getTabbedPane(), this.getController()));
+
+        //set the components for the tab title panel
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
@@ -224,18 +223,14 @@ public class Gui {
         gbc.weightx = 0;
         titlePanel.add(closeButton, gbc);
         this.getTabbedPane().setTabComponentAt(index, titlePanel);
+
+        //set focus at the end of the text area so user can immediately write new content
         SwingUtilities.invokeLater(textArea::requestFocusInWindow);
         textArea.setCaretPosition(textArea.getDocument().getLength());
+
+        //attach the unsaved changes handler
         textArea.getDocument()
                 .addDocumentListener(new UnsavedChangesHandler(textArea, this.getController().getFileModelForTab(title)));
-
-        //add a document handler to the textArea to track changes to content
-        /*if(!title.equalsIgnoreCase("untitled")){
-            textArea.getDocument()
-                    .addDocumentListener(new UnsavedChangesHandler(textArea, this.getController().getFileModelForTab(title)));
-        }*/
-
-
 
     }
 
