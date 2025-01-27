@@ -60,11 +60,25 @@ public class SaveAsAction extends AbstractMenuAction{
                 //THEN we need to create a NEW with the copy's title and content.
                 //the original model should also be saved
             }else{
+
+                //create the new model
                 FileModel newModel = new FileModel(file);
+                //update the new model with the content
                 String update = model.saveContent(content);
+                //send the status update
                 this.getController().updateStatus(update);
+                //set the new model associated with the new title in the map
                 this.getController().putFileModelForTab(newTitle, newModel);
+                //add the new(copy) to the view
                 this.getController().addNewTabToView(newTitle, content);
+
+
+                //we also know that the current model exists -- this should be updated as well?
+                model.saveContent(content);
+                //if this is what we want to do we SHOULD NOT update the status label here as that might
+                //be confusing for users
+
+
 
 
             }
