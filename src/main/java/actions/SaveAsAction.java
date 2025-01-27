@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.io.File;
+import java.io.IOException;
 
 public class SaveAsAction extends AbstractMenuAction{
 
@@ -38,11 +39,40 @@ public class SaveAsAction extends AbstractMenuAction{
         FileModel model = this.getController().getFileModelForTab(title);
 
         File file = this.getController().getGui().chooseFileToSave();
-        if(model == null){
-            model = new FileModel(file);
+        String newTitle = file.getName();
+        //if the model is null this is a completely new file, need to save it and update the tab title
+        try{
+            if(model == null){
+                //init the model and save the content
+                model = new FileModel(file);
+                String update = model.saveContent(content);
+                //update the status label in the view
+                this.getController().updateStatus(update);
+                //add the new model to the model map given the new title
+                this.getController().putFileModelForTab(newTitle, model);
+                //set the new title in the view
+                this.getController().getGui().setTabTitle(index, newTitle);
 
-            model.setSavedContent(content);
+
+
+
+                //if the model is NOT null, this is a COPY, a new model needs to be saved and placed given teh selected file's name
+                //THEN we need to create a NEW with the copy's title and content.
+                //the original model should also be saved
+            }else{
+                FileModel newModel = new FileModel(file);
+                String update = model.saveContent(content);
+                this.getController().updateStatus(update);
+                this.getController().putFileModelForTab(newTitle, newModel);
+                this.getController().addNewTabToView(newTitle, content);
+
+
+            }
+        }catch(IOException e){
+            System.out.printf("Error saving content: %s", e.getMessage());
+
         }
+
 
     }
 }
