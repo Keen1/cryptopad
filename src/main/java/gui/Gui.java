@@ -255,7 +255,7 @@ public class Gui {
 
         //attach the unsaved changes handler
         textArea.getDocument()
-                .addDocumentListener(new UnsavedChangesHandler(textArea, this.getController().getFileModelForTab(title)));
+                .addDocumentListener(new UnsavedChangesHandler(textArea, this.getController()));
 
     }
 

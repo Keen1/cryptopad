@@ -1,5 +1,6 @@
 package handlers.menu;
 
+import controllers.GuiController;
 import models.FileModel;
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -14,7 +15,14 @@ import javax.swing.event.DocumentListener;
 public class UnsavedChangesHandler implements DocumentListener {
 
     private JTextArea textArea;
+    private GuiController controller;
     private FileModel model;
+
+    public UnsavedChangesHandler(JTextArea textArea, GuiController controller){
+        this.textArea = textArea;
+        this.controller = controller;
+    }
+
 
     public UnsavedChangesHandler(JTextArea textArea, FileModel model){
 
@@ -28,6 +36,9 @@ public class UnsavedChangesHandler implements DocumentListener {
         return this.model;
 
     }
+    public GuiController getController(){
+        return this.controller;
+    }
 
     public JTextArea getTextArea(){
 
@@ -38,9 +49,13 @@ public class UnsavedChangesHandler implements DocumentListener {
     public void checkForChanges(){
 
         String currentContent = this.getTextArea().getText();
-        if(this.getModel() != null){
-            boolean hasChanged = !this.getModel().getSavedContent().equals(currentContent);
-            this.getModel().setUnsavedChanges(hasChanged);
+        int index = this.getController().getGui().getTabbedPane().getSelectedIndex();
+        String title = this.getController().getGui().getTabbedPane().getTitleAt(index);
+        FileModel model = this.getController().getFileModelForTab(title);
+
+        if(model != null){
+            boolean hasChanged = !model.getSavedContent().equals(currentContent);
+            model.setUnsavedChanges(hasChanged);
         }
 
     }
