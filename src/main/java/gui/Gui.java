@@ -323,8 +323,8 @@ public class Gui {
 
     }
 
-    public void attachUnsavedChangesHandler(JTextArea textArea, FileModel model){
-        textArea.getDocument().addDocumentListener(new UnsavedChangesHandler(textArea, model));
+    public void attachUnsavedChangesHandler(JTextArea textArea){
+        textArea.getDocument().addDocumentListener(new UnsavedChangesHandler(textArea, this.getController()));
     }
 
     public void setTabTitle(int index, String title){

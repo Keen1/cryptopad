@@ -65,7 +65,7 @@ public class SaveAction extends AbstractMenuAction {
                     String status = model.saveContent(content);
                     this.getController().updateStatus(status);
                     this.getController().getGui()
-                            .attachUnsavedChangesHandler(this.getController().getGui().getTextAreaForSelectedTab(), model);
+                            .attachUnsavedChangesHandler(this.getController().getGui().getTextAreaForSelectedTab());
 
                 }catch(IOException e){
 

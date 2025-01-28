@@ -16,26 +16,12 @@ public class UnsavedChangesHandler implements DocumentListener {
 
     private JTextArea textArea;
     private GuiController controller;
-    private FileModel model;
 
     public UnsavedChangesHandler(JTextArea textArea, GuiController controller){
         this.textArea = textArea;
         this.controller = controller;
     }
 
-
-    public UnsavedChangesHandler(JTextArea textArea, FileModel model){
-
-        this.textArea = textArea;
-        this.model = model;
-
-    }
-
-    public FileModel getModel(){
-
-        return this.model;
-
-    }
     public GuiController getController(){
         return this.controller;
     }
@@ -46,12 +32,16 @@ public class UnsavedChangesHandler implements DocumentListener {
 
     }
 
+    private FileModel getModel(){
+        int index = this.getController().getGui().getTabbedPane().getSelectedIndex();
+        String title = this.getController().getGui().getTabbedPane().getTitleAt(index);
+        return this.getController().getFileModelForTab(title);
+    }
+
     public void checkForChanges(){
 
         String currentContent = this.getTextArea().getText();
-        int index = this.getController().getGui().getTabbedPane().getSelectedIndex();
-        String title = this.getController().getGui().getTabbedPane().getTitleAt(index);
-        FileModel model = this.getController().getFileModelForTab(title);
+        FileModel model = getModel();
 
         if(model != null){
             boolean hasChanged = !model.getSavedContent().equals(currentContent);
