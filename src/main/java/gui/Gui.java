@@ -3,6 +3,7 @@ package gui;
 import actions.NewAction;
 import actions.OpenAction;
 import actions.SaveAction;
+import actions.SaveAsAction;
 import com.formdev.flatlaf.FlatDarculaLaf;
 import com.formdev.flatlaf.FlatDarkLaf;
 import com.formdev.flatlaf.FlatIntelliJLaf;
@@ -47,6 +48,7 @@ public class Gui {
     private StatusLabel statusLabel;
 
     private SaveAction saveAction;
+    private SaveAsAction saveAsAction;
     private OpenAction openAction;
     private NewAction newAction;
 
@@ -64,6 +66,16 @@ public class Gui {
             initStatusLabel();
         }
         return this.statusLabel;
+    }
+
+    private void initSaveAsAction(){
+        this.saveAsAction = new SaveAsAction(this.getController());
+    }
+    public SaveAsAction getSaveAsAction(){
+        if(this.saveAsAction == null){
+            initSaveAsAction();
+        }
+        return this.saveAsAction;
     }
 
     private void initSaveAction(){
@@ -156,7 +168,18 @@ public class Gui {
         KeyStroke shortcut = (KeyStroke)saveAction.getValue(ACCELERATOR_KEY);
         textArea.getInputMap(JComponent.WHEN_FOCUSED).put(shortcut, "save");
         textArea.getActionMap().put("save", saveAction);
+
+
     }
+
+    private void addSaveAsShortcut(JTextArea textArea){
+        SaveAsAction action = this.getSaveAsAction();
+        KeyStroke shortcut = (KeyStroke)action.getValue(ACCELERATOR_KEY);
+        textArea.getInputMap(JComponent.WHEN_FOCUSED).put(shortcut, "Save As");
+        textArea.getActionMap().put("Save As", action);
+    }
+
+
 
     //where should we call this???? ^^^ save Action shortcut is called every time we add a new tab(since this is where
     //the shortcut is first needed and where it is called from -- when the user is typing in the text area and wants to
@@ -166,6 +189,7 @@ public class Gui {
     //I'm more convinced now that this should be called in the init frame method. This is a FUNCTION of initializing the
     //frame and should thus be called when the frame is being initialized
     private void addOpenShortcut(){
+
         OpenAction openAction = this.getOpenAction();
         KeyStroke shortcut = (KeyStroke)openAction.getValue(ACCELERATOR_KEY);
         JRootPane rootPane = this.getFrame().getRootPane();
@@ -198,6 +222,7 @@ public class Gui {
         textArea.setLineWrap(true);
         textArea.setWrapStyleWord(true);
         this.addTextAreaShortcut(textArea);
+        this.addSaveAsShortcut(textArea);
         JScrollPane scrollPane = new JScrollPane(textArea);
         panel.add(scrollPane, BorderLayout.CENTER);
         this.getTabbedPane().add(title, panel);
@@ -351,6 +376,7 @@ public class Gui {
     //init the save menu item
     private void initSaveAsItem(){
         this.saveAsItem = new JMenuItem("Save As...");
+        this.saveAsItem.setAction(this.getSaveAsAction());
     }
 
     //get the save as menu item

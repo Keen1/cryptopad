@@ -15,6 +15,7 @@ public class SaveAsAction extends AbstractMenuAction{
 
     public SaveAsAction(GuiController controller){
         super(controller, "Save As");
+        initShortcut();
 
     }
 
