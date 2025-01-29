@@ -22,6 +22,8 @@ public class KeyStoreSetupPanel extends JPanel{
         add(instructLabel, gbc);
         add(this.getPasswordField(), gbc);
         add(this.getConfirmField(), gbc);
+        setGBCForBtn(gbc);
+
         add(this.getConfirmBtn(), gbc);
 
     }
@@ -31,7 +33,12 @@ public class KeyStoreSetupPanel extends JPanel{
         gbc.gridwidth = GridBagConstraints.REMAINDER;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.insets = new Insets(5,5,5,5);
+
         return gbc;
+    }
+
+    private void setGBCForBtn(GridBagConstraints gbc){
+        gbc.fill = GridBagConstraints.NONE;
     }
 
     private JLabel initInstructionLabel(){
