@@ -18,8 +18,6 @@ import components.StatusLabel;
 import controllers.GuiController;
 import handlers.tabs.CloseTabHandler;
 import handlers.menu.UnsavedChangesHandler;
-import models.FileModel;
-
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
