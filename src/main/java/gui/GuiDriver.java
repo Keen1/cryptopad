@@ -2,15 +2,10 @@ package gui;
 
 import com.formdev.flatlaf.FlatLightLaf;
 import components.KeyStoreSetupPanel;
-import org.bouncycastle.jce.provider.BouncyCastleProvider;
+import components.LoginPanel;
 
 import javax.swing.*;
 import java.awt.*;
-import java.security.Provider;
-import java.security.Security;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
 
 
 public class GuiDriver {
@@ -20,8 +15,11 @@ public class GuiDriver {
             JFrame frame = new JFrame("Setup");
             frame.setPreferredSize(new Dimension(400, 400));
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            KeyStoreSetupPanel ksSetupPanel = new KeyStoreSetupPanel();
-            frame.setContentPane(ksSetupPanel);
+            //KeyStoreSetupPanel ksSetupPanel = new KeyStoreSetupPanel();
+            //frame.setContentPane(ksSetupPanel);
+
+            LoginPanel loginPanel = new LoginPanel();
+            frame.setContentPane(loginPanel);
             setLaf(frame);
             frame.pack();
             frame.setVisible(true);
