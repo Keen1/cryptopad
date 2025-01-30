@@ -1,7 +1,10 @@
 package components;
 
+import handlers.matcher.PasswordMatchHandler;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.DocumentListener;
 import java.awt.*;
 
 public class KeyStoreSetupPanel extends JPanel{
@@ -25,7 +28,15 @@ public class KeyStoreSetupPanel extends JPanel{
         setGBCForBtn(gbc);
 
         add(this.getConfirmBtn(), gbc);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        add(this.getMessageLabel(), gbc);
+        initMatchingHandler();
 
+    }
+    private void initMatchingHandler(){
+        PasswordMatchHandler matchHandler = new PasswordMatchHandler(this.getPasswordField(), this.getConfirmField(), this.getMessageLabel());
+        this.getPasswordField().getDocument().addDocumentListener(matchHandler);
+        this.getConfirmField().getDocument().addDocumentListener(matchHandler);
     }
 
     private GridBagConstraints initGBC(){
@@ -85,4 +96,18 @@ public class KeyStoreSetupPanel extends JPanel{
         }
         return this.confirmField;
     }
+
+    private void initMessageLabel(){
+        this.messageLabel = new JLabel(" ");
+        this.messageLabel.setForeground(Color.RED);
+
+    }
+
+    public JLabel getMessageLabel(){
+        if(this.messageLabel == null){
+            initMessageLabel();
+        }
+        return this.messageLabel;
+    }
 }
+

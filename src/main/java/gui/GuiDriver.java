@@ -17,14 +17,14 @@ public class GuiDriver {
             frame.setPreferredSize(new Dimension(400, 400));
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-            //KeyStoreSetupPanel ksSetupPanel = new KeyStoreSetupPanel();
-            //frame.setContentPane(ksSetupPanel);
+            KeyStoreSetupPanel ksSetupPanel = new KeyStoreSetupPanel();
+            frame.setContentPane(ksSetupPanel);
 
             //LoginPanel loginPanel = new LoginPanel();
             //frame.setContentPane(loginPanel);
 
-            DirectorySetupPanel dirSetupPanel = new DirectorySetupPanel();
-            frame.setContentPane(dirSetupPanel);
+            //DirectorySetupPanel dirSetupPanel = new DirectorySetupPanel();
+            //frame.setContentPane(dirSetupPanel);
             setLaf(frame);
             frame.pack();
             frame.setVisible(true);
