@@ -13,12 +13,18 @@ public class DirectorySetupPanel extends JPanel {
     private File selDir;
     private boolean isConfigSet;
 
-    public DirectorySetupPanel(){}
+    public DirectorySetupPanel(){
+        initializeComponents();
+    }
 
     private void initializeComponents(){
         setLayout(new GridBagLayout());
         setBorder(new EmptyBorder(20,20,20,20));
         GridBagConstraints gbc = initGBC();
+        add(getDirField(), gbc);
+        add(getBrowseBtn(), gbc);
+        add(getConfirmBtn(), gbc);
+        add(getMessageLabel(), gbc);
 
 
     }
