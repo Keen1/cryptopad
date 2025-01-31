@@ -4,8 +4,6 @@ import handlers.matcher.PasswordMatchHandler;
 import handlers.matcher.PasswordReqMatchHandler;
 
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
-import javax.swing.event.DocumentListener;
 import java.awt.*;
 
 public class KeyStoreSetupPanel extends JPanel{
@@ -27,15 +25,29 @@ public class KeyStoreSetupPanel extends JPanel{
         add(instructLabel, gbc);
         add(this.getPasswordField(), gbc);
         add(this.getConfirmField(), gbc);
-        setGBCForBtn(gbc);
 
+        gbc.fill = GridBagConstraints.NONE;
         add(this.getConfirmBtn(), gbc);
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        add(this.getMessageLabel(), gbc);
-        add(this.getPwReqFeedbackLabel(), gbc);
+
+        gbc.weighty = 1;
+        add(createFeedbackPanel(), gbc);
+        //add(this.getMessageLabel(), gbc);
+        //add(this.getPwReqFeedbackLabel(), gbc);
         initMatchingHandler();
         initReqCheckHandler();
 
+    }
+
+    private JPanel createFeedbackPanel(){
+        JPanel feedbackPanel = new JPanel(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridwidth = GridBagConstraints.REMAINDER;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.insets = new Insets(5,5,5,5);
+        feedbackPanel.add(this.getMessageLabel(), gbc);
+        feedbackPanel.add(this.getPwReqFeedbackLabel(), gbc);
+        return feedbackPanel;
     }
     private void initMatchingHandler(){
         PasswordMatchHandler matchHandler = new PasswordMatchHandler(this.getPasswordField(), this.getConfirmField(), this.getMessageLabel());
@@ -50,6 +62,7 @@ public class KeyStoreSetupPanel extends JPanel{
 
     private GridBagConstraints initGBC(){
         GridBagConstraints gbc = new GridBagConstraints();
+        gbc.anchor = GridBagConstraints.NORTH;
         gbc.gridwidth = GridBagConstraints.REMAINDER;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.insets = new Insets(5,5,5,5);

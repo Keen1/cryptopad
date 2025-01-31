@@ -1,10 +1,8 @@
 package gui;
 
+import com.formdev.flatlaf.FlatDarkLaf;
 import com.formdev.flatlaf.FlatLightLaf;
-import components.DirectorySetupPanel;
 import components.KeyStoreSetupPanel;
-import components.LoginPanel;
-
 import javax.swing.*;
 import java.awt.*;
 
@@ -38,8 +36,9 @@ public class GuiDriver {
     public static void setLaf(JFrame frame){
 
         LookAndFeel lightLaf = new FlatLightLaf();
+        LookAndFeel darkLaf = new FlatDarkLaf();
         try{
-            UIManager.setLookAndFeel(lightLaf);
+            UIManager.setLookAndFeel(darkLaf);
             SwingUtilities.updateComponentTreeUI(frame);
         }catch(UnsupportedLookAndFeelException e){
             System.out.printf("Unsupported look and feel: %s\n", lightLaf.getName());
