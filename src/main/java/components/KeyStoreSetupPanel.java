@@ -1,6 +1,7 @@
 package components;
 
 import handlers.matcher.PasswordMatchHandler;
+import handlers.matcher.PasswordReqMatchHandler;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -11,6 +12,7 @@ public class KeyStoreSetupPanel extends JPanel{
     private JPasswordField passwordField;
     private JPasswordField confirmField;
     private JLabel messageLabel;
+    private JLabel pwReqFeedbackLabel;
     private JButton confirmBtn;
     private boolean isPwSet = false;
 
@@ -30,13 +32,20 @@ public class KeyStoreSetupPanel extends JPanel{
         add(this.getConfirmBtn(), gbc);
         gbc.fill = GridBagConstraints.HORIZONTAL;
         add(this.getMessageLabel(), gbc);
+        add(this.getPwReqFeedbackLabel(), gbc);
         initMatchingHandler();
+        initReqCheckHandler();
 
     }
     private void initMatchingHandler(){
         PasswordMatchHandler matchHandler = new PasswordMatchHandler(this.getPasswordField(), this.getConfirmField(), this.getMessageLabel());
         this.getPasswordField().getDocument().addDocumentListener(matchHandler);
         this.getConfirmField().getDocument().addDocumentListener(matchHandler);
+    }
+
+    private void initReqCheckHandler(){
+        PasswordReqMatchHandler reqMatchHandler = new PasswordReqMatchHandler(this.getPasswordField(), this.getPwReqFeedbackLabel());
+        this.getPasswordField().getDocument().addDocumentListener(reqMatchHandler);
     }
 
     private GridBagConstraints initGBC(){
@@ -60,6 +69,17 @@ public class KeyStoreSetupPanel extends JPanel{
                 "• At least one lowercase letter<br>" +
                 "• At least one number<br>" +
                 "• At least one special character</html>");
+    }
+
+    private void initPwReqFeedbackLabel(){
+        this.pwReqFeedbackLabel = new JLabel();
+    }
+
+    public JLabel getPwReqFeedbackLabel(){
+        if(this.pwReqFeedbackLabel == null){
+            initPwReqFeedbackLabel();
+        }
+        return this.pwReqFeedbackLabel;
     }
 
     private void initConfirmBtn(){

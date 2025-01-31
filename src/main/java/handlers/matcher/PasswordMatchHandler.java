@@ -40,11 +40,11 @@ public class PasswordMatchHandler implements DocumentListener {
             this.messageLabel.setText(" ");
 
         }else if(Arrays.equals(pw, confirmPw)){
-            messageLabel.setForeground(Color.GREEN);
-            messageLabel.setText("Passwords Match.");
+            messageLabel.setForeground(new Color(0,150,0));
+            messageLabel.setText("Password Matches.");
         }else{
             messageLabel.setForeground(Color.RED);
-            messageLabel.setText("Passwords do not match.");
+            messageLabel.setText("Password does not match.");
         }
     }
 }

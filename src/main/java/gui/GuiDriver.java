@@ -14,7 +14,7 @@ public class GuiDriver {
 
         SwingUtilities.invokeLater(() ->{
             JFrame frame = new JFrame("Setup");
-            frame.setPreferredSize(new Dimension(400, 400));
+            frame.setPreferredSize(new Dimension(400, 600));
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
             KeyStoreSetupPanel ksSetupPanel = new KeyStoreSetupPanel();
@@ -42,7 +42,8 @@ public class GuiDriver {
             UIManager.setLookAndFeel(lightLaf);
             SwingUtilities.updateComponentTreeUI(frame);
         }catch(UnsupportedLookAndFeelException e){
-            System.out.printf("Unsupported look and feel: %s", lightLaf.getName());
+            System.out.printf("Unsupported look and feel: %s\n", lightLaf.getName());
+            System.out.printf("Error: %s", e.getMessage());
         }
 
     }
