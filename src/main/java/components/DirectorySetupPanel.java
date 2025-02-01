@@ -3,6 +3,8 @@ package components;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 
 public class DirectorySetupPanel extends JPanel {
@@ -28,11 +30,22 @@ public class DirectorySetupPanel extends JPanel {
 
 
     }
+    public File getSelDir(){
+        return this.selDir;
+    }
+    public void setSelDir(File selDir){
+        this.selDir = selDir;
+    }
 
     private void initBrowseBtn(){
         this.browseBtn = new JButton("Browse");
+        this.browseBtn.addActionListener(e -> {
+            File file = chooseProgDir();
+            setDirFieldText(file.getAbsolutePath());
+        });
 
     }
+
     public JButton getBrowseBtn(){
         if(this.browseBtn == null){
             initBrowseBtn();
@@ -60,6 +73,10 @@ public class DirectorySetupPanel extends JPanel {
         return this.dirField;
     }
 
+    public void setDirFieldText(String path){
+        this.getDirField().setText(path);
+    }
+
     private GridBagConstraints initGBC(){
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridwidth = GridBagConstraints.REMAINDER;
@@ -78,6 +95,34 @@ public class DirectorySetupPanel extends JPanel {
             initMessageLabel();
         }
         return this.messageLabel;
+    }
+
+    public File chooseProgDir(){
+        File file = null;
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("choose a directory");
+        fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        int res = fileChooser.showOpenDialog(this);
+        if(res == JFileChooser.APPROVE_OPTION){
+            file = fileChooser.getSelectedFile();
+        }
+        return file;
+
+    }
+
+    public boolean confirmPath(String path){
+
+        if(path.isEmpty()){
+            return false;
+        }
+
+        File dir = new File(path);
+
+        if(!dir.exists()){
+            return false;
+        }
+
+        return true;
     }
 
 }

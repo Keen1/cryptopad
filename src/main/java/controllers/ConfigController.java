@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class ConfigController {
+
     public class Config{
         private String keyStoreDir;
         private String lookAndFeel;
@@ -45,6 +46,7 @@ public class ConfigController {
             System.out.printf("Failed to load default config: %s", e.getMessage());
         }
     }
+
 
 
 }
