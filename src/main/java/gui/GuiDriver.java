@@ -2,7 +2,10 @@ package gui;
 
 import com.formdev.flatlaf.FlatDarkLaf;
 import com.formdev.flatlaf.FlatLightLaf;
+import components.DirectorySetupPanel;
 import components.KeyStoreSetupPanel;
+import components.LoginPanel;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -12,17 +15,17 @@ public class GuiDriver {
 
         SwingUtilities.invokeLater(() ->{
             JFrame frame = new JFrame("Setup");
-            frame.setPreferredSize(new Dimension(400, 600));
+            frame.setPreferredSize(new Dimension(400, 200));
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-            KeyStoreSetupPanel ksSetupPanel = new KeyStoreSetupPanel();
-            frame.setContentPane(ksSetupPanel);
+            //KeyStoreSetupPanel ksSetupPanel = new KeyStoreSetupPanel();
+            //frame.setContentPane(ksSetupPanel);
 
             //LoginPanel loginPanel = new LoginPanel();
             //frame.setContentPane(loginPanel);
 
-            //DirectorySetupPanel dirSetupPanel = new DirectorySetupPanel();
-            //frame.setContentPane(dirSetupPanel);
+            DirectorySetupPanel dirSetupPanel = new DirectorySetupPanel();
+            frame.setContentPane(dirSetupPanel);
             setLaf(frame);
             frame.pack();
             frame.setVisible(true);

@@ -26,7 +26,7 @@ public class LoginPanel extends JPanel {
     }
 
     private void initLoginLabel(){
-        this.loginLabel = new JLabel("Login:");
+        this.loginLabel = new JLabel("Password:");
     }
 
     public JLabel getLoginLabel(){
@@ -59,8 +59,6 @@ public class LoginPanel extends JPanel {
 
     private GridBagConstraints initGBC(){
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.gridwidth = GridBagConstraints.REMAINDER;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.insets = new Insets(5,5,5,5);
         return gbc;
     }
@@ -68,9 +66,26 @@ public class LoginPanel extends JPanel {
 
     private void initComponents(){
         setLayout(new GridBagLayout());
+
         GridBagConstraints gbc = initGBC();
+
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.weightx = 0.0;
+        gbc.fill = GridBagConstraints.NONE;
         add(this.getLoginLabel(), gbc);
+
+        gbc.gridx = 1;
+        gbc.gridy = 0;
+        gbc.weightx = 1.0;
+        gbc.gridwidth = GridBagConstraints.REMAINDER;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+
         add(this.getPasswordField(), gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.fill = GridBagConstraints.NONE;
         add(this.getSubmitButton(), gbc);
 
     }
