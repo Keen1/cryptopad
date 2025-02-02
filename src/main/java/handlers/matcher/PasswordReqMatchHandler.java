@@ -8,13 +8,9 @@ import javax.swing.event.DocumentListener;
 import java.util.Arrays;
 
 public class PasswordReqMatchHandler implements DocumentListener {
-    private JPasswordField pwField;
-    private JLabel matchFeedbackLabel;
     KeyStoreSetupController controller;
 
-    public PasswordReqMatchHandler(JPasswordField pwField, JLabel matchFeedbackLabel, KeyStoreSetupController controller){
-        this.pwField = pwField;
-        this.matchFeedbackLabel = matchFeedbackLabel;
+    public PasswordReqMatchHandler(KeyStoreSetupController controller){
         this.controller = controller;
     }
 
@@ -38,9 +34,11 @@ public class PasswordReqMatchHandler implements DocumentListener {
     }
 
     public void checkRequirements(){
-        char[] pw = this.pwField.getPassword();
+
+        char[] pw = this.getController().getSetupPanel().getPasswordField().getPassword();
+
         if(pw.length == 0){
-            this.matchFeedbackLabel.setText("");
+            this.getController().getSetupPanel().getPwReqFeedbackLabel().setText("");
             return;
         }
         boolean[] requirements = new boolean[5];
@@ -75,7 +73,7 @@ public class PasswordReqMatchHandler implements DocumentListener {
             html.append(String.format("<font color = '%s'>%s</font><br>", color, reqDescriptions[i]));
         }
         html.append("</html>");
-        this.matchFeedbackLabel.setText(html.toString());
+        this.getController().getSetupPanel().getPwReqFeedbackLabel().setText(html.toString());
     }
 
     private boolean hasUpperCase(char[] pw){

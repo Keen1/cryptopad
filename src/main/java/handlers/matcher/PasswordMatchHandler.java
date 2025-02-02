@@ -1,5 +1,7 @@
 package handlers.matcher;
 
+import controllers.KeyStoreSetupController;
+
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -7,13 +9,13 @@ import java.awt.*;
 import java.util.Arrays;
 
 public class PasswordMatchHandler implements DocumentListener {
-    private JPasswordField pwField;
-    private JPasswordField confirmField;
-    private JLabel messageLabel;
-    public PasswordMatchHandler(JPasswordField pwField, JPasswordField confirmField, JLabel messageLabel){
-        this.pwField = pwField;
-        this.confirmField = confirmField;
-        this.messageLabel = messageLabel;
+    private KeyStoreSetupController controller;
+    public PasswordMatchHandler(KeyStoreSetupController controller){
+        this.controller = controller;
+    }
+
+    public KeyStoreSetupController getController(){
+        return this.controller;
     }
 
     @Override
@@ -33,18 +35,18 @@ public class PasswordMatchHandler implements DocumentListener {
 
 
     private void checkPasswords(){
-        char[] pw = this.pwField.getPassword();
-        char[] confirmPw = this.confirmField.getPassword();
+        char[] pw = this.getController().getSetupPanel().getPasswordField().getPassword();
+        char[] confirmPw = this.getController().getSetupPanel().getConfirmField().getPassword();
 
         if(pw.length == 0 && confirmPw.length == 0){
-            this.messageLabel.setText(" ");
+            this.getController().getSetupPanel().getMessageLabel().setText(" ");
 
         }else if(Arrays.equals(pw, confirmPw)){
-            messageLabel.setForeground(new Color(0,150,0));
-            messageLabel.setText("Password Matches.");
+            this.getController().getSetupPanel().getMessageLabel().setForeground(new Color(0, 150, 0));
+            this.getController().getSetupPanel().getMessageLabel().setText("Password matches.");
         }else{
-            messageLabel.setForeground(Color.RED);
-            messageLabel.setText("Password does not match.");
+            this.getController().getSetupPanel().getMessageLabel().setForeground(Color.RED);
+            this.getController().getSetupPanel().getMessageLabel().setText("Password does not match.");
         }
     }
 }

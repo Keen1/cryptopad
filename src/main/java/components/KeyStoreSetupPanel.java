@@ -59,13 +59,13 @@ public class KeyStoreSetupPanel extends JPanel{
         return feedbackPanel;
     }
     private void initMatchingHandler(){
-        PasswordMatchHandler matchHandler = new PasswordMatchHandler(this.getPasswordField(), this.getConfirmField(), this.getMessageLabel());
+        PasswordMatchHandler matchHandler = new PasswordMatchHandler(this.getController());
         this.getPasswordField().getDocument().addDocumentListener(matchHandler);
         this.getConfirmField().getDocument().addDocumentListener(matchHandler);
     }
 
     private void initReqCheckHandler(){
-        PasswordReqMatchHandler reqMatchHandler = new PasswordReqMatchHandler(this.getPasswordField(), this.getPwReqFeedbackLabel(), this.getController());
+        PasswordReqMatchHandler reqMatchHandler = new PasswordReqMatchHandler(this.getController());
         this.getPasswordField().getDocument().addDocumentListener(reqMatchHandler);
     }
 
