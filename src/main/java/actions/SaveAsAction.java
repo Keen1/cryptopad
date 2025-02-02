@@ -11,18 +11,29 @@ import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
 
+/*
+* save-as action - implements the shortcut and general action handler for saving contents of a given tab(AT LEAST to a new
+* model, there are two cases for this action to be used:
+*   saving an entirely new file from a tab that was created with the new action
+*   Saving a NEW copy of an existing tab with a file already on disk
+*/
+
 public class SaveAsAction extends AbstractMenuAction{
 
+    //constructor
     public SaveAsAction(GuiController controller){
         super(controller, "Save As");
         initShortcut();
 
     }
 
+    //shortcut implementation for ctrl + shift + S
     public void initShortcut(){
+
         putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_S,
                 InputEvent.SHIFT_DOWN_MASK | Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         putValue(SHORT_DESCRIPTION, "Save file as");
+
     }
 
     @Override

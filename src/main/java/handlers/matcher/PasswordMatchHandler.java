@@ -2,7 +2,6 @@ package handlers.matcher;
 
 import controllers.KeyStoreSetupController;
 
-import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.*;

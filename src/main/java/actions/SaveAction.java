@@ -2,21 +2,26 @@ package actions;
 
 import controllers.GuiController;
 import models.FileModel;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
+/*
+* save action - implements the shortcut and general action handler for saving the contents of a tab given its associated
+* file model
+*/
 
 public class SaveAction extends AbstractMenuAction {
 
+    //constructor
     public SaveAction(GuiController controller){
         super(controller, "Save");
         initShortcut();
     }
 
+    //shortcut implementation for the ctrl + S
     @Override
     public void initShortcut(){
 
@@ -25,6 +30,8 @@ public class SaveAction extends AbstractMenuAction {
 
     }
 
+    //a user will use the shortcut to save the selected editor tab
+    //gets the content of the selected tab, its title, and the associated model from the model map
     @Override
     public void actionPerformed(ActionEvent event){
 
@@ -33,23 +40,24 @@ public class SaveAction extends AbstractMenuAction {
         String title = this.getController().getGui().getTabbedPane().getTitleAt(index);
         FileModel model = this.getController().getFileModelForTab(title);
 
+        //if the model is null not null, the file already exists on disk
         if(model != null){
+
             if(model.hasUnsavedChanges()){
+
                 try{
+
                     String status = model.saveContent(content);
                     this.getController().updateStatus(status);
+
                 }catch(IOException e){
+
                     System.out.printf("Error saving file.\n %s", e.getMessage());
+
                 }
             }
-
-
+        //if the model is null then no model exists in the map for the file as the file does not exist on disk
         }else{
-
-            /*
-            TODO This tab's text area needs to have an unsaved changes handler attached to it
-             The tab was untitled and the unsaved changes handler is only attached if the title does not equal "untitled"
-             */
 
             File file = this.getController().getGui().chooseFileToSave();
 
