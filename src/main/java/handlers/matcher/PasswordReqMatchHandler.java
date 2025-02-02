@@ -1,5 +1,7 @@
 package handlers.matcher;
 
+import controllers.KeyStoreSetupController;
+
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -8,9 +10,12 @@ import java.util.Arrays;
 public class PasswordReqMatchHandler implements DocumentListener {
     private JPasswordField pwField;
     private JLabel matchFeedbackLabel;
-    public PasswordReqMatchHandler(JPasswordField pwField, JLabel matchFeedbackLabel){
+    KeyStoreSetupController controller;
+
+    public PasswordReqMatchHandler(JPasswordField pwField, JLabel matchFeedbackLabel, KeyStoreSetupController controller){
         this.pwField = pwField;
         this.matchFeedbackLabel = matchFeedbackLabel;
+        this.controller = controller;
     }
 
     @Override
@@ -28,6 +33,10 @@ public class PasswordReqMatchHandler implements DocumentListener {
         checkRequirements();
     }
 
+    public KeyStoreSetupController getController(){
+        return this.controller;
+    }
+
     public void checkRequirements(){
         char[] pw = this.pwField.getPassword();
         if(pw.length == 0){
@@ -41,6 +50,16 @@ public class PasswordReqMatchHandler implements DocumentListener {
         requirements[3] = hasNumber(pw);
         requirements[4] = hasSpecial(pw);
         updateRequirementsList(requirements);
+        this.getController().setRequirementsMet(allRequirementsMet(requirements));
+    }
+
+    public boolean allRequirementsMet(boolean[] requirements){
+        for(boolean b : requirements){
+            if(!b){
+                return false;
+            }
+        }
+        return true;
     }
     private void updateRequirementsList(boolean[] requirements){
         StringBuilder html = new StringBuilder("<html>");

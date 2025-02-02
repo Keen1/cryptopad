@@ -1,9 +1,13 @@
 package components;
 
+import controllers.KeyStoreSetupController;
 import handlers.matcher.PasswordMatchHandler;
 import handlers.matcher.PasswordReqMatchHandler;
 
 import javax.swing.*;
+import javax.swing.plaf.basic.BasicPasswordFieldUI;
+import javax.swing.plaf.basic.BasicTextFieldUI;
+import javax.swing.text.Highlighter;
 import java.awt.*;
 
 public class KeyStoreSetupPanel extends JPanel{
@@ -12,10 +16,16 @@ public class KeyStoreSetupPanel extends JPanel{
     private JLabel messageLabel;
     private JLabel pwReqFeedbackLabel;
     private JButton confirmBtn;
-    private boolean isPwSet = false;
+    private KeyStoreSetupController controller;
 
     public KeyStoreSetupPanel(){
+        this.controller = new KeyStoreSetupController(this);
+
         initializeComponents();
+    }
+
+    public KeyStoreSetupController getController(){
+        return this.controller;
     }
 
     private void initializeComponents(){
@@ -23,17 +33,16 @@ public class KeyStoreSetupPanel extends JPanel{
         GridBagConstraints gbc = initGBC();
         JLabel instructLabel = initInstructionLabel();
         add(instructLabel, gbc);
+        gbc.ipady = 10;
         add(this.getPasswordField(), gbc);
         add(this.getConfirmField(), gbc);
-
+        gbc.ipady = 0;
         gbc.fill = GridBagConstraints.NONE;
         add(this.getConfirmBtn(), gbc);
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
         gbc.weighty = 1;
         add(createFeedbackPanel(), gbc);
-        //add(this.getMessageLabel(), gbc);
-        //add(this.getPwReqFeedbackLabel(), gbc);
         initMatchingHandler();
         initReqCheckHandler();
 
@@ -56,7 +65,7 @@ public class KeyStoreSetupPanel extends JPanel{
     }
 
     private void initReqCheckHandler(){
-        PasswordReqMatchHandler reqMatchHandler = new PasswordReqMatchHandler(this.getPasswordField(), this.getPwReqFeedbackLabel());
+        PasswordReqMatchHandler reqMatchHandler = new PasswordReqMatchHandler(this.getPasswordField(), this.getPwReqFeedbackLabel(), this.getController());
         this.getPasswordField().getDocument().addDocumentListener(reqMatchHandler);
     }
 
@@ -70,9 +79,8 @@ public class KeyStoreSetupPanel extends JPanel{
         return gbc;
     }
 
-    private void setGBCForBtn(GridBagConstraints gbc){
-        gbc.fill = GridBagConstraints.NONE;
-    }
+
+
 
     private JLabel initInstructionLabel(){
         return new JLabel("<html>Please set a master password for your keystore.<br><br>" +
@@ -97,6 +105,14 @@ public class KeyStoreSetupPanel extends JPanel{
 
     private void initConfirmBtn(){
         this.confirmBtn = new JButton("Confirm");
+        this.confirmBtn.setFocusPainted(false);
+        this.confirmBtn.addActionListener(event -> {
+           if(this.getController().areRequirementsMet()){
+               System.out.println("Requirements met");
+           }else{
+               System.out.println("Requirements not met");
+           }
+        });
     }
 
     public JButton getConfirmBtn(){
@@ -113,6 +129,7 @@ public class KeyStoreSetupPanel extends JPanel{
 
     private void initConfirmField(){
         this.confirmField = new JPasswordField(20);
+
 
     }
 

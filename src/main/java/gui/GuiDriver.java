@@ -1,32 +1,28 @@
 package gui;
 
-import com.formdev.flatlaf.FlatDarkLaf;
-import com.formdev.flatlaf.FlatLightLaf;
-import components.DirectorySetupPanel;
 import components.KeyStoreSetupPanel;
-import components.LoginPanel;
 
 import javax.swing.*;
 import java.awt.*;
 
 
 public class GuiDriver {
-    public static void main(String [] args){
 
+    public static void main(String [] args){
         SwingUtilities.invokeLater(() ->{
             JFrame frame = new JFrame("Setup");
-            frame.setPreferredSize(new Dimension(400, 200));
+            frame.setPreferredSize(new Dimension(400, 600));
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.setResizable(false);
+            setLaf(frame);
 
-            //KeyStoreSetupPanel ksSetupPanel = new KeyStoreSetupPanel();
-            //frame.setContentPane(ksSetupPanel);
+            KeyStoreSetupPanel ksSetupPanel = new KeyStoreSetupPanel();
+            frame.setContentPane(ksSetupPanel);
 
             //LoginPanel loginPanel = new LoginPanel();
             //frame.setContentPane(loginPanel);
 
-            DirectorySetupPanel dirSetupPanel = new DirectorySetupPanel();
-            frame.setContentPane(dirSetupPanel);
-            setLaf(frame);
+
             frame.pack();
             frame.setVisible(true);
 
@@ -38,13 +34,12 @@ public class GuiDriver {
 
     public static void setLaf(JFrame frame){
 
-        LookAndFeel lightLaf = new FlatLightLaf();
-        LookAndFeel darkLaf = new FlatDarkLaf();
         try{
-            UIManager.setLookAndFeel(darkLaf);
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
             SwingUtilities.updateComponentTreeUI(frame);
-        }catch(UnsupportedLookAndFeelException e){
-            System.out.printf("Unsupported look and feel: %s\n", lightLaf.getName());
+        }catch(UnsupportedLookAndFeelException | ClassNotFoundException | InstantiationException |
+               IllegalAccessException e){
+            System.out.printf("Unsupported look and feel: %s\n", "Test");
             System.out.printf("Error: %s", e.getMessage());
         }
 
