@@ -9,7 +9,7 @@ import java.awt.*;
 import java.util.Arrays;
 
 public class PasswordMatchHandler implements DocumentListener {
-    private KeyStoreSetupController controller;
+    private final KeyStoreSetupController controller;
     public PasswordMatchHandler(KeyStoreSetupController controller){
         this.controller = controller;
     }
