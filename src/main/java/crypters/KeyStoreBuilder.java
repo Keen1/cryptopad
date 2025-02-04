@@ -27,10 +27,14 @@ public class KeyStoreBuilder {
     public char[] getPw(){
         return this.pw;
     }
-    public void generateKeystore() throws Exception{
+    public void generateKeystore(char[] pw) throws Exception{
         KeyStore ks = KeyStore.getInstance(KS_TYPE);
-        ks.load(null, this.getPw());
-        this.setKeyStore(ks);
+        ks.load(null, null);
+        try(FileOutputStream outStream = new FileOutputStream("test_ks.jks")){
+            ks.store(outStream, pw);
+            System.out.println("Keystore created successfully: test_ks.jks");
+        }
+
     }
 
     public void storeKey(String alias, SecretKey key) throws Exception{

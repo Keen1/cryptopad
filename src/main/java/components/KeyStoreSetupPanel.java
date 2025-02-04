@@ -108,7 +108,8 @@ public class KeyStoreSetupPanel extends JPanel{
         this.confirmBtn.setFocusPainted(false);
         this.confirmBtn.addActionListener(event -> {
            if(this.getController().areRequirementsMet()){
-               System.out.println("Requirements met");
+               this.getController().setPassword(this.getPasswordField().getPassword());
+               this.getController().createKeyStore();
            }else{
                System.out.println("Requirements not met");
            }

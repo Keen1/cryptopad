@@ -42,20 +42,25 @@ public class PasswordMatchHandler implements DocumentListener {
         checkPasswords();
     }
 
-    //check passwords function that retieves the current entries in the pw and confirm fields to ensure they match
+    //check passwords function that retrieves the current entries in the pw and confirm fields to ensure they match
     private void checkPasswords(){
         char[] pw = this.getController().getSetupPanel().getPasswordField().getPassword();
         char[] confirmPw = this.getController().getSetupPanel().getConfirmField().getPassword();
 
         if(pw.length == 0 && confirmPw.length == 0){
+
             this.getController().getSetupPanel().getMessageLabel().setText(" ");
 
         }else if(Arrays.equals(pw, confirmPw)){
+
             this.getController().getSetupPanel().getMessageLabel().setForeground(new Color(0, 150, 0));
             this.getController().getSetupPanel().getMessageLabel().setText("Password matches.");
+
         }else{
+
             this.getController().getSetupPanel().getMessageLabel().setForeground(Color.RED);
             this.getController().getSetupPanel().getMessageLabel().setText("Password does not match.");
+
         }
     }
 }
