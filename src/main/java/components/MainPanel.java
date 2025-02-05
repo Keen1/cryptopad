@@ -1,4 +1,4 @@
-package gui;
+package components;
 
 import actions.NewAction;
 import actions.OpenAction;
@@ -14,7 +14,6 @@ import com.formdev.flatlaf.intellijthemes.FlatMaterialDesignDarkIJTheme;
 import com.formdev.flatlaf.intellijthemes.FlatSolarizedDarkIJTheme;
 import com.formdev.flatlaf.intellijthemes.FlatSolarizedLightIJTheme;
 import com.formdev.flatlaf.intellijthemes.materialthemeuilite.*;
-import components.StatusLabel;
 import controllers.GuiController;
 import handlers.tabs.CloseTabHandler;
 import handlers.menu.UnsavedChangesHandler;

@@ -1,6 +1,7 @@
-package gui;
+package drivers;
 
 import components.LoginPanel;
+import components.MainPanel;
 
 import javax.swing.*;
 import java.awt.*;

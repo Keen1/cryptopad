@@ -1,6 +1,6 @@
 package controllers;
 
-import gui.MainPanel;
+import components.MainPanel;
 import models.FileModel;
 import java.io.IOException;
 import java.util.HashMap;

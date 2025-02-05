@@ -1,6 +1,6 @@
 package controllers;
 
-import gui.GuiDriver;
+import drivers.GuiDriver;
 
 public class DriverController {
     private GuiDriver driver;
