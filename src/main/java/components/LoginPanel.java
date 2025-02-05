@@ -7,6 +7,7 @@ import models.KeyStoreResultModel;
 import javax.swing.*;
 import java.awt.*;
 import java.security.KeyStore;
+import java.util.function.Consumer;
 
 public class LoginPanel extends JPanel {
 
@@ -16,7 +17,7 @@ public class LoginPanel extends JPanel {
     private JLabel messageLabel;
     LoginController controller;
 
-    public LoginPanel(Runnable onLoginSuccess){
+    public LoginPanel(Consumer<KeyStore> onLoginSuccess){
         this.controller = new LoginController(this, onLoginSuccess);
         initComponents();
     }

@@ -20,6 +20,7 @@ import handlers.menu.UnsavedChangesHandler;
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
+import java.security.KeyStore;
 
 import static javax.swing.Action.ACCELERATOR_KEY;
 
@@ -49,9 +50,16 @@ public class MainPanel extends JPanel{
     private OpenAction openAction;
     private NewAction newAction;
 
+    private KeyStore ks;
+
     //constructor
-    public MainPanel(){
+    public MainPanel(KeyStore ks){
+        this.ks = ks;
         initComponents();
+    }
+
+    public KeyStore getKeyStore(){
+        return this.ks;
     }
 
     private void initStatusLabel(){
@@ -185,7 +193,7 @@ public class MainPanel extends JPanel{
         NewAction newAction = this.getNewAction();
         KeyStroke shortcut = (KeyStroke)newAction.getValue(ACCELERATOR_KEY);
         getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(shortcut, "new");
-        getActionMap().put("open", newAction);
+        getActionMap().put("new", newAction);
 
         JMenuItem newItem = this.getNewItem();
         newItem.setAction(newAction);
@@ -476,6 +484,8 @@ public class MainPanel extends JPanel{
         add(getMenuBar(), BorderLayout.NORTH);
         add(getTabbedPane(), BorderLayout.CENTER);
         add(getStatusLabel(), BorderLayout.SOUTH);
+        addOpenShortcut();
+        addNewShortcut();
 
     }
 }

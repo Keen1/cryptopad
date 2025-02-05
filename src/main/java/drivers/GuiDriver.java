@@ -5,6 +5,7 @@ import components.MainPanel;
 
 import javax.swing.*;
 import java.awt.*;
+import java.security.KeyStore;
 
 
 public class GuiDriver {
@@ -21,7 +22,6 @@ public class GuiDriver {
 
 
 
-        SwingUtilities.invokeLater(MainPanel::new);
 
     }
     private static void initFrame(){
@@ -39,9 +39,9 @@ public class GuiDriver {
     }
 
 
-    public static void showMainPanel(){
+    public static void showMainPanel(KeyStore ks){
         frame.setPreferredSize(MAIN_DIM);
-        frame.setContentPane(new MainPanel());
+        frame.setContentPane(new MainPanel(ks));
         frame.pack();
         frame.setLocationRelativeTo(null);
     }
