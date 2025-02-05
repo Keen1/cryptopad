@@ -17,8 +17,6 @@ public class GuiDriver {
             frame.setResizable(false);
             setLaf(frame);
 
-            //KeyStoreSetupPanel ksSetupPanel = new KeyStoreSetupPanel();
-            //frame.setContentPane(ksSetupPanel);
 
             LoginPanel loginPanel = new LoginPanel();
             frame.setContentPane(loginPanel);

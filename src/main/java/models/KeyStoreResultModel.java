@@ -15,4 +15,8 @@ public class KeyStoreResultModel {
     public KeyStore getKeyStore(){
         return this.keyStore;
     }
+
+    public boolean isSuccess(){
+        return this.keyStore != null;
+    }
 }
