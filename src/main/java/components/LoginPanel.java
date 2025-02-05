@@ -1,7 +1,12 @@
 package components;
 
+import controllers.KeyStoreSetupController;
+import controllers.LoginController;
+import models.KeyStoreResultModel;
+
 import javax.swing.*;
 import java.awt.*;
+import java.security.KeyStore;
 
 public class LoginPanel extends JPanel {
 
@@ -9,13 +14,28 @@ public class LoginPanel extends JPanel {
     private JPasswordField passwordField;
     private JButton submitButton;
     private JLabel messageLabel;
+    LoginController controller;
 
     public LoginPanel(){
+        this.controller = new LoginController(this);
         initComponents();
+    }
+
+    public LoginController getController(){
+        return this.controller;
     }
 
     private void initSubmitButton(){
         this.submitButton = new JButton("Submit");
+        this.submitButton.addActionListener(event ->{
+           char[] pw = this.getPasswordField().getPassword();
+           if(pw.length != 0){
+                KeyStoreResultModel resultModel = this.getController().login(pw, "test_ks.jks");
+                this.getMessageLabel().setText(resultModel.getMessage());
+
+
+           }
+        });
     }
 
     public JButton getSubmitButton(){
@@ -87,6 +107,9 @@ public class LoginPanel extends JPanel {
         gbc.gridy = 1;
         gbc.fill = GridBagConstraints.NONE;
         add(this.getSubmitButton(), gbc);
+        gbc.gridy = 2;
+        add(this.getMessageLabel(), gbc);
+
 
     }
 

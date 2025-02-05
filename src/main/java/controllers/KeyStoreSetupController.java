@@ -1,7 +1,7 @@
 package controllers;
 
 import components.KeyStoreSetupPanel;
-import crypters.KeyStoreBuilder;
+import util.KeyStoreFactory;
 
 public class KeyStoreSetupController {
     private final KeyStoreSetupPanel setupPanel;
@@ -31,13 +31,7 @@ public class KeyStoreSetupController {
     }
     public void createKeyStore(){
         if(this.getPassword() != null){
-            KeyStoreBuilder builder = new KeyStoreBuilder(this.getPassword());
-            try{
-                builder.generateKeystore(this.getPassword());
-
-            }catch(Exception e){
-                System.out.printf("Error creating keystore: %s\n%s", e.getMessage(),e.getClass());
-            }
+            KeyStoreFactory.generateKeyStore(this.getPassword(), "test_ks.jks");
 
         }
     }

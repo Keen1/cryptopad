@@ -3,11 +3,7 @@ package components;
 import controllers.KeyStoreSetupController;
 import handlers.matcher.PasswordMatchHandler;
 import handlers.matcher.PasswordReqMatchHandler;
-
 import javax.swing.*;
-import javax.swing.plaf.basic.BasicPasswordFieldUI;
-import javax.swing.plaf.basic.BasicTextFieldUI;
-import javax.swing.text.Highlighter;
 import java.awt.*;
 
 public class KeyStoreSetupPanel extends JPanel{

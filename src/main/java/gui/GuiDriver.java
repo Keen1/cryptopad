@@ -1,6 +1,7 @@
 package gui;
 
 import components.KeyStoreSetupPanel;
+import components.LoginPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,11 +17,11 @@ public class GuiDriver {
             frame.setResizable(false);
             setLaf(frame);
 
-            KeyStoreSetupPanel ksSetupPanel = new KeyStoreSetupPanel();
-            frame.setContentPane(ksSetupPanel);
+            //KeyStoreSetupPanel ksSetupPanel = new KeyStoreSetupPanel();
+            //frame.setContentPane(ksSetupPanel);
 
-            //LoginPanel loginPanel = new LoginPanel();
-            //frame.setContentPane(loginPanel);
+            LoginPanel loginPanel = new LoginPanel();
+            frame.setContentPane(loginPanel);
 
 
             frame.pack();
