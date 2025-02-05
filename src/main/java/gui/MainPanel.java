@@ -141,24 +141,7 @@ public class MainPanel extends JPanel{
         //addNewTab("untitled", "");
     }
 
-    //get the main gui frame
-    public JFrame getFrame(){
 
-        if(this.frame == null){
-            initFrame();
-        }
-        return this.frame;
-    }
-
-    //init the main gui frame
-    private void initFrame(){
-
-        this.frame = new JFrame("cryptopad");
-        this.frame.setPreferredSize(new Dimension(800, 1000));
-        this.frame.setLayout(new BorderLayout());
-        this.addOpenShortcut();
-        this.addNewShortcut();
-    }
 
     //TODO this should be refactored to specifcally be the addSaveAction shortcut
     private void addTextAreaShortcut(JTextArea textArea){
