@@ -16,8 +16,8 @@ public class LoginPanel extends JPanel {
     private JLabel messageLabel;
     LoginController controller;
 
-    public LoginPanel(){
-        this.controller = new LoginController(this);
+    public LoginPanel(Runnable onLoginSuccess){
+        this.controller = new LoginController(this, onLoginSuccess);
         initComponents();
     }
 
@@ -30,12 +30,14 @@ public class LoginPanel extends JPanel {
         this.submitButton.addActionListener(event ->{
            char[] pw = this.getPasswordField().getPassword();
            if(pw.length != 0){
-                KeyStoreResultModel resultModel = this.getController().login(pw, "test_ks.jks");
-                this.getMessageLabel().setText(resultModel.getMessage());
+                this.getController().login(pw, "test_ks.jks");
 
 
            }
         });
+    }
+    public void updateMessageLabel(String update){
+        this.getMessageLabel().setText(update);
     }
 
     public JButton getSubmitButton(){

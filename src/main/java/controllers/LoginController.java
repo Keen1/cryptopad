@@ -4,20 +4,40 @@ import components.LoginPanel;
 import models.KeyStoreResultModel;
 import util.KeyStoreFactory;
 
-import java.security.KeyStore;
-
 public class LoginController {
-    private LoginPanel loginPanel;
 
-    public LoginController(LoginPanel loginPanel){
+    private final LoginPanel loginPanel;
+    private final Runnable onLoginSuccess;
+
+    public LoginController(LoginPanel loginPanel, Runnable onLoginSuccess){
+
         this.loginPanel = loginPanel;
+        this.onLoginSuccess = onLoginSuccess;
+
     }
 
     public LoginPanel getLoginPanel(){
+
         return this.loginPanel;
+
     }
 
-    public KeyStoreResultModel login(char[] pw, String path){
-        return KeyStoreFactory.loadKeyStore(pw, path);
+    private Runnable getCallBack(){
+
+        return this.onLoginSuccess;
+
+    }
+
+    public void login(char[] pw, String path){
+
+        KeyStoreResultModel result = KeyStoreFactory.loadKeyStore(pw, path);
+        if(result.isSuccess()){
+            this.getLoginPanel().updateMessageLabel(result.getMessage());
+            this.getCallBack().run();
+
+        }else{
+            this.getLoginPanel().updateMessageLabel(result.getMessage());
+        }
+
     }
 }

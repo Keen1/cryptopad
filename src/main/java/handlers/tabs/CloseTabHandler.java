@@ -54,7 +54,7 @@ public class CloseTabHandler implements ActionListener {
                 String[] options = {"Save", "Don't Save", "Cancel"};
                 String unsavedChanges = "Unsaved Changes";
 
-                int choice = JOptionPane.showOptionDialog(this.getController().getGui().getFrame(),
+                int choice = JOptionPane.showOptionDialog(this.getController().getGui(),
                         prompt,
                         unsavedChanges,
                         JOptionPane.YES_NO_CANCEL_OPTION,

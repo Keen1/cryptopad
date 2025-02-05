@@ -1,6 +1,5 @@
 package gui;
 
-import components.KeyStoreSetupPanel;
 import components.LoginPanel;
 
 import javax.swing.*;
@@ -8,28 +7,44 @@ import java.awt.*;
 
 
 public class GuiDriver {
+    private static JFrame frame;
+    private static final Dimension MAIN_DIM = new Dimension(800,1000);
+    private static final Dimension KEYSTORE_SETUP_DIM = new Dimension(400, 600);
 
     public static void main(String [] args){
+
         SwingUtilities.invokeLater(() ->{
-            JFrame frame = new JFrame("Setup");
-            frame.setPreferredSize(new Dimension(400, 600));
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.setResizable(false);
-            setLaf(frame);
-
-
-            LoginPanel loginPanel = new LoginPanel();
-            frame.setContentPane(loginPanel);
-
-
-            frame.pack();
-            frame.setVisible(true);
-
+            initFrame();
+            showLoginPanel();
         });
 
-        //SwingUtilities.invokeLater(Gui::new);
+
+
+        SwingUtilities.invokeLater(MainPanel::new);
 
     }
+    private static void initFrame(){
+        frame = new JFrame("cryptopad");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLaf(frame);
+
+    }
+
+    public static void showLoginPanel(){
+        frame.setPreferredSize(KEYSTORE_SETUP_DIM);
+        frame.setContentPane(new LoginPanel(GuiDriver::showMainPanel));
+        frame.pack();
+        frame.setVisible(true);
+    }
+
+
+    public static void showMainPanel(){
+        frame.setPreferredSize(MAIN_DIM);
+        frame.setContentPane(new MainPanel());
+        frame.pack();
+        frame.setLocationRelativeTo(null);
+    }
+
 
     public static void setLaf(JFrame frame){
 

@@ -1,6 +1,6 @@
 package controllers;
 
-import gui.Gui;
+import gui.MainPanel;
 import models.FileModel;
 import java.io.IOException;
 import java.util.HashMap;
@@ -10,20 +10,20 @@ import java.util.HashMap;
 */
 public class GuiController {
 
-    private Gui gui;
+    private MainPanel mainPanel;
     private HashMap<String, FileModel> fileTabMap;
 
     //constructor
-    public GuiController(Gui gui){
-        this.gui = gui;
+    public GuiController(MainPanel mainPanel){
+        this.mainPanel = mainPanel;
         initMap();
     }
 
     //hashmap constructor
-    public GuiController(HashMap<String, FileModel> fileTabMap, Gui gui){
+    public GuiController(HashMap<String, FileModel> fileTabMap, MainPanel mainPanel){
 
         this.fileTabMap = fileTabMap;
-        this.gui = gui;
+        this.mainPanel = mainPanel;
 
     }
 
@@ -55,8 +55,8 @@ public class GuiController {
     //refactor
 
     //getter for gui
-    public Gui getGui(){
-        return this.gui;
+    public MainPanel getGui(){
+        return this.mainPanel;
     }
 
     //init the model map

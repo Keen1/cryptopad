@@ -28,7 +28,7 @@ import static javax.swing.Action.ACCELERATOR_KEY;
 * gui view class.
 */
 
-public class Gui {
+public class MainPanel extends JPanel{
 
     //basic components of our gui
     private JMenuBar menuBar;
@@ -51,7 +51,7 @@ public class Gui {
     private NewAction newAction;
 
     //constructor
-    public Gui(){
+    public MainPanel(){
         initComponents();
     }
 
@@ -190,9 +190,8 @@ public class Gui {
 
         OpenAction openAction = this.getOpenAction();
         KeyStroke shortcut = (KeyStroke)openAction.getValue(ACCELERATOR_KEY);
-        JRootPane rootPane = this.getFrame().getRootPane();
-        rootPane.getInputMap(JComponent.WHEN_FOCUSED).put(shortcut, "open");
-        rootPane.getActionMap().put("open", openAction);
+        getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(shortcut, "open");
+        getActionMap().put("open", openAction);
 
         JMenuItem openItem = this.getOpenItem();
         openItem.setAction(openAction);
@@ -203,9 +202,8 @@ public class Gui {
     private void addNewShortcut(){
         NewAction newAction = this.getNewAction();
         KeyStroke shortcut = (KeyStroke)newAction.getValue(ACCELERATOR_KEY);
-        JRootPane rootPane = this.getFrame().getRootPane();
-        rootPane.getInputMap(JComponent.WHEN_FOCUSED).put(shortcut, "new");
-        rootPane.getActionMap().put("new", newAction);
+        getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(shortcut, "new");
+        getActionMap().put("open", newAction);
 
         JMenuItem newItem = this.getNewItem();
         newItem.setAction(newAction);
@@ -297,7 +295,7 @@ public class Gui {
     public File chooseFileToOpen(){
 
         JFileChooser fileChooser = new JFileChooser();
-        int res = fileChooser.showOpenDialog(this.getFrame());
+        int res = fileChooser.showOpenDialog(this);
         if(res == JFileChooser.APPROVE_OPTION){
             return fileChooser.getSelectedFile();
         }
@@ -309,7 +307,7 @@ public class Gui {
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setDialogTitle("save a new file");
 
-        int res = fileChooser.showSaveDialog(this.getFrame());
+        int res = fileChooser.showSaveDialog(this);
 
         if(res == JFileChooser.APPROVE_OPTION){
             file  = fileChooser.getSelectedFile();
@@ -479,7 +477,7 @@ public class Gui {
         item.addActionListener(e -> {
             try{
                 UIManager.setLookAndFeel(laf);
-                SwingUtilities.updateComponentTreeUI(this.getFrame());
+                SwingUtilities.updateComponentTreeUI(this);
             }catch(UnsupportedLookAndFeelException ex){
                 System.out.printf("Error setting look and feel: %s", ex.getMessage());
             }
@@ -491,15 +489,11 @@ public class Gui {
     //init all components of the gui.
     //any new component feature must be called here to be initialized and added to the frame
     private void initComponents(){
-
+        setLayout(new BorderLayout());
         initController();
-        JFrame frame = this.getFrame();
-        frame.add(getMenuBar(), BorderLayout.NORTH);
-        frame.add(getTabbedPane(), BorderLayout.CENTER);
-        frame.add(getStatusLabel(), BorderLayout.SOUTH);
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.pack();
-        frame.setVisible(true);
+        add(getMenuBar(), BorderLayout.NORTH);
+        add(getTabbedPane(), BorderLayout.CENTER);
+        add(getStatusLabel(), BorderLayout.SOUTH);
 
     }
 }
