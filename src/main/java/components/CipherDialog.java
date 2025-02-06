@@ -1,7 +1,11 @@
 package components;
 
+import javax.crypto.KeyGenerator;
+import javax.crypto.SecretKey;
+import javax.crypto.SecretKeyFactory;
 import javax.swing.*;
 import java.awt.*;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Arrays;
@@ -139,6 +143,7 @@ public class CipherDialog extends JDialog {
 
     public void initGenerateKeyButton(){
         this.generateKeyButton = new JButton("generate key");
+        this.generateKeyButton.addActionListener(event ->generateKey());
     }
 
     public JButton getGenerateKeyButton(){
@@ -181,6 +186,8 @@ public class CipherDialog extends JDialog {
 
     public void initCipherComboBox(){
         this.cipherComboBox = new JComboBox<>(CIPHERS);
+        updateKeyLengths();
+        this.cipherComboBox.addActionListener(event -> updateKeyLengths());
     }
     public JComboBox<String> getCipherComboBox(){
         if(this.cipherComboBox == null){
@@ -188,6 +195,31 @@ public class CipherDialog extends JDialog {
         }
         return this.cipherComboBox;
     }
+
+    private void updateKeyLengths(){
+        String cipher = (String)this.getCipherComboBox().getSelectedItem();
+        this.getKeyLengthComboBox().removeAllItems();
+        List<Integer> keyLengths = SUPPORTED_KEY_LENGTHS.get(cipher);
+        for(Integer kl : keyLengths){
+            this.getKeyLengthComboBox().addItem(kl);
+        }
+    }
+
+    private void generateKey(){
+        String cipher = (String) this.getCipherComboBox().getSelectedItem();
+        int keyLength = (Integer)this.getKeyLengthComboBox().getSelectedItem();
+        System.out.printf("Cipher selected: %s\n Key length selected: %d", cipher, keyLength);
+
+        try{
+            KeyGenerator keyGen = KeyGenerator.getInstance(cipher);
+            keyGen.init(keyLength);
+            SecretKey key = keyGen.generateKey();
+            System.out.printf("Key generated successfully.\n Algorithm: %s\n length: %d\n value: %s", key.getAlgorithm(), keyLength, key);
+        } catch (NoSuchAlgorithmException e) {
+            System.out.printf("No algorithm named %s: %s", cipher, e.getMessage());
+        }
+    }
+
 
 
 

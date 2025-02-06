@@ -16,6 +16,10 @@ public class FileModel {
     private String savedContent;
     private boolean unsavedChanges;
     private File file;
+    private String cipherAlgorithm;
+    private String blockMode;
+    private String paddingScheme;
+
 
     public FileModel(File file){
         this.file = file;
@@ -111,5 +115,24 @@ public class FileModel {
 
 
 
+    }
+
+    public void setCipherAlgorithm(String cipherAlgorithm){
+        this.cipherAlgorithm = cipherAlgorithm;
+    }
+    public String getCipherAlgorithm(){
+        return this.cipherAlgorithm;
+    }
+    public void setBlockMode(String blockMode){
+        this.blockMode = blockMode;
+    }
+    public String getBlockMode(){
+        return this.blockMode;
+    }
+    public void setPaddingScheme(String paddingScheme){
+        this.paddingScheme = paddingScheme;
+    }
+    public String getPaddingScheme(){
+        return this.paddingScheme;
     }
 }
