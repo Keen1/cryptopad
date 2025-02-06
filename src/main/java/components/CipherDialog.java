@@ -6,10 +6,8 @@ import javax.crypto.SecretKeyFactory;
 import javax.swing.*;
 import java.awt.*;
 import java.security.NoSuchAlgorithmException;
-import java.util.HashMap;
+import java.util.*;
 import java.util.List;
-import java.util.Arrays;
-import java.util.Map;
 
 public class CipherDialog extends JDialog {
     private JComboBox<String> cipherComboBox;
@@ -24,7 +22,7 @@ public class CipherDialog extends JDialog {
     private static final String[] BLOCK_MODES = {"CBC", "CFB", "CTR", "ECB", "GCM", "OFB"};
     private static final String[] PADDING_MODES = {"PKCS7Padding", "NoPadding"};
     private static final String[] CIPHERS = {"AES", "ARIA", "BLOWFISH", "CAMELLIA", "CAST5",
-                                                "CAST6", "DSTU7624", "GOST2412-2015", "IDEA",
+                                                "CAST6", "DSTU7624", "GOST3412-2015", "IDEA",
                                                 "NOEKEON", "SERPENT", "SM4", "THREEFISH-1024",
                                                 "TWOFISH", "XTEA"};
     private static final Map<String, List<Integer>> SUPPORTED_KEY_LENGTHS = new HashMap<>();
@@ -62,14 +60,14 @@ public class CipherDialog extends JDialog {
 
         gbc.gridx = 0;
         gbc.gridy = 0;
-        selectionPanel.add(new JLabel("available ciphers"), gbc);
+        selectionPanel.add(new JLabel("cipher:"), gbc);
         gbc.gridx = 1;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         selectionPanel.add(getCipherComboBox(), gbc);
         gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.fill = GridBagConstraints.NONE;
-        selectionPanel.add(new JLabel("block modes"), gbc);
+        selectionPanel.add(new JLabel("block mode:"), gbc);
         gbc.gridx = 1;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         selectionPanel.add(getBlockModeComboBox(), gbc);
@@ -77,7 +75,7 @@ public class CipherDialog extends JDialog {
         gbc.gridy = 2;
         gbc.fill = GridBagConstraints.NONE;
 
-        selectionPanel.add(new JLabel("key lengths"), gbc);
+        selectionPanel.add(new JLabel("key length:"), gbc);
         gbc.gridx = 1;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         selectionPanel.add(getKeyLengthComboBox(), gbc);
@@ -86,7 +84,7 @@ public class CipherDialog extends JDialog {
         gbc.gridy = 3;
         gbc.fill = GridBagConstraints.NONE;
 
-        selectionPanel.add(new JLabel("padding"), gbc);
+        selectionPanel.add(new JLabel("padding:"), gbc);
         gbc.gridx = 1;
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
@@ -214,7 +212,9 @@ public class CipherDialog extends JDialog {
             KeyGenerator keyGen = KeyGenerator.getInstance(cipher);
             keyGen.init(keyLength);
             SecretKey key = keyGen.generateKey();
-            System.out.printf("Key generated successfully.\n Algorithm: %s\n length: %d\n value: %s", key.getAlgorithm(), keyLength, key);
+            byte[] keyBytes = key.getEncoded();
+            String encodedKey = Base64.getEncoder().encodeToString(keyBytes);
+            System.out.printf("Key generated successfully.\n Algorithm: %s\n length: %d\n value: %s", key.getAlgorithm(), keyLength, encodedKey);
         } catch (NoSuchAlgorithmException e) {
             System.out.printf("No algorithm named %s: %s", cipher, e.getMessage());
         }
