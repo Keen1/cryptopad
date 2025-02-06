@@ -1,6 +1,6 @@
 package actions;
 
-import controllers.GuiController;
+import controllers.MainPanelController;
 import javax.swing.*;
 import java.io.File;
 /*
@@ -9,20 +9,20 @@ import java.io.File;
 */
 public abstract class AbstractMenuAction extends AbstractAction {
     //all actions require the controller
-    private final GuiController controller;
+    private final MainPanelController controller;
 
     //all derived actions must implement their own shortcut
     public abstract void initShortcut();
 
     //constructor
-    public AbstractMenuAction(GuiController controller, String name){
+    public AbstractMenuAction(MainPanelController controller, String name){
 
         super(name);
         this.controller = controller;
     }
 
     //controller getter
-    public GuiController getController(){
+    public MainPanelController getController(){
         return this.controller;
     }
 

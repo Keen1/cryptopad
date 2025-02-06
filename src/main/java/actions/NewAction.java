@@ -1,6 +1,6 @@
 package actions;
 
-import controllers.GuiController;
+import controllers.MainPanelController;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -10,7 +10,7 @@ import java.awt.event.KeyEvent;
 * */
 public class NewAction extends AbstractMenuAction {
 
-    public NewAction(GuiController controller){
+    public NewAction(MainPanelController controller){
         super(controller, "new");
         initShortcut();
     }

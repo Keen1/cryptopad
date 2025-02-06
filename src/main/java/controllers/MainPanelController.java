@@ -8,19 +8,19 @@ import java.util.HashMap;
 /*
 * Controller class for orchestration between gui and model/handlers
 */
-public class GuiController {
+public class MainPanelController {
 
     private MainPanel mainPanel;
     private HashMap<String, FileModel> fileTabMap;
 
     //constructor
-    public GuiController(MainPanel mainPanel){
+    public MainPanelController(MainPanel mainPanel){
         this.mainPanel = mainPanel;
         initMap();
     }
 
     //hashmap constructor
-    public GuiController(HashMap<String, FileModel> fileTabMap, MainPanel mainPanel){
+    public MainPanelController(HashMap<String, FileModel> fileTabMap, MainPanel mainPanel){
 
         this.fileTabMap = fileTabMap;
         this.mainPanel = mainPanel;

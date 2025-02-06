@@ -1,6 +1,6 @@
 package handlers.menu;
 
-import controllers.GuiController;
+import controllers.MainPanelController;
 import models.FileModel;
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -15,14 +15,14 @@ import javax.swing.event.DocumentListener;
 public class UnsavedChangesHandler implements DocumentListener {
 
     private JTextArea textArea;
-    private GuiController controller;
+    private MainPanelController controller;
 
-    public UnsavedChangesHandler(JTextArea textArea, GuiController controller){
+    public UnsavedChangesHandler(JTextArea textArea, MainPanelController controller){
         this.textArea = textArea;
         this.controller = controller;
     }
 
-    public GuiController getController(){
+    public MainPanelController getController(){
         return this.controller;
     }
 

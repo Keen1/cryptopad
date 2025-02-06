@@ -1,6 +1,6 @@
 package actions;
 
-import controllers.GuiController;
+import controllers.MainPanelController;
 import models.FileModel;
 
 import javax.swing.*;
@@ -21,7 +21,7 @@ import java.io.IOException;
 public class SaveAsAction extends AbstractMenuAction{
 
     //constructor
-    public SaveAsAction(GuiController controller){
+    public SaveAsAction(MainPanelController controller){
         super(controller, "Save As");
         initShortcut();
 

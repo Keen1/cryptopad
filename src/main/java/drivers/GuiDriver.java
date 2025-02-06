@@ -2,6 +2,7 @@ package drivers;
 
 import components.LoginPanel;
 import components.MainPanel;
+import util.CipherTest;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,7 +15,8 @@ public class GuiDriver {
     private static final Dimension KEYSTORE_SETUP_DIM = new Dimension(400, 600);
 
     public static void main(String [] args){
-
+        CipherTest tester = new CipherTest();
+        tester.testCipherSuite();
         SwingUtilities.invokeLater(() ->{
             initFrame();
             showLoginPanel();

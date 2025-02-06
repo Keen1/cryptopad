@@ -1,6 +1,6 @@
 package actions;
 
-import controllers.GuiController;
+import controllers.MainPanelController;
 import models.FileModel;
 import javax.swing.*;
 import java.awt.*;
@@ -13,7 +13,7 @@ import java.io.IOException;
 */
 public class OpenAction extends AbstractMenuAction {
 
-    public OpenAction(GuiController controller){
+    public OpenAction(MainPanelController controller){
         super(controller, "Open");
         initShortcut();
     }

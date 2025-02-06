@@ -1,9 +1,6 @@
 package components;
 
-import actions.NewAction;
-import actions.OpenAction;
-import actions.SaveAction;
-import actions.SaveAsAction;
+import actions.*;
 import com.formdev.flatlaf.FlatDarculaLaf;
 import com.formdev.flatlaf.FlatDarkLaf;
 import com.formdev.flatlaf.FlatIntelliJLaf;
@@ -14,7 +11,7 @@ import com.formdev.flatlaf.intellijthemes.FlatMaterialDesignDarkIJTheme;
 import com.formdev.flatlaf.intellijthemes.FlatSolarizedDarkIJTheme;
 import com.formdev.flatlaf.intellijthemes.FlatSolarizedLightIJTheme;
 import com.formdev.flatlaf.intellijthemes.materialthemeuilite.*;
-import controllers.GuiController;
+import controllers.MainPanelController;
 import handlers.tabs.CloseTabHandler;
 import handlers.menu.UnsavedChangesHandler;
 import javax.swing.*;
@@ -37,9 +34,11 @@ public class MainPanel extends JPanel{
     private JMenuItem saveAsItem;
     private JMenuItem newItem;
     private JMenuItem cipherItem;
+    private JMenuItem encryptItem;
+    private JMenuItem decryptItem;
     private JTabbedPane tabPane;
     private JFrame frame;
-    private GuiController controller;
+    private MainPanelController controller;
 
     private JMenu themeMenu;
 
@@ -119,7 +118,7 @@ public class MainPanel extends JPanel{
     }
 
     //get the controller associated with the gui
-    public GuiController getController(){
+    public MainPanelController getController(){
         if(this.controller == null){
             initController();
         }
@@ -128,7 +127,7 @@ public class MainPanel extends JPanel{
 
     //init the controller
     public void initController(){
-        this.controller = new GuiController(this);
+        this.controller = new MainPanelController(this);
     }
 
     //get the tabbed pane where all our text files are opened and displayed
@@ -145,6 +144,9 @@ public class MainPanel extends JPanel{
     private void initTabbedPane(){
 
         this.tabPane  = new JTabbedPane();
+        this.tabPane.addChangeListener(event ->{
+            this.getCipherItem().setEnabled(this.getTabbedPane().getTabCount() > 0);
+        });
         //addNewTab("untitled", "");
     }
 
@@ -377,6 +379,14 @@ public class MainPanel extends JPanel{
     //init the cipher menu item
     private void initCipherItem(){
         this.cipherItem = new JMenuItem("Cipher...");
+        //disable this item by default(on open and when no tabs are open
+        this.cipherItem.setEnabled(false);
+        //only enable the cipher menu item if a tab is actually open
+
+        this.cipherItem.addActionListener(event -> {
+            CipherDialog cipherChooser = new CipherDialog();
+            cipherChooser.setVisible(true);
+        });
     }
 
     //get the cipher menu item
