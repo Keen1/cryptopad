@@ -1,5 +1,7 @@
 package components;
 
+import controllers.SecretKeyController;
+
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
@@ -26,6 +28,7 @@ public class CipherDialog extends JDialog {
                                                 "NOEKEON", "SERPENT", "SM4", "THREEFISH-1024",
                                                 "TWOFISH", "XTEA"};
     private static final Map<String, List<Integer>> SUPPORTED_KEY_LENGTHS = new HashMap<>();
+
     static{
         SUPPORTED_KEY_LENGTHS.put("AES", Arrays.asList(128, 192, 256));
         SUPPORTED_KEY_LENGTHS.put("ARIA", Arrays.asList(128, 192, 256));
@@ -43,11 +46,11 @@ public class CipherDialog extends JDialog {
         SUPPORTED_KEY_LENGTHS.put("TWOFISH", Arrays.asList(128, 192, 256));
         SUPPORTED_KEY_LENGTHS.put("XTEA", List.of(128));
     }
+    private SecretKeyController controller;
 
-
-
-    public CipherDialog(){
+    public CipherDialog(SecretKeyController controller){
         super((JFrame)null, "Cipher Selection", true);
+        this.controller = controller;
         initComponents();
     }
 
@@ -140,7 +143,7 @@ public class CipherDialog extends JDialog {
     }
 
     public void initGenerateKeyButton(){
-        this.generateKeyButton = new JButton("generate key");
+        this.generateKeyButton = new JButton("generate key for current file");
         this.generateKeyButton.addActionListener(event ->generateKey());
     }
 

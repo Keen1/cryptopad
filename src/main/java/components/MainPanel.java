@@ -12,6 +12,7 @@ import com.formdev.flatlaf.intellijthemes.FlatSolarizedDarkIJTheme;
 import com.formdev.flatlaf.intellijthemes.FlatSolarizedLightIJTheme;
 import com.formdev.flatlaf.intellijthemes.materialthemeuilite.*;
 import controllers.MainPanelController;
+import controllers.SecretKeyController;
 import handlers.tabs.CloseTabHandler;
 import handlers.menu.UnsavedChangesHandler;
 import javax.swing.*;
@@ -384,7 +385,7 @@ public class MainPanel extends JPanel{
         //only enable the cipher menu item if a tab is actually open
 
         this.cipherItem.addActionListener(event -> {
-            CipherDialog cipherChooser = new CipherDialog();
+            CipherDialog cipherChooser = new CipherDialog(new SecretKeyController(this.getKeyStore()));
             cipherChooser.setVisible(true);
         });
     }
