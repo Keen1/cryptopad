@@ -218,6 +218,8 @@ public class CipherDialog extends JDialog {
             byte[] keyBytes = key.getEncoded();
             String encodedKey = Base64.getEncoder().encodeToString(keyBytes);
             System.out.printf("Key generated successfully.\n Algorithm: %s\n length: %d\n value: %s", key.getAlgorithm(), keyLength, encodedKey);
+            this.controller.storeKey(key, "test");
+
         } catch (NoSuchAlgorithmException e) {
             System.out.printf("No algorithm named %s: %s", cipher, e.getMessage());
         }
