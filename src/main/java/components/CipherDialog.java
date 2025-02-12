@@ -1,10 +1,10 @@
 package components;
 
+import controllers.MainPanelController;
 import controllers.SecretKeyController;
 
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
-import javax.crypto.SecretKeyFactory;
 import javax.swing.*;
 import java.awt.*;
 import java.security.NoSuchAlgorithmException;
@@ -16,6 +16,7 @@ public class CipherDialog extends JDialog {
     private JComboBox<String> blockModeComboBox;
     private JComboBox<String> paddingComboBox;
     private JComboBox<Integer> keyLengthComboBox;
+    private JComboBox<String> tabTitles;
 
     private JButton generateKeyButton;
     private JButton applyButton;
@@ -46,13 +47,35 @@ public class CipherDialog extends JDialog {
         SUPPORTED_KEY_LENGTHS.put("TWOFISH", Arrays.asList(128, 192, 256));
         SUPPORTED_KEY_LENGTHS.put("XTEA", List.of(128));
     }
-    private SecretKeyController controller;
+    private SecretKeyController keyController;
+    private MainPanelController mainPanelController;
 
-    public CipherDialog(SecretKeyController controller){
+    public CipherDialog(SecretKeyController keyController, MainPanelController mainPanelController){
         super((JFrame)null, "Cipher Selection", true);
-        this.controller = controller;
+        this.mainPanelController = mainPanelController;
+        this.keyController = keyController;
         initComponents();
     }
+
+    public MainPanelController getMainPanelController(){
+        return this.mainPanelController;
+    }
+
+    public void initTabTitles(){
+        List<String> titles = this.getMainPanelController().getTitles();
+        this.tabTitles = new JComboBox<>();
+        for(String title : titles){
+            this.tabTitles.addItem(title);
+        }
+
+    }
+    public JComboBox<String> getTabTitles(){
+        if(this.tabTitles == null){
+            initTabTitles();
+        }
+        return this.tabTitles;
+    }
+
 
     public void initComponents(){
 
@@ -64,21 +87,25 @@ public class CipherDialog extends JDialog {
         gbc.gridx = 0;
         gbc.gridy = 0;
         selectionPanel.add(new JLabel("cipher:"), gbc);
+
         gbc.gridx = 1;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         selectionPanel.add(getCipherComboBox(), gbc);
+
         gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.fill = GridBagConstraints.NONE;
         selectionPanel.add(new JLabel("block mode:"), gbc);
+
         gbc.gridx = 1;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         selectionPanel.add(getBlockModeComboBox(), gbc);
+
         gbc.gridx = 0;
         gbc.gridy = 2;
         gbc.fill = GridBagConstraints.NONE;
-
         selectionPanel.add(new JLabel("key length:"), gbc);
+
         gbc.gridx = 1;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         selectionPanel.add(getKeyLengthComboBox(), gbc);
@@ -86,14 +113,23 @@ public class CipherDialog extends JDialog {
         gbc.gridx = 0;
         gbc.gridy = 3;
         gbc.fill = GridBagConstraints.NONE;
-
         selectionPanel.add(new JLabel("padding:"), gbc);
+
         gbc.gridx = 1;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-
         selectionPanel.add(getPaddingComboBox(), gbc);
+
         gbc.gridx = 0;
         gbc.gridy = 4;
+        gbc.fill = GridBagConstraints.NONE;
+        selectionPanel.add(new JLabel("file:"), gbc);
+
+        gbc.gridx = 1;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        selectionPanel.add(getTabTitles(), gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 5;
         gbc.gridwidth = 2;
         gbc.anchor = GridBagConstraints.CENTER;
         selectionPanel.add(getGenerateKeyButton(), gbc);
@@ -209,6 +245,7 @@ public class CipherDialog extends JDialog {
     private void generateKey(){
         String cipher = (String) this.getCipherComboBox().getSelectedItem();
         int keyLength = (Integer)this.getKeyLengthComboBox().getSelectedItem();
+        String alias = (String)this.getCipherComboBox().getSelectedItem();
         System.out.printf("Cipher selected: %s\n Key length selected: %d", cipher, keyLength);
 
         try{
@@ -217,8 +254,8 @@ public class CipherDialog extends JDialog {
             SecretKey key = keyGen.generateKey();
             byte[] keyBytes = key.getEncoded();
             String encodedKey = Base64.getEncoder().encodeToString(keyBytes);
-            System.out.printf("Key generated successfully.\n Algorithm: %s\n length: %d\n value: %s", key.getAlgorithm(), keyLength, encodedKey);
-            this.controller.storeKey(key, "test");
+            System.out.printf("Key generated successfully.\n Algorithm: %s\n length: %d\n value: %s\n", key.getAlgorithm(), keyLength, encodedKey);
+            this.keyController.storeKey(key, alias);
 
         } catch (NoSuchAlgorithmException e) {
             System.out.printf("No algorithm named %s: %s", cipher, e.getMessage());

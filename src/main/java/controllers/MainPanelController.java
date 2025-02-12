@@ -3,7 +3,9 @@ package controllers;
 import components.MainPanel;
 import models.FileModel;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /*
 * Controller class for orchestration between gui and model/handlers
@@ -94,5 +96,13 @@ public class MainPanelController {
     //add a new tab to the gui given the title and its content
     public void addNewTabToView(String name, String content){
         this.getGui().addNewTab(name, content);
+    }
+
+    public List<String> getTitles(){
+        List<String> titles = new ArrayList<>();
+        for(int i = 0; i < this.getGui().getTabbedPane().getTabCount(); i++){
+            titles.add(this.getGui().getTabbedPane().getTitleAt(i));
+        }
+        return titles;
     }
 }

@@ -398,7 +398,7 @@ public class MainPanel extends JPanel{
         //only enable the cipher menu item if a tab is actually open
 
         this.cipherItem.addActionListener(event -> {
-            CipherDialog cipherChooser = new CipherDialog(new SecretKeyController(this.getModel().getKeyStore(), this.getModel().getPw()));
+            CipherDialog cipherChooser = new CipherDialog(new SecretKeyController(this.getModel().getKeyStore(), this.getModel().getPw()), this.getController());
             this.setModel(null);
             cipherChooser.setVisible(true);
         });
