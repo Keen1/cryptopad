@@ -15,6 +15,8 @@ import controllers.MainPanelController;
 import controllers.SecretKeyController;
 import handlers.tabs.CloseTabHandler;
 import handlers.menu.UnsavedChangesHandler;
+import models.KeyStoreResultModel;
+
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
@@ -51,10 +53,21 @@ public class MainPanel extends JPanel{
     private NewAction newAction;
 
     private KeyStore ks;
+    private KeyStoreResultModel model;
+
+    public KeyStoreResultModel getModel(){
+        return this.model;
+    }
+    public void setModel(KeyStoreResultModel model){
+        this.model = model;
+    }
+
+
 
     //constructor
-    public MainPanel(KeyStore ks){
-        this.ks = ks;
+    public MainPanel(KeyStoreResultModel model){
+        this.ks = model.getKeyStore();
+        this.model = model;
         initComponents();
     }
 
@@ -385,7 +398,8 @@ public class MainPanel extends JPanel{
         //only enable the cipher menu item if a tab is actually open
 
         this.cipherItem.addActionListener(event -> {
-            CipherDialog cipherChooser = new CipherDialog(new SecretKeyController(this.getKeyStore()));
+            CipherDialog cipherChooser = new CipherDialog(new SecretKeyController(this.getModel().getKeyStore(), this.getModel().getPw()));
+            this.setModel(null);
             cipherChooser.setVisible(true);
         });
     }

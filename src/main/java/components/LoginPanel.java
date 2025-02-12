@@ -15,9 +15,9 @@ public class LoginPanel extends JPanel {
     private JPasswordField passwordField;
     private JButton submitButton;
     private JLabel messageLabel;
-    LoginController controller;
+    private LoginController controller;
 
-    public LoginPanel(Consumer<KeyStore> onLoginSuccess){
+    public LoginPanel(Consumer<KeyStoreResultModel> onLoginSuccess){
         this.controller = new LoginController(this, onLoginSuccess);
         initComponents();
     }

@@ -44,7 +44,7 @@ public class SecretKeyController {
     public void storeKey(SecretKey key, String alias){
         SecretKeyEntry entry = new SecretKeyEntry(key);
         try{
-            this.getKeyStore().setKeyEntry(alias, key, null, null);
+            this.getKeyStore().setKeyEntry(alias, key, this.getPw(), null);
             System.out.printf("Success storing key. Alias: %s", alias);
 
         }catch(KeyStoreException e){

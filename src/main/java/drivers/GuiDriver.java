@@ -2,6 +2,7 @@ package drivers;
 
 import components.LoginPanel;
 import components.MainPanel;
+import models.KeyStoreResultModel;
 import util.CipherTest;
 
 import javax.swing.*;
@@ -15,8 +16,6 @@ public class GuiDriver {
     private static final Dimension KEYSTORE_SETUP_DIM = new Dimension(400, 600);
 
     public static void main(String [] args){
-        CipherTest tester = new CipherTest();
-        tester.testCipherSuite();
         SwingUtilities.invokeLater(() ->{
             initFrame();
             showLoginPanel();
@@ -41,9 +40,9 @@ public class GuiDriver {
     }
 
 
-    public static void showMainPanel(KeyStore ks){
+    public static void showMainPanel(KeyStoreResultModel model){
         frame.setPreferredSize(MAIN_DIM);
-        frame.setContentPane(new MainPanel(ks));
+        frame.setContentPane(new MainPanel(model));
         frame.pack();
         frame.setLocationRelativeTo(null);
     }

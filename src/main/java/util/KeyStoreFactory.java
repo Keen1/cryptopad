@@ -33,7 +33,7 @@ public class KeyStoreFactory {
             KeyStore ks = KeyStore.getInstance(KS_TYPE);
             try(FileInputStream inStream = new FileInputStream(path)){
                 ks.load(inStream, pw);
-                return new KeyStoreResultModel(ks, "Success!");
+                return new KeyStoreResultModel(ks, "Success!", pw);
             }
         }catch(KeyStoreException | NoSuchAlgorithmException | CertificateException e){
             return new KeyStoreResultModel(null, e.getMessage());
