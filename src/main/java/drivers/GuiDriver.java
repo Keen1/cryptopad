@@ -13,7 +13,7 @@ import java.security.KeyStore;
 public class GuiDriver {
     private static JFrame frame;
     private static final Dimension MAIN_DIM = new Dimension(800,1000);
-    private static final Dimension KEYSTORE_SETUP_DIM = new Dimension(400, 600);
+    private static final Dimension KEYSTORE_SETUP_DIM = new Dimension(400, 200);
 
     public static void main(String [] args){
         SwingUtilities.invokeLater(() ->{

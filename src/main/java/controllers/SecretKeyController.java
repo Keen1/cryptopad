@@ -1,5 +1,7 @@
 package controllers;
 
+import util.CipherBlockSizes;
+
 import javax.crypto.Cipher;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
@@ -8,6 +10,7 @@ import java.security.KeyStore.SecretKeyEntry;
 import java.util.Arrays;
 import java.util.Base64;
 import javax.crypto.KeyGenerator;
+import javax.crypto.spec.IvParameterSpec;
 
 public class SecretKeyController {
     private KeyStore ks;
@@ -30,7 +33,7 @@ public class SecretKeyController {
         Arrays.fill(this.getPw(), (char) 0);
     }
 
-    public void storeKey(SecretKey key, String alias){
+    private void storeKey(SecretKey key, String alias){
         SecretKeyEntry entry = new SecretKeyEntry(key);
         try{
             this.getKeyStore().setKeyEntry(alias, key, this.getPw(), null);
@@ -57,14 +60,20 @@ public class SecretKeyController {
         try{
             Cipher cipher = Cipher.getInstance(transformation, "BC");
 
+
         }catch(NoSuchAlgorithmException | NoSuchProviderException | NoSuchPaddingException e){
             System.out.printf("transformation not valid: %s\n error: %s", transformation, e.getMessage());
         }
     }
 
-    public byte[] initIv(){
-        byte[] iv = new byte[16];
-        return iv;//temp
+    //this is dependent on the block size of the chosen algorithm
+    public IvParameterSpec initIv(String algorithm){
+        int size = CipherBlockSizes.fromString(algorithm).getIvSize();
+        byte[] iv = new byte[size];
+        SecureRandom secureRand = new SecureRandom();
+        secureRand.nextBytes(iv);
+        return new IvParameterSpec(iv);
+
     }
 
     public void generateKey(String cipher, int keyLength, String alias){
@@ -82,6 +91,8 @@ public class SecretKeyController {
             System.out.printf("error for %s cipher: %s", cipher, e.getMessage());
         }
     }
+
+
 
 
 
