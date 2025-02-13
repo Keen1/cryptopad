@@ -158,6 +158,9 @@ public class CipherDialog extends JDialog {
 
     public void initCancelButton(){
         this.cancelButton = new JButton("cancel");
+        this.cancelButton.addActionListener(event -> {
+            dispose();
+        });
     }
 
     public JButton getCancelButton(){
@@ -246,7 +249,6 @@ public class CipherDialog extends JDialog {
         String cipher = (String) this.getCipherComboBox().getSelectedItem();
         int keyLength = (Integer)this.getKeyLengthComboBox().getSelectedItem();
         String alias = (String)this.getCipherComboBox().getSelectedItem();
-        System.out.printf("Cipher selected: %s\n Key length selected: %d", cipher, keyLength);
 
         try{
             KeyGenerator keyGen = KeyGenerator.getInstance(cipher);
@@ -260,6 +262,10 @@ public class CipherDialog extends JDialog {
         } catch (NoSuchAlgorithmException e) {
             System.out.printf("No algorithm named %s: %s", cipher, e.getMessage());
         }
+    }
+
+    private void applyCipher(){
+
     }
 
 

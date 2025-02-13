@@ -399,7 +399,6 @@ public class MainPanel extends JPanel{
 
         this.cipherItem.addActionListener(event -> {
             CipherDialog cipherChooser = new CipherDialog(new SecretKeyController(this.getModel().getKeyStore(), this.getModel().getPw()), this.getController());
-            this.setModel(null);
             cipherChooser.setVisible(true);
         });
     }

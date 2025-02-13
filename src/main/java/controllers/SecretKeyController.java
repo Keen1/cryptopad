@@ -1,11 +1,10 @@
 package controllers;
 
+import javax.crypto.Cipher;
+import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
-import java.security.KeyStore;
+import java.security.*;
 import java.security.KeyStore.SecretKeyEntry;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
-import java.security.UnrecoverableKeyException;
 import java.util.Arrays;
 import javax.crypto.KeyGenerator;
 
@@ -13,10 +12,6 @@ public class SecretKeyController {
     private KeyStore ks;
     private char[] pw;
 
-
-    public SecretKeyController(KeyStore ks){
-        this.ks = ks;
-    }
 
     public SecretKeyController(KeyStore ks, char[] pw){
         this.ks = ks;
@@ -69,6 +64,17 @@ public class SecretKeyController {
         return key;
 
     }
+
+    public void initCipher(String algorithm, String blockMode, String padding){
+        String transformation = String.format("%s/%s/%s", algorithm, blockMode, padding);
+        try{
+            Cipher cipher = Cipher.getInstance(transformation, "BC");
+        }catch(NoSuchAlgorithmException | NoSuchProviderException | NoSuchPaddingException e){
+            System.out.printf("transformation not valid: %s\n error: %s", transformation, e.getMessage());
+        }
+    }
+
+
 
     public void setKeyStore(KeyStore ks){
         this.ks = ks;
