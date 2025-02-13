@@ -9,6 +9,7 @@ import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import javax.swing.*;
 import java.awt.*;
+import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.util.*;
 import java.util.List;
@@ -22,10 +23,13 @@ public class CipherDialog extends JDialog {
 
     private JButton generateKeyButton;
     private JButton applyButton;
+    private JButton okayButton;
     private JButton cancelButton;
 
     private SecretKeyController secretKeyController;
     private MainPanelController mainPanelController;
+
+    private SecretKey generatedKey;
 
     public CipherDialog(SecretKeyController secretKeyController, MainPanelController mainPanelController){
         super((JFrame)null, "Cipher Selection", true);
@@ -41,6 +45,8 @@ public class CipherDialog extends JDialog {
         return this.secretKeyController;
     }
 
+
+
     public void initTabTitles(){
         List<String> titles = this.getMainPanelController().getTitles();
         this.tabTitles = new JComboBox<>();
@@ -54,6 +60,14 @@ public class CipherDialog extends JDialog {
             initTabTitles();
         }
         return this.tabTitles;
+    }
+
+    public void setGeneratedKey(SecretKey generatedKey){
+        this.generatedKey = generatedKey;
+    }
+
+    public SecretKey getGeneratedKey(){
+        return this.generatedKey;
     }
 
 
@@ -136,6 +150,17 @@ public class CipherDialog extends JDialog {
 
     }
 
+    private void initOkayButton(){
+        this.okayButton = new JButton("okay");
+        this.okayButton.setEnabled(false);
+    }
+    public JButton getOkayButton(){
+        if(this.okayButton == null){
+            initOkayButton();
+        }
+        return this.okayButton;
+    }
+
     public void initCancelButton(){
         this.cancelButton = new JButton("cancel");
         this.cancelButton.addActionListener(event -> {
@@ -152,6 +177,7 @@ public class CipherDialog extends JDialog {
 
     public void initApplyButton(){
         this.applyButton = new JButton("apply");
+        this.applyButton.setEnabled(false);
     }
 
     public JButton getApplyButton(){
@@ -163,7 +189,11 @@ public class CipherDialog extends JDialog {
 
     public void initGenerateKeyButton(){
         this.generateKeyButton = new JButton("generate key for current file");
-        this.generateKeyButton.addActionListener(event ->initKey());
+        this.generateKeyButton.addActionListener(event -> {
+            initKey();
+            this.getOkayButton().setEnabled(true);
+            this.getApplyButton().setEnabled(true);
+        });
     }
 
     public JButton getGenerateKeyButton(){
@@ -229,10 +259,28 @@ public class CipherDialog extends JDialog {
 
         String cipher = (String) this.getCipherComboBox().getSelectedItem();
         int keyLength = (Integer)this.getKeyLengthComboBox().getSelectedItem();
-        String alias = (String)this.getCipherComboBox().getSelectedItem();
-        this.getSecretKeyController().generateKey(cipher, keyLength, alias);
+        this.setGeneratedKey(this.getSecretKeyController().generateKey(cipher, keyLength));
 
     }
+
+    private boolean storeKey(String alias){
+        if(this.getGeneratedKey() == null){
+            return false;
+        }else{
+            try{
+                this.getSecretKeyController().storeKey(this.getGeneratedKey(), alias);
+                return true;
+
+            }catch(KeyStoreException e){
+                System.out.printf("error storing key forL %s\n error: %s\n", alias, e.getMessage());
+                return false;
+            }finally{
+                this.setGeneratedKey(null);
+            }
+
+        }
+    }
+
 
 
 

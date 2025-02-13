@@ -33,7 +33,7 @@ public class SecretKeyController {
         Arrays.fill(this.getPw(), (char) 0);
     }
 
-    private void storeKey(SecretKey key, String alias){
+    public void storeKey(SecretKey key, String alias) throws KeyStoreException {
         SecretKeyEntry entry = new SecretKeyEntry(key);
         try{
             this.getKeyStore().setKeyEntry(alias, key, this.getPw(), null);
@@ -41,6 +41,7 @@ public class SecretKeyController {
 
         }catch(KeyStoreException e){
             System.out.printf("Error accessing keystore: %s", e.getMessage());
+            throw new KeyStoreException(e);
         }
     }
 
@@ -76,12 +77,12 @@ public class SecretKeyController {
 
     }
 
-    public void generateKey(String cipher, int keyLength, String alias){
+    public SecretKey generateKey(String cipher, int keyLength){
+        SecretKey key = null;
         try{
             KeyGenerator keyGen = KeyGenerator.getInstance(cipher);
             keyGen.init(keyLength);
-            SecretKey key = keyGen.generateKey();
-            this.storeKey(key, alias);
+            key = keyGen.generateKey();
 
             //troubleshooting below
             byte[] keyBytes = key.getEncoded();
@@ -90,6 +91,7 @@ public class SecretKeyController {
         }catch(NoSuchAlgorithmException e){
             System.out.printf("error for %s cipher: %s", cipher, e.getMessage());
         }
+        return key;
     }
 
 
