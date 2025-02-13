@@ -2,6 +2,8 @@ package components;
 
 import controllers.MainPanelController;
 import controllers.SecretKeyController;
+import util.enums.CipherAlgorithms;
+import util.enums.CipherBlockModes;
 
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
@@ -22,31 +24,6 @@ public class CipherDialog extends JDialog {
     private JButton applyButton;
     private JButton cancelButton;
 
-    private static final String[] BLOCK_MODES = {"CBC", "CFB", "CTR", "ECB", "GCM", "OFB"};
-    private static final String[] PADDING_MODES = {"PKCS7Padding", "NoPadding"};
-    private static final String[] CIPHERS = {"AES", "ARIA", "BLOWFISH", "CAMELLIA", "CAST5",
-                                                "CAST6", "DSTU7624", "GOST3412-2015", "IDEA",
-                                                "NOEKEON", "SERPENT", "SM4", "THREEFISH-1024",
-                                                "TWOFISH", "XTEA"};
-    private static final Map<String, List<Integer>> SUPPORTED_KEY_LENGTHS = new HashMap<>();
-
-    static{
-        SUPPORTED_KEY_LENGTHS.put("AES", Arrays.asList(128, 192, 256));
-        SUPPORTED_KEY_LENGTHS.put("ARIA", Arrays.asList(128, 192, 256));
-        SUPPORTED_KEY_LENGTHS.put("BLOWFISH", Arrays.asList(32, 64, 128, 256, 448));
-        SUPPORTED_KEY_LENGTHS.put("CAMELLIA", Arrays.asList(128, 192, 256));
-        SUPPORTED_KEY_LENGTHS.put("CAST5", Arrays.asList(40, 64, 80, 96, 112, 128));
-        SUPPORTED_KEY_LENGTHS.put("CAST6", Arrays.asList(128, 160, 192, 224, 256));
-        SUPPORTED_KEY_LENGTHS.put("DSTU7624", Arrays.asList(128, 256, 512));
-        SUPPORTED_KEY_LENGTHS.put("GOST3412-2015", List.of(256));
-        SUPPORTED_KEY_LENGTHS.put("IDEA", List.of(128));
-        SUPPORTED_KEY_LENGTHS.put("NOEKEON", List.of(128));
-        SUPPORTED_KEY_LENGTHS.put("SERPENT", Arrays.asList(128, 192, 256));
-        SUPPORTED_KEY_LENGTHS.put("SM4", List.of(128));
-        SUPPORTED_KEY_LENGTHS.put("THREEFISH-1024", List.of(1024));
-        SUPPORTED_KEY_LENGTHS.put("TWOFISH", Arrays.asList(128, 192, 256));
-        SUPPORTED_KEY_LENGTHS.put("XTEA", List.of(128));
-    }
     private SecretKeyController secretKeyController;
     private MainPanelController mainPanelController;
 
@@ -198,7 +175,7 @@ public class CipherDialog extends JDialog {
 
 
     public void initPaddingComboBox(){
-        this.paddingComboBox = new JComboBox<>(PADDING_MODES);
+        this.paddingComboBox = new JComboBox<>(CipherBlockModes.getNames());
     }
     public JComboBox<String> getPaddingComboBox(){
         if(this.paddingComboBox == null){
@@ -218,7 +195,7 @@ public class CipherDialog extends JDialog {
         return this.keyLengthComboBox;
     }
     public void initBlockModeComboBox(){
-        this.blockModeComboBox = new JComboBox<>(BLOCK_MODES);
+        this.blockModeComboBox = new JComboBox<>(CipherBlockModes.getNames());
     }
     public JComboBox<String> getBlockModeComboBox(){
         if(this.blockModeComboBox == null){
@@ -228,7 +205,7 @@ public class CipherDialog extends JDialog {
     }
 
     public void initCipherComboBox(){
-        this.cipherComboBox = new JComboBox<>(CIPHERS);
+        this.cipherComboBox = new JComboBox<>(CipherAlgorithms.getNames());
         updateKeyLengths();
         this.cipherComboBox.addActionListener(event -> updateKeyLengths());
     }
@@ -242,7 +219,7 @@ public class CipherDialog extends JDialog {
     private void updateKeyLengths(){
         String cipher = (String)this.getCipherComboBox().getSelectedItem();
         this.getKeyLengthComboBox().removeAllItems();
-        List<Integer> keyLengths = SUPPORTED_KEY_LENGTHS.get(cipher);
+        List<Integer> keyLengths = CipherAlgorithms.fromString(cipher).getSupportedKeyLengths();
         for(Integer kl : keyLengths){
             this.getKeyLengthComboBox().addItem(kl);
         }

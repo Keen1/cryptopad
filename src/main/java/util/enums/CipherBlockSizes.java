@@ -1,4 +1,4 @@
-package util;
+package util.enums;
 
 public enum CipherBlockSizes {
     THREEFISH(128),

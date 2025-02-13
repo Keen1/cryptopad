@@ -1,6 +1,6 @@
 package controllers;
 
-import util.CipherBlockSizes;
+import util.enums.CipherBlockSizes;
 
 import javax.crypto.Cipher;
 import javax.crypto.NoSuchPaddingException;
