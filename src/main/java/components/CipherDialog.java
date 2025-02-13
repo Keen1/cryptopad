@@ -47,18 +47,21 @@ public class CipherDialog extends JDialog {
         SUPPORTED_KEY_LENGTHS.put("TWOFISH", Arrays.asList(128, 192, 256));
         SUPPORTED_KEY_LENGTHS.put("XTEA", List.of(128));
     }
-    private SecretKeyController keyController;
+    private SecretKeyController secretKeyController;
     private MainPanelController mainPanelController;
 
-    public CipherDialog(SecretKeyController keyController, MainPanelController mainPanelController){
+    public CipherDialog(SecretKeyController secretKeyController, MainPanelController mainPanelController){
         super((JFrame)null, "Cipher Selection", true);
         this.mainPanelController = mainPanelController;
-        this.keyController = keyController;
+        this.secretKeyController = secretKeyController;
         initComponents();
     }
 
     public MainPanelController getMainPanelController(){
         return this.mainPanelController;
+    }
+    public SecretKeyController getSecretKeyController(){
+        return this.secretKeyController;
     }
 
     public void initTabTitles(){
@@ -183,7 +186,7 @@ public class CipherDialog extends JDialog {
 
     public void initGenerateKeyButton(){
         this.generateKeyButton = new JButton("generate key for current file");
-        this.generateKeyButton.addActionListener(event ->generateKey());
+        this.generateKeyButton.addActionListener(event ->initKey());
     }
 
     public JButton getGenerateKeyButton(){
@@ -245,28 +248,16 @@ public class CipherDialog extends JDialog {
         }
     }
 
-    private void generateKey(){
+    private void initKey(){
+
         String cipher = (String) this.getCipherComboBox().getSelectedItem();
         int keyLength = (Integer)this.getKeyLengthComboBox().getSelectedItem();
         String alias = (String)this.getCipherComboBox().getSelectedItem();
-
-        try{
-            KeyGenerator keyGen = KeyGenerator.getInstance(cipher);
-            keyGen.init(keyLength);
-            SecretKey key = keyGen.generateKey();
-            byte[] keyBytes = key.getEncoded();
-            String encodedKey = Base64.getEncoder().encodeToString(keyBytes);
-            System.out.printf("Key generated successfully.\n Algorithm: %s\n length: %d\n value: %s\n", key.getAlgorithm(), keyLength, encodedKey);
-            this.keyController.storeKey(key, alias);
-
-        } catch (NoSuchAlgorithmException e) {
-            System.out.printf("No algorithm named %s: %s", cipher, e.getMessage());
-        }
-    }
-
-    private void applyCipher(){
+        this.getSecretKeyController().generateKey(cipher, keyLength, alias);
 
     }
+
+
 
 
 

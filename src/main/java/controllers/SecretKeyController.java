@@ -6,6 +6,7 @@ import javax.crypto.SecretKey;
 import java.security.*;
 import java.security.KeyStore.SecretKeyEntry;
 import java.util.Arrays;
+import java.util.Base64;
 import javax.crypto.KeyGenerator;
 
 public class SecretKeyController {
@@ -29,20 +30,6 @@ public class SecretKeyController {
         Arrays.fill(this.getPw(), (char) 0);
     }
 
-
-
-    public SecretKey generateKey(String algorithm, int length){
-        SecretKey key = null;
-        try{
-            KeyGenerator keyGen = KeyGenerator.getInstance(algorithm);
-            keyGen.init(length);
-            key = keyGen.generateKey();
-        }catch(NoSuchAlgorithmException e){
-            System.out.printf("No algorithm named %s, %s", algorithm, e.getMessage());
-        }
-
-        return key;
-    }
     public void storeKey(SecretKey key, String alias){
         SecretKeyEntry entry = new SecretKeyEntry(key);
         try{
@@ -69,10 +56,33 @@ public class SecretKeyController {
         String transformation = String.format("%s/%s/%s", algorithm, blockMode, padding);
         try{
             Cipher cipher = Cipher.getInstance(transformation, "BC");
+
         }catch(NoSuchAlgorithmException | NoSuchProviderException | NoSuchPaddingException e){
             System.out.printf("transformation not valid: %s\n error: %s", transformation, e.getMessage());
         }
     }
+
+    public byte[] initIv(){
+        byte[] iv = new byte[16];
+        return iv;//temp
+    }
+
+    public void generateKey(String cipher, int keyLength, String alias){
+        try{
+            KeyGenerator keyGen = KeyGenerator.getInstance(cipher);
+            keyGen.init(keyLength);
+            SecretKey key = keyGen.generateKey();
+            this.storeKey(key, alias);
+
+            //troubleshooting below
+            byte[] keyBytes = key.getEncoded();
+            String encodedKey = Base64.getEncoder().encodeToString(keyBytes);
+            System.out.printf("Key generated successfully.\n Algorithm: %s\n key length: %s\n value: %s\n", cipher, keyLength, encodedKey);
+        }catch(NoSuchAlgorithmException e){
+            System.out.printf("error for %s cipher: %s", cipher, e.getMessage());
+        }
+    }
+
 
 
 
