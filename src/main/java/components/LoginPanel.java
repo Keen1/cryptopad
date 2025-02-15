@@ -1,12 +1,10 @@
 package components;
 
-import controllers.KeyStoreSetupController;
 import controllers.LoginController;
 import models.KeyStoreResultModel;
 
 import javax.swing.*;
 import java.awt.*;
-import java.security.KeyStore;
 import java.util.function.Consumer;
 
 public class LoginPanel extends JPanel {
