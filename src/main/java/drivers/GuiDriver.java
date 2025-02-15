@@ -3,11 +3,13 @@ package drivers;
 import components.LoginPanel;
 import components.MainPanel;
 import models.KeyStoreResultModel;
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import util.CipherTest;
 
 import javax.swing.*;
 import java.awt.*;
 import java.security.KeyStore;
+import java.security.Security;
 
 
 public class GuiDriver {
@@ -16,6 +18,7 @@ public class GuiDriver {
     private static final Dimension KEYSTORE_SETUP_DIM = new Dimension(400, 200);
 
     public static void main(String [] args){
+        Security.addProvider(new BouncyCastleProvider());
         SwingUtilities.invokeLater(() ->{
             initFrame();
             showLoginPanel();

@@ -1,7 +1,13 @@
 package models;
 
+import util.enums.CipherBlockSizes;
+
+import javax.crypto.Cipher;
+import javax.crypto.SecretKey;
+import javax.crypto.spec.IvParameterSpec;
 import java.io.*;
 import java.nio.file.Files;
+import java.util.Base64;
 
 /*
 * File model class. All file work handled here.
@@ -16,9 +22,13 @@ public class FileModel {
     private String savedContent;
     private boolean unsavedChanges;
     private File file;
+
+    private boolean isEncrypted;
+
     private String cipherAlgorithm;
     private String blockMode;
-    private String paddingScheme;
+    private String padding;
+
 
 
     public FileModel(File file){
@@ -29,6 +39,82 @@ public class FileModel {
         this.index = index;
         this.unsavedChanges = false;
     }
+
+    public void setCipherAlgorithm(String cipherAlgorithm){
+        this.cipherAlgorithm = cipherAlgorithm;
+    }
+    public String getCipherAlgorithm(){
+        return this.cipherAlgorithm;
+    }
+    public void setBlockMode(String blockMode){
+        this.blockMode = blockMode;
+    }
+
+    public String getBlockMode(){
+        return this.blockMode;
+    }
+    public void setPadding(String padding){
+        this.padding = padding;
+    }
+    public String getPadding(){
+        return this.padding;
+    }
+    public int getIvSize(){
+        return CipherBlockSizes.fromString(this.getCipherAlgorithm()).getIvSize();
+    }
+
+
+
+
+    private boolean isEncrypted(){
+        return this.isEncrypted;
+    }
+    public void setEncrypted(boolean isEncrypted){
+        this.isEncrypted = isEncrypted;
+    }
+
+    public String getTransformation(){
+        return String.format("%s/%s/%s", this.getCipherAlgorithm(), this.getBlockMode(), this.getPadding());
+    }
+
+
+    public void encrypt(SecretKey key, IvParameterSpec iv) throws Exception{
+        String content = this.getSavedContent();
+        String transformation = this.getTransformation();
+        Cipher cipher = Cipher.getInstance(transformation, "BC");
+        cipher.init(Cipher.ENCRYPT_MODE, key, iv);
+        byte[] encryptedBytes = cipher.doFinal(content.getBytes());
+        byte[] combinedBytes = new byte[iv.getIV().length + encryptedBytes.length];
+        System.arraycopy(iv.getIV(), 0, combinedBytes, 0, iv.getIV().length);
+        System.arraycopy(encryptedBytes, 0, combinedBytes, iv.getIV().length, encryptedBytes.length);
+        String encryptedContent = Base64.getEncoder().encodeToString(combinedBytes);
+        this.setSavedContent(encryptedContent);
+        this.setEncrypted(true);
+    }
+
+    public void decrypt(SecretKey key) throws Exception{
+        if(this.isEncrypted()){
+            byte[] combinedBytes = Base64.getDecoder().decode(this.getSavedContent());
+            String transformation = this.getTransformation();
+
+            int ivSize = this.getIvSize();
+            byte[] iv = new byte[ivSize];
+            System.arraycopy(combinedBytes, 0, iv, 0, ivSize);
+            IvParameterSpec ivSpec = new IvParameterSpec(iv);
+
+            byte[] encryptedContent = new byte[combinedBytes.length - ivSize];
+            System.arraycopy(combinedBytes, ivSize, encryptedContent, 0, encryptedContent.length);
+
+            Cipher cipher = Cipher.getInstance(transformation);
+            cipher.init(Cipher.DECRYPT_MODE, key, ivSpec);
+            byte[] decryptedBytes = cipher.doFinal(encryptedContent);
+            this.setSavedContent(new String(decryptedBytes));
+            this.setEncrypted(false);
+
+        }
+    }
+
+
 
     public void initState() throws IOException{
         this.setSavedContent(this.getFileContent());
@@ -117,22 +203,4 @@ public class FileModel {
 
     }
 
-    public void setCipherAlgorithm(String cipherAlgorithm){
-        this.cipherAlgorithm = cipherAlgorithm;
-    }
-    public String getCipherAlgorithm(){
-        return this.cipherAlgorithm;
-    }
-    public void setBlockMode(String blockMode){
-        this.blockMode = blockMode;
-    }
-    public String getBlockMode(){
-        return this.blockMode;
-    }
-    public void setPaddingScheme(String paddingScheme){
-        this.paddingScheme = paddingScheme;
-    }
-    public String getPaddingScheme(){
-        return this.paddingScheme;
-    }
 }

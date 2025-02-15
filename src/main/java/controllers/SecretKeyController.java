@@ -56,17 +56,6 @@ public class SecretKeyController {
 
     }
 
-    public void initCipher(String algorithm, String blockMode, String padding){
-        String transformation = String.format("%s/%s/%s", algorithm, blockMode, padding);
-        try{
-            Cipher cipher = Cipher.getInstance(transformation, "BC");
-
-
-        }catch(NoSuchAlgorithmException | NoSuchProviderException | NoSuchPaddingException e){
-            System.out.printf("transformation not valid: %s\n error: %s", transformation, e.getMessage());
-        }
-    }
-
     //this is dependent on the block size of the chosen algorithm
     public IvParameterSpec initIv(String algorithm){
         int size = CipherBlockSizes.fromString(algorithm).getIvSize();

@@ -41,7 +41,9 @@ public class MainPanel extends JPanel{
     private JMenuItem decryptItem;
     private JTabbedPane tabPane;
     private JFrame frame;
+
     private MainPanelController controller;
+    private SecretKeyController keyController;
 
     private JMenu themeMenu;
 
@@ -52,28 +54,17 @@ public class MainPanel extends JPanel{
     private OpenAction openAction;
     private NewAction newAction;
 
-    private KeyStore ks;
-    private KeyStoreResultModel model;
 
-    public KeyStoreResultModel getModel(){
-        return this.model;
-    }
-    public void setModel(KeyStoreResultModel model){
-        this.model = model;
-    }
+
 
 
 
     //constructor
     public MainPanel(KeyStoreResultModel model){
-        this.ks = model.getKeyStore();
-        this.model = model;
+        initSecretKeyController(model);
         initComponents();
     }
 
-    public KeyStore getKeyStore(){
-        return this.ks;
-    }
 
     private void initStatusLabel(){
         this.statusLabel = new StatusLabel();
@@ -142,6 +133,13 @@ public class MainPanel extends JPanel{
     //init the controller
     public void initController(){
         this.controller = new MainPanelController(this);
+    }
+
+    public SecretKeyController getKeyController(){
+        return this.keyController;
+    }
+    public void initSecretKeyController(KeyStoreResultModel keyStoreModel){
+        this.keyController = new SecretKeyController(keyStoreModel.getKeyStore(), keyStoreModel.getPw());
     }
 
     //get the tabbed pane where all our text files are opened and displayed
@@ -398,7 +396,7 @@ public class MainPanel extends JPanel{
         //only enable the cipher menu item if a tab is actually open
 
         this.cipherItem.addActionListener(event -> {
-            CipherDialog cipherChooser = new CipherDialog(new SecretKeyController(this.getModel().getKeyStore(), this.getModel().getPw()), this.getController());
+            CipherDialog cipherChooser = new CipherDialog(this.getKeyController(), this.getController());
             cipherChooser.setVisible(true);
         });
     }

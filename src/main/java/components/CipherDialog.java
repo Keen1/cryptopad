@@ -2,6 +2,7 @@ package components;
 
 import controllers.MainPanelController;
 import controllers.SecretKeyController;
+import models.FileModel;
 import util.enums.CipherAlgorithms;
 import util.enums.CipherBlockModes;
 
@@ -178,6 +179,13 @@ public class CipherDialog extends JDialog {
     public void initApplyButton(){
         this.applyButton = new JButton("apply");
         this.applyButton.setEnabled(false);
+        this.applyButton.addActionListener(event ->{
+            String alias = (String)this.getTabTitles().getSelectedItem();
+            this.storeKey(alias);
+            System.out.printf("Key stored for %s", alias);
+            System.out.printf("Setting parameters for file model.");
+            this.applyCipherToModel();
+        });
     }
 
     public JButton getApplyButton(){
@@ -279,6 +287,17 @@ public class CipherDialog extends JDialog {
             }
 
         }
+    }
+
+    private void applyCipherToModel(){
+        String cipher = (String)this.getCipherComboBox().getSelectedItem();
+        String blockMode = (String)this.getBlockModeComboBox().getSelectedItem();
+        String padding = (String)this.getPaddingComboBox().getSelectedItem();
+        String title = (String)this.getTabTitles().getSelectedItem();
+        FileModel model = this.getMainPanelController().getFileModelForTab(title);
+        model.setCipherAlgorithm(cipher);
+        model.setBlockMode(blockMode);
+        model.setPadding(padding);
     }
 
 
