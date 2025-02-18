@@ -186,7 +186,7 @@ public class CipherDialog extends JDialog {
         this.applyButton.setEnabled(false);
         this.applyButton.addActionListener(event ->{
             String alias = (String)this.getTabTitles().getSelectedItem();
-            this.storeKey(alias);
+            this.applyKey(alias);
             System.out.printf("Key stored for %s", alias);
             System.out.printf("Setting parameters for file model.");
             this.applyCipherToModel();
@@ -205,7 +205,8 @@ public class CipherDialog extends JDialog {
     public void initGenerateKeyButton(){
         this.generateKeyButton = new JButton("generate key for current file");
         this.generateKeyButton.addActionListener(event -> {
-            initKey();
+            String title = (String)this.getTabTitles().getSelectedItem();
+            initKey(title);
             this.getApplyButton().setEnabled(true);
         });
     }
@@ -269,11 +270,16 @@ public class CipherDialog extends JDialog {
         }
     }
 
-    private void initKey(){
+    private void initKey(String title){
 
-        String cipher = (String) this.getCipherComboBox().getSelectedItem();
-        int keyLength = (Integer)this.getKeyLengthComboBox().getSelectedItem();
-        this.setGeneratedKey(this.getSecretKeyController().generateKey(cipher, keyLength));
+        SecretKey currKey = this.getSecretKeyController().getKey(title);
+        if(currKey == null){
+            String cipher = (String) this.getCipherComboBox().getSelectedItem();
+            int keyLength = (Integer)this.getKeyLengthComboBox().getSelectedItem();
+            this.setGeneratedKey(this.getSecretKeyController().generateKey(cipher, keyLength));
+        }
+
+
 
     }
 
@@ -292,6 +298,25 @@ public class CipherDialog extends JDialog {
                 this.setGeneratedKey(null);
             }
 
+        }
+    }
+
+    private void applyKey(String title){
+        SecretKey currKey = this.getSecretKeyController().getKey(title);
+        if(currKey == null){
+            this.storeKey(title);
+            System.out.printf("Key stored for %s\n", title);
+            System.out.println("Setting parameters for file model.\n");
+            this.applyCipherToModel();
+            this.getOkayButton().setEnabled(true);
+        }else{
+            String message = "A key already exists for this file. Do you want to overwrite the previoius key with the" +
+                    "new one?";
+            String dialogTitle = String.format("key found for %s", title);
+            int choice = JOptionPane.showConfirmDialog(this, message, dialogTitle, JOptionPane.YES_NO_OPTION);
+            if(choice == JOptionPane.YES_OPTION){
+                this.storeKey(title);
+            }
         }
     }
 
