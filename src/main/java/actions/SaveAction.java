@@ -2,6 +2,8 @@ package actions;
 
 import controllers.MainPanelController;
 import models.FileModel;
+
+import javax.crypto.SecretKey;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -44,6 +46,12 @@ public class SaveAction extends AbstractMenuAction {
         if(model != null){
 
             if(model.hasUnsavedChanges()){
+                SecretKey key = this.getController().getGui().getKeyController().getKey(title);
+                if(key!= null){
+                    System.out.printf("Key found for file: %s, key: %s\n", title, key);
+                }else{
+                    System.out.printf("No key found for file: %s, key: %s\n", title, key);
+                }
 
                 try{
 

@@ -5,6 +5,7 @@ import controllers.SecretKeyController;
 import models.FileModel;
 import util.enums.CipherAlgorithms;
 import util.enums.CipherBlockModes;
+import util.enums.CipherPaddingModes;
 
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
@@ -135,6 +136,7 @@ public class CipherDialog extends JDialog {
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 
         buttonPanel.add(getApplyButton());
+        buttonPanel.add(getOkayButton());
         buttonPanel.add(getCancelButton());
 
         gbc.gridx = 0;
@@ -153,6 +155,9 @@ public class CipherDialog extends JDialog {
 
     private void initOkayButton(){
         this.okayButton = new JButton("okay");
+        this.okayButton.addActionListener(event ->{
+            dispose();
+        });
         this.okayButton.setEnabled(false);
     }
     public JButton getOkayButton(){
@@ -185,6 +190,8 @@ public class CipherDialog extends JDialog {
             System.out.printf("Key stored for %s", alias);
             System.out.printf("Setting parameters for file model.");
             this.applyCipherToModel();
+            this.getOkayButton().setEnabled(true);
+
         });
     }
 
@@ -199,7 +206,6 @@ public class CipherDialog extends JDialog {
         this.generateKeyButton = new JButton("generate key for current file");
         this.generateKeyButton.addActionListener(event -> {
             initKey();
-            this.getOkayButton().setEnabled(true);
             this.getApplyButton().setEnabled(true);
         });
     }
@@ -213,7 +219,7 @@ public class CipherDialog extends JDialog {
 
 
     public void initPaddingComboBox(){
-        this.paddingComboBox = new JComboBox<>(CipherBlockModes.getNames());
+        this.paddingComboBox = new JComboBox<>(CipherPaddingModes.getNames());
     }
     public JComboBox<String> getPaddingComboBox(){
         if(this.paddingComboBox == null){
