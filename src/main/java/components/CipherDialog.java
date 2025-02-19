@@ -7,13 +7,11 @@ import util.enums.CipherAlgorithms;
 import util.enums.CipherBlockModes;
 import util.enums.CipherPaddingModes;
 
-import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import javax.swing.*;
 import java.awt.*;
 import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
-import java.util.*;
+import java.util.Base64;
 import java.util.List;
 
 public class CipherDialog extends JDialog {
@@ -38,6 +36,8 @@ public class CipherDialog extends JDialog {
         this.mainPanelController = mainPanelController;
         this.secretKeyController = secretKeyController;
         initComponents();
+
+        this.getSecretKeyController().showAliases();
     }
 
     public MainPanelController getMainPanelController(){
@@ -187,8 +187,6 @@ public class CipherDialog extends JDialog {
         this.applyButton.addActionListener(event ->{
             String alias = (String)this.getTabTitles().getSelectedItem();
             this.applyKey(alias);
-            System.out.printf("Key stored for %s", alias);
-            System.out.printf("Setting parameters for file model.");
             this.applyCipherToModel();
             this.getOkayButton().setEnabled(true);
 
@@ -205,8 +203,7 @@ public class CipherDialog extends JDialog {
     public void initGenerateKeyButton(){
         this.generateKeyButton = new JButton("generate key for current file");
         this.generateKeyButton.addActionListener(event -> {
-            String title = (String)this.getTabTitles().getSelectedItem();
-            initKey(title);
+            initKey();
             this.getApplyButton().setEnabled(true);
         });
     }
@@ -270,54 +267,52 @@ public class CipherDialog extends JDialog {
         }
     }
 
-    private void initKey(String title){
+    private void initKey(){
 
-        SecretKey currKey = this.getSecretKeyController().getKey(title);
-        if(currKey == null){
-            String cipher = (String) this.getCipherComboBox().getSelectedItem();
-            int keyLength = (Integer)this.getKeyLengthComboBox().getSelectedItem();
-            this.setGeneratedKey(this.getSecretKeyController().generateKey(cipher, keyLength));
-        }
+        String cipher = (String) this.getCipherComboBox().getSelectedItem();
+        int keyLength = (Integer)this.getKeyLengthComboBox().getSelectedItem();
+        this.setGeneratedKey(this.getSecretKeyController().generateKey(cipher, keyLength));
+
 
 
 
     }
 
-    private boolean storeKey(String alias){
-        if(this.getGeneratedKey() == null){
-            return false;
-        }else{
+    private void storeKey(String alias){
+        if(this.getGeneratedKey() != null){
             try{
                 this.getSecretKeyController().storeKey(this.getGeneratedKey(), alias);
-                return true;
 
             }catch(KeyStoreException e){
                 System.out.printf("error storing key forL %s\n error: %s\n", alias, e.getMessage());
-                return false;
             }finally{
                 this.setGeneratedKey(null);
             }
-
         }
     }
 
     private void applyKey(String title){
-        SecretKey currKey = this.getSecretKeyController().getKey(title);
-        if(currKey == null){
-            this.storeKey(title);
-            System.out.printf("Key stored for %s\n", title);
-            System.out.println("Setting parameters for file model.\n");
-            this.applyCipherToModel();
-            this.getOkayButton().setEnabled(true);
-        }else{
-            String message = "A key already exists for this file. Do you want to overwrite the previoius key with the" +
-                    "new one?";
-            String dialogTitle = String.format("key found for %s", title);
-            int choice = JOptionPane.showConfirmDialog(this, message, dialogTitle, JOptionPane.YES_NO_OPTION);
-            if(choice == JOptionPane.YES_OPTION){
+        try{
+            if(this.getSecretKeyController().hasKeyForAlias(title)){
+
+                String message = "A key already exists for this file. Do you want to overwrite the previous key with the" +
+                        " new one?";
+                String dialogTitle = String.format("key found for %s", title);
+                int choice = JOptionPane.showConfirmDialog(this, message, dialogTitle, JOptionPane.YES_NO_OPTION);
+                if(choice == JOptionPane.YES_OPTION){
+                    this.storeKey(title);
+                    this.applyCipherToModel();
+                    this.getOkayButton().setEnabled(true);
+                }
+            }else{
+                System.out.printf("No key found for %s\n", title);
                 this.storeKey(title);
+                System.out.printf("key stored for %s\n", title);
             }
+        }catch(KeyStoreException e){
+            System.out.printf("Error accessing keystore: %s", e.getMessage());
         }
+
     }
 
     private void applyCipherToModel(){
