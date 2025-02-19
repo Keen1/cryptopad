@@ -186,9 +186,12 @@ public class CipherDialog extends JDialog {
         this.applyButton.setEnabled(false);
         this.applyButton.addActionListener(event ->{
             String alias = (String)this.getTabTitles().getSelectedItem();
-            this.applyKey(alias);
-            this.applyCipherToModel();
-            this.getOkayButton().setEnabled(true);
+            boolean accepted = this.applyKey(alias);
+            if(accepted){
+                this.applyCipherToModel();
+                this.getOkayButton().setEnabled(true);
+
+            }
 
         });
     }
@@ -291,28 +294,33 @@ public class CipherDialog extends JDialog {
         }
     }
 
-    private void applyKey(String title){
+    private boolean applyKey(String title){
         try{
             if(this.getSecretKeyController().hasKeyForAlias(title)){
 
-                String message = "A key already exists for this file. Do you want to overwrite the previous key with the" +
-                        " new one?";
+                String message = "<html><div style='text-align: center'>A key already exists for this file.<br> Do you want to overwrite the previous key with the" +
+                        " new one?<br></div></html>";
                 String dialogTitle = String.format("key found for %s", title);
                 int choice = JOptionPane.showConfirmDialog(this, message, dialogTitle, JOptionPane.YES_NO_OPTION);
                 if(choice == JOptionPane.YES_OPTION){
                     this.storeKey(title);
                     this.applyCipherToModel();
                     this.getOkayButton().setEnabled(true);
+                    return true;
+
+                }else{
+                    this.setGeneratedKey(null);
+                    return false;
                 }
             }else{
-                System.out.printf("No key found for %s\n", title);
                 this.storeKey(title);
                 System.out.printf("key stored for %s\n", title);
+                return true;
             }
         }catch(KeyStoreException e){
             System.out.printf("Error accessing keystore: %s", e.getMessage());
         }
-
+        return false;
     }
 
     private void applyCipherToModel(){
