@@ -79,8 +79,8 @@ public class FileModel {
 
 
 
-    public String encryptContent(SecretKey key) throws Exception{
-        String content = this.getSavedContent();
+    public String encryptContent(SecretKey key, String content) throws Exception{
+
         String transformation = this.getTransformation();
         byte[] transformBytes = transformation.getBytes();
         byte[] transformLength = ByteBuffer.allocate(4).putInt(transformBytes.length).array();
@@ -102,6 +102,7 @@ public class FileModel {
         offset += iv.getIV().length;
         System.arraycopy(encryptedBytes, 0, combinedBytes, offset, encryptedBytes.length);
 
+        this.setSavedContent(content);
         return Base64.getEncoder().encodeToString(combinedBytes);
 
     }

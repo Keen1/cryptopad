@@ -51,7 +51,8 @@ public class SaveAction extends AbstractMenuAction {
                 if(key!= null){
                     System.out.printf("Key found for file: %s, key: %s\n", title, key);
                     try{
-                        String encrypted = model.encryptContent(key);
+                        String unsavedContent = this.getController().getSelectedTextAreaContent();
+                        String encrypted = model.encryptContent(key, unsavedContent);
                         String status = model.saveContent(encrypted);
                         this.getController().updateStatus(status);
 
