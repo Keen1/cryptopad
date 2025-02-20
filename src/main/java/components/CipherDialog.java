@@ -190,6 +190,7 @@ public class CipherDialog extends JDialog {
             if(accepted){
                 this.applyCipherToModel();
                 this.getOkayButton().setEnabled(true);
+                this.getApplyButton().setEnabled(false);
 
             }
 

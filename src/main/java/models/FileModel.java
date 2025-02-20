@@ -20,6 +20,7 @@ import java.util.Base64;
 public class FileModel {
     private int index;
     private String savedContent;
+    private String decryptedContent;
     private boolean unsavedChanges;
     private File file;
 
@@ -63,6 +64,13 @@ public class FileModel {
         return CipherBlockSizes.fromString(this.getCipherAlgorithm()).getIvSize();
     }
 
+    public void setDecryptedContent(String decryptedContent){
+        this.decryptedContent = decryptedContent;
+    }
+    public String getDecryptedContent(){
+        return this.decryptedContent;
+    }
+
 
 
 
@@ -79,17 +87,67 @@ public class FileModel {
 
 
     public void encrypt(SecretKey key, IvParameterSpec iv) throws Exception{
-        String content = this.getSavedContent();
-        String transformation = this.getTransformation();
-        Cipher cipher = Cipher.getInstance(transformation, "BC");
-        cipher.init(Cipher.ENCRYPT_MODE, key, iv);
-        byte[] encryptedBytes = cipher.doFinal(content.getBytes());
-        byte[] combinedBytes = new byte[iv.getIV().length + encryptedBytes.length];
-        System.arraycopy(iv.getIV(), 0, combinedBytes, 0, iv.getIV().length);
-        System.arraycopy(encryptedBytes, 0, combinedBytes, iv.getIV().length, encryptedBytes.length);
-        String encryptedContent = Base64.getEncoder().encodeToString(combinedBytes);
-        this.setSavedContent(encryptedContent);
-        this.setEncrypted(true);
+        if(!this.isEncrypted()){
+            String content = this.getSavedContent();
+            String transformation = this.getTransformation();
+            Cipher cipher = Cipher.getInstance(transformation, "BC");
+            cipher.init(Cipher.ENCRYPT_MODE, key, iv);
+            byte[] encryptedBytes = cipher.doFinal(content.getBytes());
+            byte[] combinedBytes = new byte[iv.getIV().length + encryptedBytes.length];
+            System.arraycopy(iv.getIV(), 0, combinedBytes, 0, iv.getIV().length);
+            System.arraycopy(encryptedBytes, 0, combinedBytes, iv.getIV().length, encryptedBytes.length);
+            String encryptedContent = Base64.getEncoder().encodeToString(combinedBytes);
+            this.saveContent(encryptedContent);
+            this.setEncrypted(true);
+        }
+
+    }
+
+    public void encrypt2(SecretKey key, IvParameterSpec iv) throws Exception{
+
+        if(!this.isEncrypted()){
+
+            this.setDecryptedContent(this.getSavedContent());
+            String transformation = this.getTransformation();
+
+            Cipher cipher = Cipher.getInstance(transformation, "BC");
+            cipher.init(Cipher.ENCRYPT_MODE, key, iv);
+
+            byte[] encryptedBytes = cipher.doFinal(this.getDecryptedContent().getBytes());
+            byte[] combinedBytes = new byte[iv.getIV().length + encryptedBytes.length];
+
+            System.arraycopy(iv.getIV(), 0, combinedBytes, 0, iv.getIV().length);
+            System.arraycopy(encryptedBytes, 0, combinedBytes, iv.getIV().length, encryptedBytes.length);
+
+            String encryptedContent = Base64.getEncoder().encodeToString(combinedBytes);
+            this.saveContent(encryptedContent);
+            this.setEncrypted(true);
+
+        }
+    }
+
+    public void decrypt2(SecretKey key) throws Exception{
+
+        if(this.isEncrypted()){
+            byte[] combinedBytes = Base64.getDecoder().decode(this.getSavedContent());
+            String transformation = this.getTransformation();
+
+            int ivSize = this.getIvSize();
+
+            byte[] iv = new byte[ivSize];
+            System.arraycopy(combinedBytes, 0, iv, 0, ivSize);
+            IvParameterSpec ivSpec = new IvParameterSpec(iv);
+
+            byte[] encryptedContent = new byte[combinedBytes.length - ivSize];
+            System.arraycopy(combinedBytes, ivSize, encryptedContent, 0, encryptedContent.length);
+
+            Cipher cipher = Cipher.getInstance(transformation, "BC");
+            cipher.init(Cipher.DECRYPT_MODE, key, ivSpec);
+
+            byte[] decryptedBytes = cipher.doFinal(encryptedContent);
+            this.setDecryptedContent(new String(decryptedBytes));
+            this.setEncrypted(false);
+        }
     }
 
     public void decrypt(SecretKey key) throws Exception{
@@ -108,6 +166,7 @@ public class FileModel {
             Cipher cipher = Cipher.getInstance(transformation);
             cipher.init(Cipher.DECRYPT_MODE, key, ivSpec);
             byte[] decryptedBytes = cipher.doFinal(encryptedContent);
+
             this.setSavedContent(new String(decryptedBytes));
             this.setEncrypted(false);
 
