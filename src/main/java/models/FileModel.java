@@ -86,7 +86,7 @@ public class FileModel {
 
     }
 
-    public String decrypt(SecretKey key) throws Exception{
+    public String decryptContent(SecretKey key) throws Exception{
 
             byte[] combinedBytes = Base64.getDecoder().decode(this.getFileContent());
             String transformation = this.getTransformation();
