@@ -8,6 +8,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
+import java.security.KeyStoreException;
+
 /*
 * open action - implements the shortcut and general action handler for opening a file in an editor tab
 */
@@ -36,6 +38,17 @@ public class OpenAction extends AbstractMenuAction {
 
             //instantiate a model for the file
             FileModel model = new FileModel(file);
+
+            //if a key exists for this file it has been encrypted, so we need to read and set our parameters from the
+            //header
+            try{
+                if(this.getController().getGui().getKeyController().hasKeyForAlias(file.getName())){
+                    
+                }
+            }catch(KeyStoreException e){
+                System.out.printf("error accessing keystore: %s\n", e.getMessage());
+            }
+
 
             //instantiate the model, add the model to the model map, then add the content of the file to a editor tab
             try{
