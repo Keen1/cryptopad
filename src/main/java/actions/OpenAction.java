@@ -43,21 +43,22 @@ public class OpenAction extends AbstractMenuAction {
             //header
             try{
                 if(this.getController().getGui().getKeyController().hasKeyForAlias(file.getName())){
+                    model.decryptContent(this.getController().getGui().getKeyController().getKey(file.getName()));
+                }else{
+                    //instantiate the model, add the model to the model map, then add the content of the file to a editor tab
 
+                    model.initState();
+                    this.getController().putFileModelForTab(file.getName(), model);
+                    this.getController().addNewTabToView(file.getName(), model.getSavedContent());
                 }
-            }catch(KeyStoreException e){
+            }catch(KeyStoreException | IOException e){
                 System.out.printf("error accessing keystore: %s\n", e.getMessage());
+            }catch(Exception e){
+                System.out.printf("Error decrypting content: %s", e.getMessage());
             }
 
 
-            //instantiate the model, add the model to the model map, then add the content of the file to a editor tab
-            try{
-                model.initState();
-                this.getController().putFileModelForTab(file.getName(), model);
-                this.getController().addNewTabToView(file.getName(), model.getSavedContent());
-            }catch(IOException e){
-                System.out.printf("Error initializing file model: %s", e.getMessage());
-            }
+
         }
     }
 }
