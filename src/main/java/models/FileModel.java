@@ -107,9 +107,9 @@ public class FileModel {
     }
 
     public String decryptContent(SecretKey key) throws Exception{
-
+            System.out.println("here");
             byte[] combinedBytes = Base64.getDecoder().decode(this.getFileContent());
-
+            System.out.println("here");
             byte[] lengthBytes = new byte[4];
             System.arraycopy(combinedBytes, 0, lengthBytes, 0, 4);
             int transformLength = ByteBuffer.wrap(lengthBytes).getInt();
@@ -117,6 +117,7 @@ public class FileModel {
             System.arraycopy(combinedBytes, 4, transformBytes, 0, transformLength);
 
             String transformation = new String(transformBytes);
+            System.out.println(transformation);
             String[] params = transformation.split("/");
             this.setCipherAlgorithm(params[0]);
             this.setBlockMode(params[1]);
@@ -127,6 +128,7 @@ public class FileModel {
             int ivOffset = 4 + transformLength;
             System.arraycopy(combinedBytes, ivOffset, iv, 0, ivSize);
             IvParameterSpec ivSpec = new IvParameterSpec(iv);
+            this.setIV(ivSpec);
 
             byte[] encryptedContent = new byte[combinedBytes.length - ivOffset - ivSize];
             System.arraycopy(combinedBytes, ivOffset + ivSize, encryptedContent, 0, encryptedContent.length);
@@ -155,7 +157,7 @@ public class FileModel {
         BufferedReader reader = new BufferedReader(new FileReader(this.getFile()));
         String line;
         while((line = reader.readLine()) != null){
-            sb.append(line).append("\n");
+            sb.append(line);
         }
         return sb.toString();
     }
