@@ -1,5 +1,6 @@
 package actions;
 
+import components.CipherDialog;
 import controllers.MainPanelController;
 import models.FileModel;
 
@@ -58,19 +59,32 @@ public class SaveAction extends AbstractMenuAction {
                         System.out.printf("error encrypting content: %s", e.getMessage());
                     }
                 }else{
-                    System.out.printf("No key found for file: %s, key: %s\n", title, key);
+                    System.out.printf("no key found for file: %s", title);
+                    String message = "<html><div style='text-align: center'>No key for encryption was found for this file<br>." +
+                            " Would you like to create one?</div></html>";
+                    String dialogTitle = String.format("no key found for %s", title);
+                    int choice = JOptionPane.showConfirmDialog(this.getController().getGui(), message, dialogTitle, JOptionPane.YES_NO_OPTION);
+                    if(choice == JOptionPane.YES_OPTION){
+                        CipherDialog dialog = new CipherDialog(this.getController().getGui().getKeyController(), this.getController());
+                        dialog.setLocationRelativeTo(this.getController().getGui());
+                        dialog.setVisible(true);
+                    }else{
+                        try{
+
+                            String status = model.saveContent(content);
+                            this.getController().updateStatus(status);
+
+                        }catch(IOException e){
+
+                            System.out.printf("Error saving file.\n %s", e.getMessage());
+
+                        }
+                    }
+
+
                 }
 
-                try{
 
-                    String status = model.saveContent(content);
-                    this.getController().updateStatus(status);
-
-                }catch(IOException e){
-
-                    System.out.printf("Error saving file.\n %s", e.getMessage());
-
-                }
             }
         //if the model is null then no model exists in the map for the file as the file does not exist on disk
         }else{

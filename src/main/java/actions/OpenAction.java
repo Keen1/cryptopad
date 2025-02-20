@@ -43,7 +43,7 @@ public class OpenAction extends AbstractMenuAction {
             //header
             try{
                 if(this.getController().getGui().getKeyController().hasKeyForAlias(file.getName())){
-                    
+
                 }
             }catch(KeyStoreException e){
                 System.out.printf("error accessing keystore: %s\n", e.getMessage());

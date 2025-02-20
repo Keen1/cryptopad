@@ -6,6 +6,7 @@ import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
 import java.io.*;
+import java.nio.ByteBuffer;
 import java.nio.file.Files;
 import java.util.Base64;
 
@@ -81,16 +82,25 @@ public class FileModel {
     public String encryptContent(SecretKey key) throws Exception{
         String content = this.getSavedContent();
         String transformation = this.getTransformation();
+        byte[] transformBytes = transformation.getBytes();
+        byte[] transformLength = ByteBuffer.allocate(4).putInt(transformBytes.length).array();
+
 
         Cipher cipher = Cipher.getInstance(transformation, "BC");
         IvParameterSpec iv = this.getIV();
         cipher.init(Cipher.ENCRYPT_MODE, key, iv);
 
         byte[] encryptedBytes = cipher.doFinal(content.getBytes());
-        byte[] combinedBytes = new byte[iv.getIV().length + encryptedBytes.length];
+        byte[] combinedBytes = new byte[4 + transformBytes.length + iv.getIV().length + encryptedBytes.length];
 
-        System.arraycopy(iv.getIV(), 0, combinedBytes, 0, iv.getIV().length);
-        System.arraycopy(encryptedBytes, 0, combinedBytes, iv.getIV().length, encryptedBytes.length);
+        int offset = 0;
+        System.arraycopy(transformLength, 0, combinedBytes, offset, 4);
+        offset += 4;
+        System.arraycopy(transformBytes, 0, combinedBytes, offset, transformBytes.length);
+        offset += transformBytes.length;
+        System.arraycopy(iv.getIV(), 0, combinedBytes, offset, iv.getIV().length);
+        offset += iv.getIV().length;
+        System.arraycopy(encryptedBytes, 0, combinedBytes, offset, encryptedBytes.length);
 
         return Base64.getEncoder().encodeToString(combinedBytes);
 
@@ -99,17 +109,30 @@ public class FileModel {
     public String decryptContent(SecretKey key) throws Exception{
 
             byte[] combinedBytes = Base64.getDecoder().decode(this.getFileContent());
-            String transformation = this.getTransformation();
+
+            byte[] lengthBytes = new byte[4];
+            System.arraycopy(combinedBytes, 0, lengthBytes, 0, 4);
+            int transformLength = ByteBuffer.wrap(lengthBytes).getInt();
+            byte[] transformBytes = new byte[transformLength];
+            System.arraycopy(combinedBytes, 4, transformBytes, 0, transformLength);
+
+            String transformation = new String(transformBytes);
+            String[] params = transformation.split("/");
+            this.setCipherAlgorithm(params[0]);
+            this.setBlockMode(params[1]);
+            this.setPadding(params[2]);
 
             int ivSize = this.getIvSize();
             byte[] iv = new byte[ivSize];
-            System.arraycopy(combinedBytes, 0, iv, 0, ivSize);
+            int ivOffset = 4 + transformLength;
+            System.arraycopy(combinedBytes, ivOffset, iv, 0, ivSize);
             IvParameterSpec ivSpec = new IvParameterSpec(iv);
 
-            byte[] encryptedContent = new byte[combinedBytes.length - ivSize];
-            System.arraycopy(combinedBytes, ivSize, encryptedContent, 0, encryptedContent.length);
+            byte[] encryptedContent = new byte[combinedBytes.length - ivOffset - ivSize];
+            System.arraycopy(combinedBytes, ivOffset + ivSize, encryptedContent, 0, encryptedContent.length);
 
-            Cipher cipher = Cipher.getInstance(transformation);
+
+            Cipher cipher = Cipher.getInstance(transformation, "BC");
             cipher.init(Cipher.DECRYPT_MODE, key, ivSpec);
 
             byte[] decryptedBytes = cipher.doFinal(encryptedContent);
