@@ -49,6 +49,14 @@ public class SaveAction extends AbstractMenuAction {
                 SecretKey key = this.getController().getGui().getKeyController().getKey(title);
                 if(key!= null){
                     System.out.printf("Key found for file: %s, key: %s\n", title, key);
+                    try{
+                        String encrypted = model.encryptContent(key);
+                        String status = model.saveContent(encrypted);
+                        this.getController().updateStatus(status);
+
+                    }catch(Exception e){
+                        System.out.printf("error encrypting content: %s", e.getMessage());
+                    }
                 }else{
                     System.out.printf("No key found for file: %s, key: %s\n", title, key);
                 }

@@ -5,12 +5,15 @@ import controllers.SecretKeyController;
 import models.FileModel;
 import util.enums.CipherAlgorithms;
 import util.enums.CipherBlockModes;
+import util.enums.CipherBlockSizes;
 import util.enums.CipherPaddingModes;
 
 import javax.crypto.SecretKey;
+import javax.crypto.spec.IvParameterSpec;
 import javax.swing.*;
 import java.awt.*;
 import java.security.KeyStoreException;
+import java.security.SecureRandom;
 import java.util.Base64;
 import java.util.List;
 
@@ -329,10 +332,17 @@ public class CipherDialog extends JDialog {
         String blockMode = (String)this.getBlockModeComboBox().getSelectedItem();
         String padding = (String)this.getPaddingComboBox().getSelectedItem();
         String title = (String)this.getTabTitles().getSelectedItem();
+
+        byte[] iv = new byte[CipherBlockSizes.fromString(cipher).getIvSize()];
+        SecureRandom secRand = new SecureRandom();
+        secRand.nextBytes(iv);
+        IvParameterSpec ivSpec = new IvParameterSpec(iv);
+
         FileModel model = this.getMainPanelController().getFileModelForTab(title);
         model.setCipherAlgorithm(cipher);
         model.setBlockMode(blockMode);
         model.setPadding(padding);
+        model.setIV(ivSpec);
     }
 
 

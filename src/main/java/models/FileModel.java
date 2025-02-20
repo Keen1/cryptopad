@@ -27,6 +27,7 @@ public class FileModel {
     private String cipherAlgorithm;
     private String blockMode;
     private String padding;
+    private IvParameterSpec iv;
 
 
 
@@ -37,6 +38,14 @@ public class FileModel {
     public FileModel(int index){
         this.index = index;
         this.unsavedChanges = false;
+    }
+
+    public void setIV(IvParameterSpec iv){
+        this.iv = iv;
+    }
+
+    public IvParameterSpec getIV(){
+        return this.iv;
     }
 
     public void setCipherAlgorithm(String cipherAlgorithm){
@@ -69,11 +78,12 @@ public class FileModel {
 
 
 
-    private String encryptContent(SecretKey key, IvParameterSpec iv) throws Exception{
+    public String encryptContent(SecretKey key) throws Exception{
         String content = this.getSavedContent();
         String transformation = this.getTransformation();
 
         Cipher cipher = Cipher.getInstance(transformation, "BC");
+        IvParameterSpec iv = this.getIV();
         cipher.init(Cipher.ENCRYPT_MODE, key, iv);
 
         byte[] encryptedBytes = cipher.doFinal(content.getBytes());
