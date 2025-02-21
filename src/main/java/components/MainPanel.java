@@ -337,6 +337,7 @@ public class MainPanel extends JPanel{
         CipherDialog dialog = new CipherDialog(this.getKeyController(), this.getController());
         dialog.setLocationRelativeTo(this);
         dialog.setSelectedTabTitle(selectedTab);
+        dialog.setVisible(true);
 
     }
 
