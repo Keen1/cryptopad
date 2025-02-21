@@ -318,8 +318,25 @@ public class MainPanel extends JPanel{
             return file;
         }
         return file;
+    }
 
+    public int showNoKeyFoundDialog(String title){
+        String message = String.format("<html><div style='text-align: center'>No encryption key was found for this file:%s" +
+                " Would you like to create one?</div></html>", title);
+        String dialogTitle = String.format("no key found for %s", title);
+        return JOptionPane.showConfirmDialog(this, message, dialogTitle, JOptionPane.YES_NO_OPTION);
+    }
 
+    public void showCipherDialog(){
+        CipherDialog dialog = new CipherDialog(this.getKeyController(), this.getController());
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
+    }
+
+    public void showCipherDialog(String selectedTab){
+        CipherDialog dialog = new CipherDialog(this.getKeyController(), this.getController());
+        dialog.setLocationRelativeTo(this);
+        dialog.setSelectedTabTitle(selectedTab);
 
     }
 

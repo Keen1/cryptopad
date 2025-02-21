@@ -60,6 +60,10 @@ public class CipherDialog extends JDialog {
         }
 
     }
+
+    public void setSelectedTabTitle(String title){
+        this.getTabTitles().setSelectedItem(title);
+    }
     public JComboBox<String> getTabTitles(){
         if(this.tabTitles == null){
             initTabTitles();
@@ -173,6 +177,15 @@ public class CipherDialog extends JDialog {
     public void initCancelButton(){
         this.cancelButton = new JButton("cancel");
         this.cancelButton.addActionListener(event -> {
+            int choice = JOptionPane.showConfirmDialog(this, "any key generated will be deleted. Are you sure?", "cancel", JOptionPane.YES_NO_OPTION);
+            if(choice == JOptionPane.YES_OPTION){
+                if(this.getGeneratedKey() != null){
+                    String alias = (String)this.getTabTitles().getSelectedItem();
+                    this.getSecretKeyController().removeKey(alias);
+                    this.setGeneratedKey(null);
+                }
+                dispose();
+            }
             dispose();
         });
     }

@@ -1,8 +1,10 @@
 package actions;
 
+import components.CipherDialog;
 import controllers.MainPanelController;
 import models.FileModel;
 
+import javax.crypto.SecretKey;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -10,6 +12,7 @@ import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
+import java.security.KeyStoreException;
 
 /*
 * save-as action - implements the shortcut and general action handler for saving contents of a given tab(AT LEAST to a new
@@ -38,61 +41,129 @@ public class SaveAsAction extends AbstractMenuAction{
 
     @Override
     public void actionPerformed(ActionEvent event) {
+        try{
+            String content = this.getController().getSelectedTextAreaContent();
+            int index = this.getController().getGui().getTabbedPane().getSelectedIndex();
+            String currentTitle = this.getController().getGui().getTabbedPane().getTitleAt(index);
+            FileModel currentModel = this.getController().getFileModelForTab(currentTitle);
 
-        String content = this.getController().getSelectedTextAreaContent();
-        int index = this.getController().getGui().getTabbedPane().getSelectedIndex();
-        String title = this.getController().getGui().getTabbedPane().getTitleAt(index);
-        FileModel model = this.getController().getFileModelForTab(title);
+            File file = this.getController().getGui().chooseFileToSave();
+            if(file != null){
 
-        File file = this.getController().getGui().chooseFileToSave();
-        if (file != null) {
-            String newTitle = file.getName();
-            //if the model is null this is a completely new file, need to save it and update the tab title
-            try {
-                if (model == null) {
-                    //init the model
-                    model = new FileModel(file);
-                    //add the new model to the model map given the new title
-                    this.getController().putFileModelForTab(newTitle, model);
-
-                    String update = model.saveContent(content);
-                    //update the status label in the view
-                    this.getController().updateStatus(update);
-
-                    //set the new title in the view
-                    this.getController().getGui().setTabTitle(index, newTitle);
-
-
-                    //if the model is NOT null, this is a COPY, a new model needs to be saved and placed given teh selected file's name
-                    //THEN we need to create a NEW with the copy's title and content.
-                    //the original model should also be saved
-                } else {
-
-                    //create the new model
-                    FileModel newModel = new FileModel(file);
-                    this.getController().putFileModelForTab(newTitle, newModel);
-
-                    //update the new model with the content
-                    String update = newModel.saveContent(content);
-                    //send the status update
-                    this.getController().updateStatus(update);
-                    //set the new model associated with the new title in the map
-                    //add the new(copy) to the view
-                    this.getController().addNewTabToView(newTitle, content);
-
-
-                    //we also know that the current model exists -- this should be updated as well?
-                    model.saveContent(content);
-                    //if this is what we want to do we SHOULD NOT update the status label here as that might
-                    //be confusing for users
-
-
+                String newTitle = file.getName();
+                if(currentModel == null){
+                    this.handleNewFile(newTitle, file, content, index);
+                }else{
+                    this.handleFileCopy(currentTitle, newTitle, file, content);
                 }
-            } catch (IOException e) {
-                System.out.printf("Error saving content: %s", e.getMessage());
-
             }
+        }catch(Exception e){
+            System.out.printf("Error saving file: %s", e.getMessage());
         }
+
+
+    }
+
+    private void handleNewFile(String newTitle, File file, String content, int index) throws Exception{
+        FileModel newModel = new FileModel(file);
+        this.getController().putFileModelForTab(newTitle, newModel);
+        this.getController().getGui().setTabTitle(index, newTitle);
+
+        boolean shouldEncrypt = promptForEncryption(newTitle);
+        if (shouldEncrypt) {
+
+            this.getController().getGui().showCipherDialog(newTitle);
+            SecretKey key = this.getController().getGui().getKeyController().getKey(newTitle);
+            if(key != null){
+                String encrypted = newModel.encryptContent(key, content);
+                String status = newModel.saveContent(encrypted);
+                this.getController().updateStatus(status);
+            }else{
+                String status = newModel.saveContent(content);
+                this.getController().updateStatus(status);
+            }
+
+        }else{
+            String status = newModel.saveContent(content);
+            this.getController().updateStatus(status);
+        }
+    }
+
+    private void handleFileCopy(String originalTitle, String newTitle, File file, String content) throws Exception{
+        FileModel newModel = new FileModel(file);
+        this.getController().putFileModelForTab(newTitle, newModel);
+        this.getController().addNewTabToView(newTitle, content);
+
+        boolean hasOriginalKey = this.getController().getGui().getKeyController().hasKeyForAlias(originalTitle);
+        if (hasOriginalKey) {
+            int choice = showKeyOptionDialog();
+            switch(choice){
+                case 0:
+                    handleCreateNewKey(newModel, newTitle, content);
+                    break;
+                case 1:
+                    handleSameKeyUse(originalTitle, newModel, newTitle, content);
+                    break;
+                case 2:
+                default:
+                    String status = newModel.saveContent(content);
+                    this.getController().updateStatus(status);
+                    break;
+            }
+        }else{
+            String status = newModel.saveContent(content);
+            this.getController().updateStatus(status);
+        }
+    }
+
+    private void handleCreateNewKey(FileModel newModel, String newTitle, String content) throws Exception{
+        this.getController().getGui().showCipherDialog(newTitle);
+
+        if (this.getController().getGui().getKeyController().hasKeyForAlias(newTitle)) {
+            SecretKey newKey = this.getController().getGui().getKeyController().getKey(newTitle);
+            if(newKey != null){
+                String encrypted = newModel.encryptContent(newKey, content);
+                String status = newModel.saveContent(encrypted);
+                this.getController().updateStatus(status);
+            }
+        }else{
+            String status = newModel.saveContent(content);
+            this.getController().updateStatus(status);
+        }
+    }
+
+    private void handleSameKeyUse(String originalTitle, FileModel newModel, String newTitle, String content) throws Exception{
+        SecretKey oldKey = this.getController().getGui().getKeyController().getKey(originalTitle);
+        if(oldKey != null){
+            this.getController().getGui().getKeyController().storeKey(oldKey, newTitle);
+
+            String encrypted = newModel.encryptContent(oldKey, content);
+            String status = newModel.saveContent(encrypted);
+            this.getController().updateStatus(status);
+        }
+    }
+
+    private boolean promptForEncryption(String fileName){
+        String message = "<html><div style='text-align: center'>Would you like to create an encryption key for this file?</div></html>";
+        String dialogTitle = String.format("create key for %s", fileName);
+        int choice = JOptionPane.showConfirmDialog(this.getController().getGui(), message, dialogTitle, JOptionPane.YES_NO_OPTION);
+
+        return choice == JOptionPane.YES_OPTION;
+    }
+
+
+
+    public int showKeyOptionDialog(){
+        String[] options = {"create new key", "use same key", "cancel"};
+
+        return JOptionPane.showOptionDialog(this.getController().getGui(),
+                "please choose an option",
+                "key setup",
+                JOptionPane.YES_NO_CANCEL_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                options,
+                options[0]);
     }
 
 }

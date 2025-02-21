@@ -96,6 +96,15 @@ public class SecretKeyController {
         return key;
     }
 
+    public void removeKey(String alias){
+        try{
+            this.getKeyStore().deleteEntry(alias);
+
+        }catch(KeyStoreException e){
+            System.out.printf("Error removing key: %s", e.getMessage());
+        }
+    }
+
 
 
 
