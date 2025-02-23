@@ -30,7 +30,7 @@ jlink {
 
 
     jpackage{
-        installDir
+
         installerType ='deb'
         imageName = 'cryptopad'
         appVersion = version
