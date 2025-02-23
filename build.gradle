@@ -37,7 +37,6 @@ jlink {
         vendor = 'Keendev'
         icon = file('src/main/resources/icon.png')
 
-        jvmArgs = ['--add-opens', 'java.base/java.security=ALL-UNNAMED']
     }
 
     forceMerge('com.formdev.flatlaf', 'com.formdev.flatlaf.intellijthemes')
