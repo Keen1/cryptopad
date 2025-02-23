@@ -2,6 +2,7 @@ package components;
 
 import controllers.LoginController;
 import models.KeyStoreResultModel;
+import util.constants.AppConstants;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,6 +15,7 @@ public class LoginPanel extends JPanel {
     private JButton submitButton;
     private JLabel messageLabel;
     private LoginController controller;
+    private static String KEYSTORE_PATH = AppConstants.KEYSTORE_PATH;
 
     public LoginPanel(Consumer<KeyStoreResultModel> onLoginSuccess){
         this.controller = new LoginController(this, onLoginSuccess);
@@ -29,7 +31,7 @@ public class LoginPanel extends JPanel {
         this.submitButton.addActionListener(event ->{
            char[] pw = this.getPasswordField().getPassword();
            if(pw.length != 0){
-                this.getController().login(pw, "test_ks.jks");
+                this.getController().login(pw, KEYSTORE_PATH);
 
 
            }

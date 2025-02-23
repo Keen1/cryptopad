@@ -1,27 +1,23 @@
 package controllers;
 
+import util.constants.AppConstants;
 import util.enums.CipherBlockSizes;
 
-import javax.crypto.Cipher;
-import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.security.*;
-import java.security.KeyStore.SecretKeyEntry;
 import java.security.cert.CertificateException;
 import java.util.Arrays;
 import java.util.Base64;
 import java.util.Enumeration;
-import java.util.Iterator;
 import javax.crypto.KeyGenerator;
 import javax.crypto.spec.IvParameterSpec;
 
 public class SecretKeyController {
     private KeyStore ks;
     private char[] pw;
-    private static final String TEST_STORE_PATH = "test_ks.jks";
+    private static final String KEYSTORE_PATH = AppConstants.KEYSTORE_PATH;
 
 
     public SecretKeyController(KeyStore ks, char[] pw){
@@ -132,7 +128,7 @@ public class SecretKeyController {
     }
 
     private void saveStore(){
-        try(FileOutputStream outStream = new FileOutputStream(TEST_STORE_PATH)){
+        try(FileOutputStream outStream = new FileOutputStream(KEYSTORE_PATH)){
             this.getKeyStore().store(outStream, this.getPw());
         }catch(IOException | KeyStoreException | NoSuchAlgorithmException | CertificateException e){
             System.out.printf("Error storing file: %s\n", e.getMessage());

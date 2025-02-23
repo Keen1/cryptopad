@@ -16,7 +16,23 @@ dependencies {
     implementation group: 'org.bouncycastle', name:  'bcprov-jdk15on', version: '1.70'
     implementation 'com.formdev:flatlaf:3.4'
     implementation 'com.formdev:flatlaf-intellij-themes:3.5.4'
-    implementation 'com.fasterxml.jackson.core:jackson-databind:2.18.2'
+
+
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'drivers.GuiDriver'
+    }
+
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    exclude 'META-INF/*.SF'
+    exclude 'META-INF/*.DSA'
+    exclude 'META-INF/*.RSA'
 
 
 }
