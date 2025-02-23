@@ -16,12 +16,42 @@ application {
     mainModule = 'cryptopad'
 }
 
+jlink {
+
+
+    mergedModule{
+        additive = true
+    }
+
+    launcher {
+        name = 'cryptopad'
+
+    }
+
+
+    jpackage{
+        installDir
+        installerType ='deb'
+        imageName = 'cryptopad'
+        appVersion = version
+        vendor = 'Keendev'
+        icon = file('src/main/resources/icon.png')
+
+        jvmArgs = ['--add-opens', 'java.base/java.security=ALL-UNNAMED']
+    }
+
+    forceMerge('com.formdev.flatlaf', 'com.formdev.flatlaf.intellijthemes')
+}
+
+
+
 
 
 dependencies {
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
-    implementation group: 'org.bouncycastle', name:  'bcprov-jdk15on', version: '1.70'
+
+
     implementation 'com.formdev:flatlaf:3.4'
     implementation 'com.formdev:flatlaf-intellij-themes:3.5.4'
 
@@ -38,6 +68,7 @@ jar {
     }
 
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    exclude 'META-INF/versions/**'
     exclude 'META-INF/*.SF'
     exclude 'META-INF/*.DSA'
     exclude 'META-INF/*.RSA'

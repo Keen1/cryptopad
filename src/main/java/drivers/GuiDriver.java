@@ -4,16 +4,11 @@ import components.KeyStoreSetupPanel;
 import components.LoginPanel;
 import components.MainPanel;
 import models.KeyStoreResultModel;
-import org.bouncycastle.jce.provider.BouncyCastleProvider;
-import util.CipherTest;
 import util.constants.AppConstants;
 
 import javax.swing.*;
 import java.awt.*;
-import java.security.KeyStore;
-import java.security.Security;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 
 
@@ -25,7 +20,6 @@ public class GuiDriver {
     private static final String KEYSTORE_PATH = AppConstants.KEYSTORE_PATH;
 
     public static void main(String [] args){
-        Security.addProvider(new BouncyCastleProvider());
         SwingUtilities.invokeLater(() ->{
             initFrame();
             checkAndShowInitialPanel();
