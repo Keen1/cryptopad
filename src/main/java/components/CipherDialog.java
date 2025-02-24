@@ -40,7 +40,6 @@ public class CipherDialog extends JDialog {
         this.secretKeyController = secretKeyController;
         initComponents();
 
-        this.getSecretKeyController().showAliases();
     }
 
     public MainPanelController getMainPanelController(){

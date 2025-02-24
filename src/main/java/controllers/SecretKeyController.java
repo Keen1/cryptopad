@@ -82,10 +82,6 @@ public class SecretKeyController {
             keyGen.init(keyLength);
             key = keyGen.generateKey();
 
-            //troubleshooting below
-            byte[] keyBytes = key.getEncoded();
-            String encodedKey = Base64.getEncoder().encodeToString(keyBytes);
-            System.out.printf("Key generated successfully.\n Algorithm: %s\n key length: %s\n value: %s\n", cipher, keyLength, encodedKey);
         }catch(NoSuchAlgorithmException e){
             System.out.printf("error for %s cipher: %s", cipher, e.getMessage());
         }
