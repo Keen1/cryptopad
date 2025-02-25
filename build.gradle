@@ -18,6 +18,7 @@ application {
 
 jlink {
 
+    options = ['--ignore-signing-information']
 
     mergedModule{
         additive = true
@@ -37,9 +38,10 @@ jlink {
         vendor = 'Keendev'
         icon = file('src/main/resources/icon.png')
 
+
     }
 
-    forceMerge('com.formdev.flatlaf', 'com.formdev.flatlaf.intellijthemes')
+    forceMerge('com.formdev.flatlaf', 'com.formdev.flatlaf.intellijthemes', 'org.bouncycastle.provider')
 }
 
 
@@ -49,7 +51,7 @@ jlink {
 dependencies {
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
-    implementation group: 'org.bouncycastle', name: 'bcprov-jdk15on', version: '1.70'
+    implementation group: 'org.bouncycastle', name: 'bcprov-jdk18on', version: '1.80'
 
 
     implementation 'com.formdev:flatlaf:3.4'
@@ -63,9 +65,7 @@ jar {
         attributes 'Main-Class': 'drivers.GuiDriver'
     }
 
-    from {
-        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
-    }
+
 
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     exclude 'META-INF/versions/**'
