@@ -513,7 +513,7 @@ public class MainPanel extends JPanel{
         item.addActionListener(e -> {
             try{
                 UIManager.setLookAndFeel(laf);
-                SwingUtilities.updateComponentTreeUI(this);
+                SwingUtilities.updateComponentTreeUI(this.getParent());
             }catch(UnsupportedLookAndFeelException ex){
                 System.out.printf("Error setting look and feel: %s", ex.getMessage());
             }
