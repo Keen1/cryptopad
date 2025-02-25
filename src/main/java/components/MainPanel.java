@@ -145,7 +145,7 @@ public class MainPanel extends JPanel{
         return this.keyController;
     }
     public void initSecretKeyController(KeyStoreResultModel keyStoreModel){
-        this.keyController = new SecretKeyController(keyStoreModel.getKeyStore(), keyStoreModel.getPw());
+        this.keyController = new SecretKeyController(keyStoreModel.getKeyStore(), keyStoreModel.getPw(), this.getController());
     }
 
     //get the tabbed pane where all our text files are opened and displayed

@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.security.*;
 import java.security.cert.CertificateException;
 import java.util.Arrays;
-import java.util.Base64;
 import java.util.Enumeration;
 import javax.crypto.KeyGenerator;
 import javax.crypto.spec.IvParameterSpec;
@@ -18,11 +17,18 @@ public class SecretKeyController {
     private KeyStore ks;
     private char[] pw;
     private static final String KEYSTORE_PATH = AppConstants.KEYSTORE_PATH;
+    private final MainPanelController mainPanelController;
 
 
-    public SecretKeyController(KeyStore ks, char[] pw){
+
+    public SecretKeyController(KeyStore ks, char[] pw, MainPanelController mainPanelController){
         this.ks = ks;
         this.pw = pw;
+        this.mainPanelController = mainPanelController;
+    }
+
+    public MainPanelController getMainPanelController() {
+        return this.mainPanelController;
     }
 
     private char[] getPw(){
@@ -39,11 +45,12 @@ public class SecretKeyController {
     public void storeKey(SecretKey key, String alias) throws KeyStoreException {
         try{
             this.getKeyStore().setKeyEntry(alias, key, this.getPw(), null);
-            System.out.printf("Success storing key. Alias: %s", alias);
+            this.getMainPanelController().updateStatus(String.format("Success storing key. Alias: %s",alias));
+
             this.saveStore();
 
         }catch(KeyStoreException e){
-            System.out.printf("Error accessing keystore: %s", e.getMessage());
+            this.getMainPanelController().updateStatus(String.format("Error accessing keystore: %s", e.getMessage()));
             throw new KeyStoreException(e);
         }
     }
@@ -53,7 +60,7 @@ public class SecretKeyController {
         try{
             key = (SecretKey)this.getKeyStore().getKey(alias, this.getPw());
         }catch(KeyStoreException | NoSuchAlgorithmException | UnrecoverableKeyException e){
-            System.out.printf("Error retrieving key: %s\n alias: %s\n", e.getMessage(), alias);
+            this.getMainPanelController().updateStatus(String.format("Error retrieving key: %s Alias: %s", e.getMessage(), alias));
         }
         return key;
 
@@ -83,7 +90,7 @@ public class SecretKeyController {
             key = keyGen.generateKey();
 
         }catch(NoSuchAlgorithmException e){
-            System.out.printf("error for %s cipher: %s", cipher, e.getMessage());
+            this.getMainPanelController().updateStatus(String.format("error for %s cipher: %s", cipher, e.getMessage()));
         }
         return key;
     }
@@ -93,7 +100,7 @@ public class SecretKeyController {
             this.getKeyStore().deleteEntry(alias);
 
         }catch(KeyStoreException e){
-            System.out.printf("Error removing key: %s", e.getMessage());
+            this.getMainPanelController().updateStatus(String.format("Error removing key: %s", e.getMessage()));
         }
     }
 

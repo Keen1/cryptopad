@@ -14,7 +14,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.security.KeyStoreException;
 import java.security.SecureRandom;
-import java.util.Base64;
 import java.util.List;
 
 public class CipherDialog extends JDialog {
@@ -29,8 +28,8 @@ public class CipherDialog extends JDialog {
     private JButton okayButton;
     private JButton cancelButton;
 
-    private SecretKeyController secretKeyController;
-    private MainPanelController mainPanelController;
+    private final SecretKeyController secretKeyController;
+    private final MainPanelController mainPanelController;
 
     private SecretKey generatedKey;
 
@@ -161,9 +160,7 @@ public class CipherDialog extends JDialog {
 
     private void initOkayButton(){
         this.okayButton = new JButton("okay");
-        this.okayButton.addActionListener(event ->{
-            dispose();
-        });
+        this.okayButton.addActionListener(event -> dispose());
         this.okayButton.setEnabled(false);
     }
     public JButton getOkayButton(){
@@ -300,10 +297,12 @@ public class CipherDialog extends JDialog {
     private void storeKey(String alias){
         if(this.getGeneratedKey() != null){
             try{
+
                 this.getSecretKeyController().storeKey(this.getGeneratedKey(), alias);
+                this.getMainPanelController().updateStatus(String.format("key stored for: %s", alias));
 
             }catch(KeyStoreException e){
-                System.out.printf("error storing key forL %s\n error: %s\n", alias, e.getMessage());
+                this.getMainPanelController().updateStatus(String.format("error storing key for: %s\n error: %s\n", alias, e.getMessage()));
             }finally{
                 this.setGeneratedKey(null);
             }
@@ -330,11 +329,11 @@ public class CipherDialog extends JDialog {
                 }
             }else{
                 this.storeKey(title);
-                System.out.printf("key stored for %s\n", title);
+                this.getMainPanelController().updateStatus(String.format("key stored for %s\n", title));
                 return true;
             }
         }catch(KeyStoreException e){
-            System.out.printf("Error accessing keystore: %s", e.getMessage());
+            this.getMainPanelController().updateStatus(String.format("Error accessing keystore: %s", e.getMessage()));
         }
         return false;
     }
