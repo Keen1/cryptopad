@@ -3,6 +3,7 @@ package util.enums;
 import java.util.Arrays;
 
 public enum CipherPaddingModes {
+    PKCS5Padding,
     PKCS7Padding,
     NoPadding;
 

@@ -29,6 +29,7 @@ public class FileModel {
     private String blockMode;
     private String padding;
     private IvParameterSpec iv;
+    private static final String PROVIDER = "BC";
 
 
 
@@ -86,7 +87,7 @@ public class FileModel {
         byte[] transformLength = ByteBuffer.allocate(4).putInt(transformBytes.length).array();
 
 
-        Cipher cipher = Cipher.getInstance(transformation, "BC");
+        Cipher cipher = Cipher.getInstance(transformation, PROVIDER);
         IvParameterSpec iv = this.getIV();
         cipher.init(Cipher.ENCRYPT_MODE, key, iv);
 
@@ -108,9 +109,7 @@ public class FileModel {
     }
 
     public String decryptContent(SecretKey key) throws Exception{
-            System.out.println("here");
             byte[] combinedBytes = Base64.getDecoder().decode(this.getFileContent());
-            System.out.println("here");
             byte[] lengthBytes = new byte[4];
             System.arraycopy(combinedBytes, 0, lengthBytes, 0, 4);
             int transformLength = ByteBuffer.wrap(lengthBytes).getInt();
@@ -135,7 +134,7 @@ public class FileModel {
             System.arraycopy(combinedBytes, ivOffset + ivSize, encryptedContent, 0, encryptedContent.length);
 
 
-            Cipher cipher = Cipher.getInstance(transformation, "BC");
+            Cipher cipher = Cipher.getInstance(transformation, PROVIDER);
             cipher.init(Cipher.DECRYPT_MODE, key, ivSpec);
 
             byte[] decryptedBytes = cipher.doFinal(encryptedContent);

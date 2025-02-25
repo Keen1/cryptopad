@@ -116,25 +116,11 @@ public class SecretKeyController {
         return this.ks;
     }
 
-    public void showAliases(){
-        try{
-            Enumeration<String> aliases = this.getKeyStore().aliases();
-            while(aliases.hasMoreElements()){
-                System.out.printf("Entry alias: %s\n", aliases.nextElement());
-            }
-
-
-        }catch(KeyStoreException e){
-            System.out.println("Error printing key aliases");
-        }
-
-    }
-
     private void saveStore(){
         try(FileOutputStream outStream = new FileOutputStream(KEYSTORE_PATH)){
             this.getKeyStore().store(outStream, this.getPw());
         }catch(IOException | KeyStoreException | NoSuchAlgorithmException | CertificateException e){
-            System.out.printf("Error storing file: %s\n", e.getMessage());
+            this.getMainPanelController().updateStatus(String.format("Error storing file: %s", e.getMessage()));
         }
     }
 }
