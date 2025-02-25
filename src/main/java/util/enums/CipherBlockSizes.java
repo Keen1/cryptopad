@@ -1,7 +1,7 @@
 package util.enums;
 
 public enum CipherBlockSizes {
-    THREEFISH(128),
+    THREEFISH_1024(128),
     AES(16),
     CAMIELLIA(16),
     CAST6(16),

@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.security.*;
 import java.security.cert.CertificateException;
 import java.util.Arrays;
-import java.util.Enumeration;
 import javax.crypto.KeyGenerator;
 import javax.crypto.spec.IvParameterSpec;
 
