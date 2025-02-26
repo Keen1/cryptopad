@@ -59,6 +59,7 @@ public class LoginPanel extends JPanel {
         }
         return this.loginLabel;
     }
+
     private void initPasswordField(){
         this.passwordField = new JPasswordField(30);
         this.passwordField.getInputMap().put(KeyStroke.getKeyStroke("ENTER"), "submit");

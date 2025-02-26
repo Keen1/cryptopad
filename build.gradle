@@ -49,11 +49,14 @@ jlink {
 
 
 dependencies {
+    //testing dependencies
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
+    testImplementation group:'org.mockito', name: 'mockito-core', version: '5.15.2'
+    testImplementation group:'org.mockito', name: 'mockito-junit-jupiter', version: '5.15.2'
+
+    //application dependencies
     implementation group: 'org.bouncycastle', name: 'bcprov-jdk18on', version: '1.80'
-
-
     implementation 'com.formdev:flatlaf:3.4'
     implementation 'com.formdev:flatlaf-intellij-themes:3.5.4'
 
