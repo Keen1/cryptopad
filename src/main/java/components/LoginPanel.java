@@ -6,6 +6,7 @@ import util.constants.AppConstants;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.util.function.Consumer;
 
 public class LoginPanel extends JPanel {
@@ -60,6 +61,14 @@ public class LoginPanel extends JPanel {
     }
     private void initPasswordField(){
         this.passwordField = new JPasswordField(30);
+        this.passwordField.getInputMap().put(KeyStroke.getKeyStroke("ENTER"), "submit");
+        this.passwordField.getActionMap().put("submit", new AbstractAction(){
+
+            @Override
+            public void actionPerformed(ActionEvent event){
+                getSubmitButton().doClick();
+            }
+        });
     }
 
     public JPasswordField getPasswordField(){
