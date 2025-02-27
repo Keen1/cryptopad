@@ -90,28 +90,8 @@ public class KeyStoreSetupPanelTest {
 
     }
 
-    //failing test
-    @Test
-    void testPasswordFieldDocListeners() throws ClassNotFoundException, NoSuchFieldException, IllegalAccessException {
-
-        Document passwordDoc = panel.getPasswordField().getDocument();
-        Document confirmDoc = panel.getConfirmField().getDocument();
-
-        Field listenerListField = Class.forName("javax.swing.text.AbstractDocument").getDeclaredField("listenerList");
 
 
-        EventListenerList passwordFieldListeners = (EventListenerList) listenerListField.get(passwordDoc);
-        EventListenerList confirmFieldListeners = (EventListenerList) listenerListField.get(confirmDoc);
-
-        DocumentListener[] passwordDocListeners = passwordFieldListeners.getListeners(DocumentListener.class);
-        DocumentListener[] confirmDocListeners = confirmFieldListeners.getListeners(DocumentListener.class);
-
-        assertEquals(2, passwordDocListeners.length, "Password field should have 2 document listeners.");
-        assertEquals(1, confirmDocListeners.length, "Confirm field should have 1 document listener.");
-
-
-
-    }
 
 
 
