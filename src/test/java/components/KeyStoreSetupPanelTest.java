@@ -7,9 +7,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import javax.swing.event.DocumentListener;
-import javax.swing.event.EventListenerList;
-import javax.swing.text.Document;
 import java.lang.reflect.Field;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -24,7 +21,7 @@ public class KeyStoreSetupPanelTest {
     private KeyStoreSetupController mockController;
 
     @BeforeEach
-    void setUp() throws NoSuchFieldException, IllegalAccessException {
+    void setup() throws NoSuchFieldException, IllegalAccessException {
         panel = new KeyStoreSetupPanel();
 
         Field controllerField = KeyStoreSetupPanel.class.getDeclaredField("controller");

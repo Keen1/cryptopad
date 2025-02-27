@@ -15,8 +15,8 @@ public class LoginPanel extends JPanel {
     private JPasswordField passwordField;
     private JButton submitButton;
     private JLabel messageLabel;
-    private LoginController controller;
-    private static String KEYSTORE_PATH = AppConstants.KEYSTORE_PATH;
+    private final LoginController controller;
+    private static final String KEYSTORE_PATH = AppConstants.KEYSTORE_PATH;
 
     public LoginPanel(Consumer<KeyStoreResultModel> onLoginSuccess){
         this.controller = new LoginController(this, onLoginSuccess);
@@ -79,11 +79,11 @@ public class LoginPanel extends JPanel {
         return this.passwordField;
     }
 
-    public void initMessageLabel(){
+    private void initMessageLabel(){
         this.messageLabel = new JLabel();
     }
 
-    private JLabel getMessageLabel(){
+    public JLabel getMessageLabel(){
         if(this.messageLabel == null){
             initMessageLabel();
         }
