@@ -2,6 +2,7 @@ package models;
 
 import util.constants.AppConstants;
 
+import javax.crypto.SecretKey;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -16,14 +17,29 @@ import java.security.cert.CertificateException;
 public class KeyStoreModel {
     private static final String KS_TYPE = "JCEKS";
     private static final String HOME_DIR = "user.home";
+    private KeyStore ks;
+
 
     public KeyStoreModel(){}
+    public KeyStoreModel(KeyStore ks){
+        this.ks = ks;
+    }
+
+    public KeyStore getKeyStore(){
+        return this.ks;
+    }
+
+    public void setKeyStore(KeyStore ks){
+        this.ks = ks;
+    }
+
 
     public void generateKeyStore(char[] pw, String path){
         try(FileOutputStream outStream = new FileOutputStream(path)){
             KeyStore ks = KeyStore.getInstance(KS_TYPE);
             ks.load(null, null);
             ks.store(outStream, pw);
+            this.setKeyStore(ks);
 
         }catch(KeyStoreException | IOException | NoSuchAlgorithmException | CertificateException e){
             System.out.printf("error: %s", e.getMessage());
@@ -52,5 +68,9 @@ public class KeyStoreModel {
         }catch(IOException e){
             System.out.printf("error creating path: %s", e.getMessage());
         }
+    }
+
+    public void storeKey(SecretKey key, String alias){
+
     }
 }
