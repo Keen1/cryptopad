@@ -26,7 +26,7 @@ public class KeyStoreModel {
             ks.store(outStream, pw);
 
         }catch(KeyStoreException | IOException | NoSuchAlgorithmException | CertificateException e){
-
+            System.out.printf("error: %s", e.getMessage());
         }
     }
 
@@ -48,7 +48,7 @@ public class KeyStoreModel {
             Path cryptopadDir = Paths.get(System.getProperty(HOME_DIR), AppConstants.APP_FOLDER_NAME);
             Files.createDirectories(cryptopadDir);
             this.generateKeyStore(pw, AppConstants.KEYSTORE_PATH);
-            
+
         }catch(IOException e){
             System.out.printf("error creating path: %s", e.getMessage());
         }

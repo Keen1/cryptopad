@@ -1,6 +1,7 @@
 package controllers;
 
 import components.KeyStoreSetupPanel;
+import models.KeyStoreModel;
 import util.KeyStoreFactory;
 import util.constants.AppConstants;
 
@@ -14,9 +15,11 @@ public class KeyStoreSetupController {
     private boolean requirementsMet;
     private char[] pw;
     private Runnable onSetupComplete;
+    private KeyStoreModel keyStoreModel;
     public KeyStoreSetupController(KeyStoreSetupPanel setupPanel){
         this.setupPanel = setupPanel;
         this.requirementsMet = false;
+        this.keyStoreModel = new KeyStoreModel();
 
     }
 
@@ -24,6 +27,7 @@ public class KeyStoreSetupController {
         this.setupPanel = setupPanel;
         this.onSetupComplete = onSetupComplete;
         this.requirementsMet = false;
+        this.keyStoreModel = new KeyStoreModel();
     }
 
     public void setOnSetupComplete(Runnable onSetupComplete){
@@ -40,26 +44,27 @@ public class KeyStoreSetupController {
     public KeyStoreSetupPanel getSetupPanel() {
         return this.setupPanel;
     }
+
+    public KeyStoreModel getKeyStoreModel(){
+        return this.keyStoreModel;
+    }
     public void setRequirementsMet(boolean requirementsMet){
         this.requirementsMet = requirementsMet;
     }
     public boolean areRequirementsMet(){
         return this.requirementsMet;
     }
+
     public void createKeyStore(){
+
         if(this.getPassword() != null){
-            try{
-                Path cryptopadDir = Paths.get(System.getProperty("user.home"), AppConstants.APP_FOLDER_NAME);
-                Files.createDirectories(cryptopadDir);
 
-                KeyStoreFactory.generateKeyStore(this.getPassword(), AppConstants.KEYSTORE_PATH);
-                if(onSetupComplete != null){
-                    onSetupComplete.run();
-                }
-
-            }catch(IOException e){
-                System.out.printf("error creating path: %s", e.getMessage());
+            this.getKeyStoreModel().createKeyStore(this.getPassword());
+            if(onSetupComplete != null){
+                onSetupComplete.run();
             }
+
+
 
         }
     }
