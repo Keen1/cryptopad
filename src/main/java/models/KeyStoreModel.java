@@ -2,6 +2,7 @@ package models;
 
 import util.constants.AppConstants;
 
+import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -71,6 +72,21 @@ public class KeyStoreModel {
     }
 
     public void storeKey(SecretKey key, String alias){
+
+    }
+
+    public SecretKey generateKey(String cipher, int keyLength){
+        SecretKey key = null;
+        try{
+            KeyGenerator keyGen = KeyGenerator.getInstance(cipher);
+            keyGen.init(keyLength);
+            key = keyGen.generateKey();
+
+        }catch(NoSuchAlgorithmException e){
+            System.out.printf("error for %s cipher: %s", cipher, e.getMessage());
+        }
+
+        return key;
 
     }
 }
