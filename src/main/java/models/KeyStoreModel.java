@@ -14,16 +14,29 @@ import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateException;
+import java.util.Arrays;
 
 public class KeyStoreModel {
     private static final String KS_TYPE = "JCEKS";
     private static final String HOME_DIR = "user.home";
     private KeyStore ks;
+    private char[] pw;
 
 
     public KeyStoreModel(){}
-    public KeyStoreModel(KeyStore ks){
+    public KeyStoreModel(KeyStore ks, char[] pw){
         this.ks = ks;
+        this.pw = pw;
+    }
+
+    public void setPw(char[] pw){
+        this.pw = pw;
+    }
+    public char[] getPw(){
+        return this.pw;
+    }
+    public void wipePw(){
+        Arrays.fill(this.getPw(), (char) 0);
     }
 
     public KeyStore getKeyStore(){
@@ -71,9 +84,6 @@ public class KeyStoreModel {
         }
     }
 
-    public void storeKey(SecretKey key, String alias){
-
-    }
 
     public SecretKey generateKey(String cipher, int keyLength){
         SecretKey key = null;
@@ -97,5 +107,13 @@ public class KeyStoreModel {
             return String.format("Error removing key, alias: %s, message: %s", alias, e.getMessage());
         }
         return String.format("Successfully removed key for: %s", alias);
+    }
+
+    private void saveStore(){
+        try(FileOutputStream outStream = new FileOutputStream(AppConstants.KEYSTORE_PATH)){
+            this.getKeyStore().store(outStream, this.getPw());
+        }catch(IOException | KeyStoreException | NoSuchAlgorithmException | CertificateException e){
+            System.out.printf("Error storing file: %s", e.getMessage());
+        }
     }
 }
