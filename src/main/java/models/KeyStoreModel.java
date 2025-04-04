@@ -37,6 +37,7 @@ public class KeyStoreModel {
     }
     public void wipePw(){
         Arrays.fill(this.getPw(), (char) 0);
+        this.setPw(null);
     }
 
     public KeyStore getKeyStore(){
