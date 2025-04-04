@@ -89,4 +89,13 @@ public class KeyStoreModel {
         return key;
 
     }
+
+    public String removeKey(String alias){
+        try{
+            this.getKeyStore().deleteEntry(alias);
+        }catch(KeyStoreException e){
+            return String.format("Error removing key, alias: %s, message: %s", alias, e.getMessage());
+        }
+        return String.format("Successfully removed key for: %s", alias);
+    }
 }
