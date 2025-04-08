@@ -92,6 +92,11 @@ public class KeyStoreModel {
 
     }
 
+    public void storeKey(SecretKey key, String alias) throws KeyStoreException {
+        this.getKeyStore().setKeyEntry(alias, key, this.getPw(), null);
+
+    }
+
     public SecretKey getKey(String alias, char[] pw)throws KeyStoreException, NoSuchAlgorithmException, UnrecoverableKeyException {
         return (SecretKey)this.getKeyStore().getKey(alias, pw);
     }

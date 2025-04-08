@@ -38,9 +38,6 @@ public class KeyStoreController {
         this.model = model;
     }
 
-
-
-
     public boolean keyExists(String alias){
 
         try{
@@ -52,6 +49,16 @@ public class KeyStoreController {
         }
 
         return false;
+    }
+
+    public SecretKey generateKey(String cipher, int keyLength){
+        try{
+            return this.getModel().generateKey(cipher, keyLength);
+        }catch(NoSuchAlgorithmException e){
+            System.out.printf("Error generating key for cipher: %s\n, error: %s", cipher, e.getMessage());
+
+        }
+        return null;
     }
 
     public void removeKey(String alias){
@@ -66,13 +73,14 @@ public class KeyStoreController {
     }
 
 
-
     public SecretKey getKey(String alias){
 
         SecretKey key = null;
 
         try{
+
             key = this.getModel().getKey(alias, this.getPw());
+
         }catch(KeyStoreException | NoSuchAlgorithmException | UnrecoverableKeyException e){
             System.out.printf("Error retrieving key: %s", e.getMessage());
         }
