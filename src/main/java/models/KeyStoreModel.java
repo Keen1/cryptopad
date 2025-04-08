@@ -68,17 +68,17 @@ public class KeyStoreModel {
     }
 
     //TODO: this needs to be refactored and we need to rework our return object/ how this works to something else
-    public KeyStoreResultModel loadKeyStore(char[] pw, String path){
-        try{
-            KeyStore ks = KeyStore.getInstance(KS_TYPE);
-            try(FileInputStream inStream = new FileInputStream(path)){
-                ks.load(inStream, pw);
-                return new KeyStoreResultModel(ks, "Success", pw);
+    public KeyStoreResultModel loadKeyStore(char[] pw, String path) throws IOException, KeyStoreException, NoSuchAlgorithmException, CertificateException{
+        if(this.getPw() != null){
+            try(FileInputStream inStream = new FileInputStream(AppConstants.KEYSTORE_PATH)){
+                KeyStore ks = KeyStore.getInstance(KS_TYPE);
+                ks.load(inStream, this.getPw());
+                return new KeyStoreResultModel(ks, "Success", this.getPw());
+
             }
 
-        }catch(IOException |KeyStoreException | NoSuchAlgorithmException | CertificateException e){
-            return new KeyStoreResultModel(null, e.getMessage());
         }
+        return null;
     }
 
     public void createKeyStore() throws Exception {

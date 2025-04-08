@@ -34,6 +34,7 @@ public class GuiDriver {
 
     }
     private static void checkAndShowInitialPanel(){
+
         if(keystoreExists()){
             showLoginPanel();
 
