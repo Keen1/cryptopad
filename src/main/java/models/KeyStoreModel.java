@@ -1,6 +1,7 @@
 package models;
 
 import util.constants.AppConstants;
+import util.exceptions.KeyStoreModelException;
 
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
@@ -120,11 +121,9 @@ public class KeyStoreModel {
 
     }
 
-    private void saveStore(){
-        try(FileOutputStream outStream = new FileOutputStream(AppConstants.KEYSTORE_PATH)){
+    public void saveStore()throws IOException, KeyStoreException, NoSuchAlgorithmException, CertificateException {
+        try(FileOutputStream outStream = new FileOutputStream(AppConstants.KEYSTORE_PATH)) {
             this.getKeyStore().store(outStream, this.getPw());
-        }catch(IOException | KeyStoreException | NoSuchAlgorithmException | CertificateException e){
-            System.out.printf("Error storing file: %s", e.getMessage());
         }
     }
 }

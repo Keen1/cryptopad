@@ -3,6 +3,7 @@ package controllers;
 import models.KeyStoreModel;
 
 import javax.crypto.SecretKey;
+import java.io.IOException;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.UnrecoverableKeyException;
@@ -14,9 +15,6 @@ public class KeyStoreController {
 
     public KeyStoreController(){
         this.model = new KeyStoreModel();
-    }
-    public KeyStoreController(KeyStoreModel model){
-        this.model = model;
     }
     public KeyStoreController(KeyStoreModel model, char[] pw){
         this.model = model;
@@ -86,6 +84,29 @@ public class KeyStoreController {
         }
         return key;
     }
+
+    public void storeKey(SecretKey key, String alias){
+
+        try{
+
+            this.getModel().storeKey(key, alias);
+
+        }catch(KeyStoreException e){
+            System.out.printf("Error storing key: %s", e.getMessage());
+        }
+    }
+
+    public void save(){
+        try{
+            this.getModel().saveStore();
+
+        }catch(Exception e){
+            System.out.printf("Exception occurred: %s", e.getMessage());
+        }
+    }
+
+
+
 
 
 
