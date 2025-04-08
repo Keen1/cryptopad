@@ -59,10 +59,16 @@ public class KeyStoreSetupController {
 
         if(this.getPassword() != null){
 
-            this.getKeyStoreModel().createKeyStore(this.getPassword());
-            if(onSetupComplete != null){
-                onSetupComplete.run();
+            try{
+                this.getKeyStoreModel().createKeyStore();
+                if(onSetupComplete != null){
+                    onSetupComplete.run();
+                }
+            }catch(Exception e){
+                System.out.printf("Error accessing keystore: %s", e.getMessage());
             }
+
+
 
 
 

@@ -48,19 +48,26 @@ public class KeyStoreModel {
         this.ks = ks;
     }
 
+    public boolean hasKeyForAlias(String alias) throws KeyStoreException{
+        return this.getKeyStore().containsAlias(alias);
+    }
 
-    public void generateKeyStore(char[] pw, String path){
-        try(FileOutputStream outStream = new FileOutputStream(path)){
+
+    private void generateKeyStore()throws KeyStoreException, IOException,
+            NoSuchAlgorithmException,
+            CertificateException{
+
+
+        try(FileOutputStream outStream = new FileOutputStream(AppConstants.KEYSTORE_PATH)){
             KeyStore ks = KeyStore.getInstance(KS_TYPE);
             ks.load(null, null);
-            ks.store(outStream, pw);
+            ks.store(outStream, this.getPw());
             this.setKeyStore(ks);
 
-        }catch(KeyStoreException | IOException | NoSuchAlgorithmException | CertificateException e){
-            System.out.printf("error: %s", e.getMessage());
         }
     }
 
+    //TODO: this needs to be refactored and we need to rework our return object/ how this works to something else
     public KeyStoreResultModel loadKeyStore(char[] pw, String path){
         try{
             KeyStore ks = KeyStore.getInstance(KS_TYPE);
@@ -74,40 +81,33 @@ public class KeyStoreModel {
         }
     }
 
-    public void createKeyStore(char[] pw){
-        try{
+    public void createKeyStore() throws Exception {
+
+        if(this.getPw()!= null){
             Path cryptopadDir = Paths.get(System.getProperty(HOME_DIR), AppConstants.APP_FOLDER_NAME);
             Files.createDirectories(cryptopadDir);
-            this.generateKeyStore(pw, AppConstants.KEYSTORE_PATH);
-
-        }catch(IOException e){
-            System.out.printf("error creating path: %s", e.getMessage());
+            this.generateKeyStore();
         }
+
     }
 
 
-    public SecretKey generateKey(String cipher, int keyLength){
-        SecretKey key = null;
-        try{
-            KeyGenerator keyGen = KeyGenerator.getInstance(cipher);
-            keyGen.init(keyLength);
-            key = keyGen.generateKey();
+    public SecretKey generateKey(String cipher, int keyLength) throws NoSuchAlgorithmException {
 
-        }catch(NoSuchAlgorithmException e){
-            System.out.printf("error for %s cipher: %s", cipher, e.getMessage());
-        }
+        SecretKey key = null;
+        KeyGenerator keyGen = KeyGenerator.getInstance(cipher);
+        keyGen.init(keyLength);
+        key = keyGen.generateKey();
 
         return key;
 
     }
 
-    public String removeKey(String alias){
-        try{
-            this.getKeyStore().deleteEntry(alias);
-        }catch(KeyStoreException e){
-            return String.format("Error removing key, alias: %s, message: %s", alias, e.getMessage());
-        }
-        return String.format("Successfully removed key for: %s", alias);
+    public void removeKey(String alias)throws KeyStoreException{
+
+
+        this.getKeyStore().deleteEntry(alias);
+
     }
 
     private void saveStore(){
