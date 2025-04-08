@@ -3,10 +3,12 @@ package controllers;
 import models.KeyStoreModel;
 
 import javax.crypto.SecretKey;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.UnrecoverableKeyException;
+import java.security.cert.CertificateException;
 
 public class KeyStoreController {
 
@@ -96,12 +98,50 @@ public class KeyStoreController {
         }
     }
 
+
     public void save(){
+
         try{
+
             this.getModel().saveStore();
 
         }catch(Exception e){
             System.out.printf("Exception occurred: %s", e.getMessage());
+        }
+    }
+
+
+    public void create(){
+
+        try{
+
+            this.getModel().createKeyStore();
+
+        }catch(Exception e){
+
+            System.out.printf("Exception occurred: %s", e.getMessage());
+
+        }
+    }
+
+    public void loadModel(){
+
+        try{
+
+            this.getModel().load();
+
+        }catch(IOException | NoSuchAlgorithmException | KeyStoreException | CertificateException e){
+            System.out.printf("Error loading keystore: %s", e.getMessage());
+        }
+    }
+
+    public void saveModel(){
+        try{
+
+            this.getModel().saveStore();
+
+        }catch(IOException | KeyStoreException | NoSuchAlgorithmException | CertificateException e){
+            System.out.printf("Error saving keystore: %s", e.getMessage());
         }
     }
 

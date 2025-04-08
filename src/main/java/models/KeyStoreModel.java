@@ -1,11 +1,11 @@
 package models;
 
 import util.constants.AppConstants;
-import util.exceptions.KeyStoreModelException;
 
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -28,6 +28,10 @@ public class KeyStoreModel {
     public KeyStoreModel(){}
     public KeyStoreModel(KeyStore ks, char[] pw){
         this.ks = ks;
+        this.pw = pw;
+    }
+
+    public KeyStoreModel(char[] pw){
         this.pw = pw;
     }
 
@@ -55,7 +59,7 @@ public class KeyStoreModel {
     }
 
 
-    private void generateKeyStore()throws KeyStoreException, IOException,
+    private void generateKeyStore() throws KeyStoreException, IOException,
             NoSuchAlgorithmException,
             CertificateException{
 
@@ -83,6 +87,18 @@ public class KeyStoreModel {
         return null;
     }
 
+    public void load()
+            throws IOException, NoSuchAlgorithmException,
+            KeyStoreException, CertificateException {
+
+        try(FileInputStream inStream = new FileInputStream(AppConstants.KEYSTORE_PATH)){
+            KeyStore ks = KeyStore.getInstance(KS_TYPE);
+            ks.load(inStream, this.getPw());
+            this.setKeyStore(ks);
+
+        }
+    }
+
     public void createKeyStore() throws Exception {
 
         if(this.getPw()!= null){
@@ -99,7 +115,7 @@ public class KeyStoreModel {
     }
 
     public SecretKey getKey(String alias, char[] pw)throws KeyStoreException, NoSuchAlgorithmException, UnrecoverableKeyException {
-        return (SecretKey)this.getKeyStore().getKey(alias, pw);
+        return (SecretKey)this.getKeyStore().getKey(alias, this.getPw());
     }
 
 
