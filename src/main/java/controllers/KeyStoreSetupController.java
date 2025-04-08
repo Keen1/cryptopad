@@ -74,10 +74,4 @@ public class KeyStoreSetupController {
 
         }
     }
-
-    public void loadKeyStore(String path){
-        if(this.getPassword() != null){
-            this.getKeyStoreModel().loadKeyStore(this.getPassword(), path);
-        }
-    }
 }

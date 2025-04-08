@@ -23,13 +23,15 @@ public class KeyStoreModel {
     private static final String HOME_DIR = "user.home";
     private KeyStore ks;
     private char[] pw;
-
+    private KeyStoreModel instance;
 
     public KeyStoreModel(){}
     public KeyStoreModel(KeyStore ks, char[] pw){
         this.ks = ks;
         this.pw = pw;
     }
+
+
 
     public KeyStoreModel(char[] pw){
         this.pw = pw;
