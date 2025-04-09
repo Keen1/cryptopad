@@ -103,7 +103,7 @@ public class KeyStoreController {
 
         try{
 
-            this.getModel().saveStore();
+            this.getModel().saveKeyStore();
 
         }catch(Exception e){
             System.out.printf("Exception occurred: %s", e.getMessage());
@@ -138,7 +138,7 @@ public class KeyStoreController {
     public void saveModel(){
         try{
 
-            this.getModel().saveStore();
+            this.getModel().save();
 
         }catch(IOException | KeyStoreException | NoSuchAlgorithmException | CertificateException e){
             System.out.printf("Error saving keystore: %s", e.getMessage());

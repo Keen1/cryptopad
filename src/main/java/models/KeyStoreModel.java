@@ -139,7 +139,7 @@ public class KeyStoreModel {
 
     }
 
-    public void saveStore()throws IOException, KeyStoreException, NoSuchAlgorithmException, CertificateException {
+    public void saveKeyStore()throws IOException, KeyStoreException, NoSuchAlgorithmException, CertificateException {
         try(FileOutputStream outStream = new FileOutputStream(AppConstants.KEYSTORE_PATH)) {
             this.getKeyStore().store(outStream, this.getPw());
         }
