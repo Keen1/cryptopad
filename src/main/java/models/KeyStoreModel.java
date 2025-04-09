@@ -23,9 +23,9 @@ public class KeyStoreModel {
     private static final String HOME_DIR = "user.home";
     private KeyStore ks;
     private char[] pw;
-    private KeyStoreModel instance;
 
     public KeyStoreModel(){}
+
     public KeyStoreModel(KeyStore ks, char[] pw){
         this.ks = ks;
         this.pw = pw;
@@ -34,30 +34,46 @@ public class KeyStoreModel {
 
 
     public KeyStoreModel(char[] pw){
+
         this.pw = pw;
+
     }
 
     public void setPw(char[] pw){
+
         this.pw = pw;
+
     }
+
     public char[] getPw(){
+
         return this.pw;
+
     }
+
     public void wipePw(){
+
         Arrays.fill(this.getPw(), (char) 0);
         this.setPw(null);
+
     }
 
     public KeyStore getKeyStore(){
+
         return this.ks;
+
     }
 
     public void setKeyStore(KeyStore ks){
+
         this.ks = ks;
+
     }
 
     public boolean hasKeyForAlias(String alias) throws KeyStoreException{
+
         return this.getKeyStore().containsAlias(alias);
+
     }
 
 
@@ -67,6 +83,7 @@ public class KeyStoreModel {
 
 
         try(FileOutputStream outStream = new FileOutputStream(AppConstants.KEYSTORE_PATH)){
+
             KeyStore ks = KeyStore.getInstance(KS_TYPE);
             ks.load(null, null);
             ks.store(outStream, this.getPw());
@@ -77,8 +94,11 @@ public class KeyStoreModel {
 
     //TODO: this needs to be refactored and we need to rework our return object/ how this works to something else
     public KeyStoreResultModel loadKeyStore(char[] pw, String path) throws IOException, KeyStoreException, NoSuchAlgorithmException, CertificateException{
+
         if(this.getPw() != null){
+
             try(FileInputStream inStream = new FileInputStream(AppConstants.KEYSTORE_PATH)){
+
                 KeyStore ks = KeyStore.getInstance(KS_TYPE);
                 ks.load(inStream, this.getPw());
                 return new KeyStoreResultModel(ks, "Success", this.getPw());
@@ -89,7 +109,7 @@ public class KeyStoreModel {
         return null;
     }
 
-    public void load()
+    public void loadKeyStore()
             throws IOException, NoSuchAlgorithmException,
             KeyStoreException, CertificateException {
 
@@ -112,18 +132,31 @@ public class KeyStoreModel {
     }
 
     public void storeKey(SecretKey key, String alias) throws KeyStoreException {
-        this.getKeyStore().setKeyEntry(alias, key, this.getPw(), null);
+
+        if(this.getPw() != null){
+
+            this.getKeyStore().setKeyEntry(alias, key, this.getPw(), null);
+
+        }
 
     }
 
     public SecretKey getKey(String alias, char[] pw)throws KeyStoreException, NoSuchAlgorithmException, UnrecoverableKeyException {
-        return (SecretKey)this.getKeyStore().getKey(alias, this.getPw());
+
+        if(this.getPw() != null){
+
+            return (SecretKey)this.getKeyStore().getKey(alias, this.getPw());
+
+        }
+
+        return null;
     }
 
 
     public SecretKey generateKey(String cipher, int keyLength) throws NoSuchAlgorithmException {
 
         SecretKey key = null;
+
         KeyGenerator keyGen = KeyGenerator.getInstance(cipher);
         keyGen.init(keyLength);
         key = keyGen.generateKey();
@@ -140,8 +173,15 @@ public class KeyStoreModel {
     }
 
     public void saveKeyStore()throws IOException, KeyStoreException, NoSuchAlgorithmException, CertificateException {
-        try(FileOutputStream outStream = new FileOutputStream(AppConstants.KEYSTORE_PATH)) {
-            this.getKeyStore().store(outStream, this.getPw());
+
+        if(this.getPw() != null){
+
+            try(FileOutputStream outStream = new FileOutputStream(AppConstants.KEYSTORE_PATH)) {
+
+                this.getKeyStore().store(outStream, this.getPw());
+
+            }
         }
+
     }
 }

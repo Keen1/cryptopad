@@ -98,19 +98,6 @@ public class KeyStoreController {
         }
     }
 
-
-    public void save(){
-
-        try{
-
-            this.getModel().saveKeyStore();
-
-        }catch(Exception e){
-            System.out.printf("Exception occurred: %s", e.getMessage());
-        }
-    }
-
-
     public void create(){
 
         try{
@@ -128,7 +115,7 @@ public class KeyStoreController {
 
         try{
 
-            this.getModel().load();
+            this.getModel().loadKeyStore();
 
         }catch(IOException | NoSuchAlgorithmException | KeyStoreException | CertificateException e){
             System.out.printf("Error loading keystore: %s", e.getMessage());
@@ -136,14 +123,17 @@ public class KeyStoreController {
     }
 
     public void saveModel(){
+
         try{
 
-            this.getModel().save();
+            this.getModel().saveKeyStore();
 
-        }catch(IOException | KeyStoreException | NoSuchAlgorithmException | CertificateException e){
-            System.out.printf("Error saving keystore: %s", e.getMessage());
+        }catch(Exception e){
+            System.out.printf("Exception occurred: %s", e.getMessage());
         }
     }
+
+
 
 
 
