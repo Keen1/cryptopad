@@ -58,9 +58,12 @@ public class KeyStoreSetupController {
     public void createKeyStore(){
 
         if(this.getPassword() != null){
+            this.getKeyStoreModel().setPw(this.getPassword());
 
             try{
+
                 this.getKeyStoreModel().createKeyStore();
+
                 if(onSetupComplete != null){
                     onSetupComplete.run();
                 }

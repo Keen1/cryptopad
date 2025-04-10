@@ -48,6 +48,11 @@ public class LoginController {
         //KeyStoreResultModel result = this.getKeyStoreModel().loadKeyStore(pw, path);
         try{
             KeyStoreModel result = this.getKeyStoreModel().loadKeyStore(pw);
+            //dont know if this call to setPw is required here. this is a new model object that is set outside of the
+            //gui driver...we are doing the same thing in the setup controller where we are instantiating a new
+            //model in the constructor...should we parameterize the model with the controller and keep instantiation to
+            //the main driver? Seems like it would be cleaner
+            result.setPw(pw);
             if(result != null){
                 this.getLoginPanel().updateMessageLabel("Success!");
                 this.getCallBack().accept(result);
