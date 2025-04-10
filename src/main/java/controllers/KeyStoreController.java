@@ -22,6 +22,9 @@ public class KeyStoreController {
         this.model = model;
         this.pw = pw;
     }
+    public KeyStoreController(KeyStoreModel model){
+        this.model = model;
+    }
 
     private char[] getPw(){
         return this.pw;

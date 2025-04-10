@@ -17,10 +17,12 @@ import com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMaterialPaleni
 import com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMaterialDeepOceanIJTheme;
 import com.formdev.flatlaf.intellijthemes.FlatMonokaiProIJTheme;
 import com.formdev.flatlaf.intellijthemes.materialthemeuilite.*;
+import controllers.KeyStoreController;
 import controllers.MainPanelController;
 import controllers.SecretKeyController;
 import handlers.tabs.CloseTabHandler;
 import handlers.menu.UnsavedChangesHandler;
+import models.KeyStoreModel;
 import models.KeyStoreResultModel;
 
 import javax.swing.*;
@@ -49,7 +51,7 @@ public class MainPanel extends JPanel{
     private JFrame frame;
 
     private MainPanelController controller;
-    private SecretKeyController keyController;
+    private KeyStoreController keyController;
 
     private JMenu themeMenu;
 
@@ -66,7 +68,7 @@ public class MainPanel extends JPanel{
 
 
     //constructor
-    public MainPanel(KeyStoreResultModel model){
+    public MainPanel(KeyStoreModel model){
         initSecretKeyController(model);
         initComponents();
     }
@@ -141,11 +143,11 @@ public class MainPanel extends JPanel{
         this.controller = new MainPanelController(this);
     }
 
-    public SecretKeyController getKeyController(){
+    public KeyStoreController getKeyController(){
         return this.keyController;
     }
-    public void initSecretKeyController(KeyStoreResultModel keyStoreModel){
-        this.keyController = new SecretKeyController(keyStoreModel.getKeyStore(), keyStoreModel.getPw(), this.getController());
+    public void initSecretKeyController(KeyStoreModel keyStoreModel){
+        this.keyController = new KeyStoreController(keyStoreModel);
     }
 
     //get the tabbed pane where all our text files are opened and displayed

@@ -4,15 +4,20 @@ import components.LoginPanel;
 import models.KeyStoreModel;
 import models.KeyStoreResultModel;
 import util.KeyStoreFactory;
+
+import java.io.IOException;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.cert.CertificateException;
 import java.util.function.Consumer;
 
 public class LoginController {
 
     private final LoginPanel loginPanel;
-    private final Consumer<KeyStoreResultModel> onLoginSuccess;
+    private final Consumer<KeyStoreModel> onLoginSuccess;
     private final KeyStoreModel keyStoreModel;
 
-    public LoginController(LoginPanel loginPanel, Consumer<KeyStoreResultModel> onLoginSuccess){
+    public LoginController(LoginPanel loginPanel, Consumer<KeyStoreModel> onLoginSuccess){
 
         this.loginPanel = loginPanel;
         this.onLoginSuccess = onLoginSuccess;
@@ -30,7 +35,7 @@ public class LoginController {
         return this.keyStoreModel;
     }
 
-    private Consumer<KeyStoreResultModel> getCallBack(){
+    private Consumer<KeyStoreModel> getCallBack(){
 
         return this.onLoginSuccess;
 
@@ -40,15 +45,18 @@ public class LoginController {
 
 
 
-        KeyStoreResultModel result = this.getKeyStoreModel().loadKeyStore(pw, path);
-
-        if(result.isSuccess()){
-            this.getLoginPanel().updateMessageLabel(result.getMessage());
-            this.getCallBack().accept(result);
-
-        }else{
-            this.getLoginPanel().updateMessageLabel(result.getMessage());
+        //KeyStoreResultModel result = this.getKeyStoreModel().loadKeyStore(pw, path);
+        try{
+            KeyStoreModel result = this.getKeyStoreModel().loadKeyStore(pw);
+            if(result != null){
+                this.getLoginPanel().updateMessageLabel("Success!");
+                this.getCallBack().accept(result);
+            }
+        }catch(IOException | KeyStoreException | NoSuchAlgorithmException | CertificateException e){
+            this.getLoginPanel().updateMessageLabel(e.getMessage());
+            System.out.printf("error: %s", e.getMessage());
         }
+
 
     }
 }

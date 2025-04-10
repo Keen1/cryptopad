@@ -1,6 +1,7 @@
 package components;
 
 import controllers.LoginController;
+import models.KeyStoreModel;
 import models.KeyStoreResultModel;
 import util.constants.AppConstants;
 
@@ -18,7 +19,7 @@ public class LoginPanel extends JPanel {
     private final LoginController controller;
     private static final String KEYSTORE_PATH = AppConstants.KEYSTORE_PATH;
 
-    public LoginPanel(Consumer<KeyStoreResultModel> onLoginSuccess){
+    public LoginPanel(Consumer<KeyStoreModel> onLoginSuccess){
         this.controller = new LoginController(this, onLoginSuccess);
         initComponents();
     }

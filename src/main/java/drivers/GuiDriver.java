@@ -3,6 +3,7 @@ package drivers;
 import components.KeyStoreSetupPanel;
 import components.LoginPanel;
 import components.MainPanel;
+import models.KeyStoreModel;
 import models.KeyStoreResultModel;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import util.constants.AppConstants;
@@ -70,7 +71,7 @@ public class GuiDriver {
     }
 
 
-    public static void showMainPanel(KeyStoreResultModel model){
+    public static void showMainPanel(KeyStoreModel model){
         frame.setPreferredSize(MAIN_DIM);
         frame.setContentPane(new MainPanel(model));
         frame.pack();

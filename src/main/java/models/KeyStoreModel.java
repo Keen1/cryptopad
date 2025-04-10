@@ -93,7 +93,8 @@ public class KeyStoreModel {
     }
 
     //TODO: this needs to be refactored and we need to rework our return object/ how this works to something else
-    public KeyStoreResultModel loadKeyStore(char[] pw, String path) throws IOException, KeyStoreException, NoSuchAlgorithmException, CertificateException{
+    public KeyStoreResultModel loadKeyStore(char[] pw, String path)
+            throws IOException, KeyStoreException, NoSuchAlgorithmException, CertificateException{
 
         if(this.getPw() != null){
 
@@ -109,9 +110,29 @@ public class KeyStoreModel {
         return null;
     }
 
+    public KeyStoreModel loadKeyStore(char[] pw) throws IOException, KeyStoreException, NoSuchAlgorithmException, CertificateException{
+
+        try(FileInputStream inStream = new FileInputStream(AppConstants.KEYSTORE_PATH)){
+
+            KeyStore ks = KeyStore.getInstance(KS_TYPE);
+            ks.load(inStream, pw);
+
+            if(this.getKeyStore() == null){
+                this.setKeyStore(ks);
+
+            }
+
+            if(this.getPw() == null){
+                this.setPw(pw);
+
+            }
+            return this;
+
+        }
+    }
+
     public void loadKeyStore()
-            throws IOException, NoSuchAlgorithmException,
-            KeyStoreException, CertificateException {
+            throws IOException, NoSuchAlgorithmException, KeyStoreException, CertificateException {
 
         try(FileInputStream inStream = new FileInputStream(AppConstants.KEYSTORE_PATH)){
             KeyStore ks = KeyStore.getInstance(KS_TYPE);
@@ -141,7 +162,8 @@ public class KeyStoreModel {
 
     }
 
-    public SecretKey getKey(String alias, char[] pw)throws KeyStoreException, NoSuchAlgorithmException, UnrecoverableKeyException {
+    public SecretKey getKey(String alias, char[] pw)
+            throws KeyStoreException, NoSuchAlgorithmException, UnrecoverableKeyException {
 
         if(this.getPw() != null){
 
