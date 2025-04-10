@@ -55,6 +55,14 @@ public class KeyStoreSetupController {
         return this.requirementsMet;
     }
 
+    //same issue here im having in other prelim panels...accessing the model directly and no set procedure on the
+    //handling of the password
+    //need to have a set way of setting the password, loading the keystore and retaining the password for future use
+    //if necessary
+    //also same problem here with accessing the model directly and not through the controller. this is a little different
+    //here though because if we are instantiating this panel we know that the keystore file does not exist yet so the
+    //model being instantiated here is a little less concerning to me...
+
     public void createKeyStore(){
 
         if(this.getPassword() != null){

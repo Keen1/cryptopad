@@ -17,6 +17,9 @@ public class KeyStorePwHandler implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent event){
         if(this.getController().areRequirementsMet()){
+            //need to check and see if this is necessary or if this can cut any other calls out of the process when
+            //retaining the password
+            //this.getController().getKeyStoreModel().setPw(this.getController().getPassword());
             this.getController().setPassword(this.getController().getSetupPanel().getPasswordField().getPassword());
 
         }
