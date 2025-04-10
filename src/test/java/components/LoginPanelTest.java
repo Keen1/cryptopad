@@ -1,6 +1,7 @@
 package components;
 
 import controllers.LoginController;
+import models.KeyStoreModel;
 import models.KeyStoreResultModel;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -23,7 +24,7 @@ public class LoginPanelTest {
     private LoginController mockController;
 
     @Mock
-    Consumer<KeyStoreResultModel> mockOnLoginSuccess;
+    Consumer<KeyStoreModel> mockOnLoginSuccess;
 
     @BeforeEach
     void setup() throws NoSuchFieldException, IllegalAccessException{
