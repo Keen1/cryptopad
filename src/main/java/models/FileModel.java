@@ -109,7 +109,8 @@ public class FileModel {
     }
 
     public String decryptContent(SecretKey key) throws Exception{
-            byte[] combinedBytes = Base64.getDecoder().decode(this.getFileContent());
+
+        byte[] combinedBytes = Base64.getDecoder().decode(this.getFileContent());
             byte[] lengthBytes = new byte[4];
             System.arraycopy(combinedBytes, 0, lengthBytes, 0, 4);
             int transformLength = ByteBuffer.wrap(lengthBytes).getInt();
