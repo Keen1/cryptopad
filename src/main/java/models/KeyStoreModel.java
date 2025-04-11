@@ -187,7 +187,7 @@ public class KeyStoreModel {
 
     }
 
-    public void removeKey(String alias)throws KeyStoreException{
+    public void removeKey(String alias) throws KeyStoreException {
 
 
         this.getKeyStore().deleteEntry(alias);
