@@ -138,6 +138,7 @@ public class MainPanel extends JPanel{
     //init the controller
     public void initController(){
         this.controller = new MainPanelController(this);
+        this.controller.setKeyStoreController(this.getKeyController());
     }
 
     public KeyStoreController getKeyController(){

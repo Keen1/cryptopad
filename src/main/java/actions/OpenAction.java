@@ -42,8 +42,8 @@ public class OpenAction extends AbstractMenuAction {
             //if a key exists for this file it has been encrypted, so we need to read and set our parameters from the
             //header
             try{
-                if(this.getController().getGui().getKeyController().hasKeyForAlias(file.getName())){
-                    String content = model.decryptContent(this.getController().getGui().getKeyController().getKey(file.getName()));
+                if(this.getController().getKeyStoreController().keyExists(file.getName())){
+                    String content = model.decryptContent(this.getController().getKeyStoreController().getKey(file.getName()));
                     model.setSavedContent(content);
                     this.getController().putFileModelForTab(file.getName(), model);
                     this.getController().addNewTabToView(file.getName(), model.getSavedContent());

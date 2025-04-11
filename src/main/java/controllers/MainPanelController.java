@@ -13,6 +13,7 @@ import java.util.List;
 public class MainPanelController {
 
     private MainPanel mainPanel;
+    private KeyStoreController keyStoreController;
     private HashMap<String, FileModel> fileTabMap;
 
     //constructor
@@ -27,6 +28,13 @@ public class MainPanelController {
         this.fileTabMap = fileTabMap;
         this.mainPanel = mainPanel;
 
+    }
+
+    public void setKeyStoreController(KeyStoreController keyStoreController){
+        this.keyStoreController = keyStoreController;
+    }
+    public KeyStoreController getKeyStoreController(){
+        return this.keyStoreController;
     }
 
     //getter for model map

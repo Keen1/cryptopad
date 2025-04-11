@@ -41,6 +41,8 @@ public class LoginController {
     //this should be calling the keystore controller not the model
     //this means that the model should not be instantiated here it should either be passed and wrapped in the controller
     //or the controller should be passed itself
+    //might want to just leave this as the model moving between the controllers on the callback. the model is just passed
+    //to the main panel and wrapped in the controller there...still might be best to wrap it sooner rather than later?
 
     public void login(char[] pw, String path){
 

@@ -47,7 +47,7 @@ public class SaveAction extends AbstractMenuAction {
         if(model != null){
 
             if(model.hasUnsavedChanges()){
-                SecretKey key = this.getController().getGui().getKeyController().getKey(title);
+                SecretKey key = this.getController().getKeyStoreController().getKey(title);
                 if(key!= null){
                     System.out.printf("Key found for file: %s, key: %s\n", title, key);
                     try{
@@ -66,7 +66,7 @@ public class SaveAction extends AbstractMenuAction {
                     String dialogTitle = String.format("no key found for %s", title);
                     int choice = JOptionPane.showConfirmDialog(this.getController().getGui(), message, dialogTitle, JOptionPane.YES_NO_OPTION);
                     if(choice == JOptionPane.YES_OPTION){
-                        CipherDialog dialog = new CipherDialog(this.getController().getGui().getKeyController(), this.getController());
+                        CipherDialog dialog = new CipherDialog(this.getController().getKeyStoreController(), this.getController());
                         dialog.setLocationRelativeTo(this.getController().getGui());
                         dialog.setVisible(true);
                     }else{

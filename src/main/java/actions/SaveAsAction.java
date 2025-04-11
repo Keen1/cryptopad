@@ -94,7 +94,7 @@ public class SaveAsAction extends AbstractMenuAction{
         this.getController().putFileModelForTab(newTitle, newModel);
         this.getController().addNewTabToView(newTitle, content);
 
-        boolean hasOriginalKey = this.getController().getGui().getKeyController().hasKeyForAlias(originalTitle);
+        boolean hasOriginalKey = this.getController().getKeyStoreController().keyExists(originalTitle);
         if (hasOriginalKey) {
             int choice = showKeyOptionDialog();
             switch(choice){
@@ -119,8 +119,8 @@ public class SaveAsAction extends AbstractMenuAction{
     private void handleCreateNewKey(FileModel newModel, String newTitle, String content) throws Exception{
         this.getController().getGui().showCipherDialog(newTitle);
 
-        if (this.getController().getGui().getKeyController().hasKeyForAlias(newTitle)) {
-            SecretKey newKey = this.getController().getGui().getKeyController().getKey(newTitle);
+        if (this.getController().getKeyStoreController().keyExists(newTitle)) {
+            SecretKey newKey = this.getController().getKeyStoreController().getKey(newTitle);
             if(newKey != null){
                 String encrypted = newModel.encryptContent(newKey, content);
                 String status = newModel.saveContent(encrypted);
@@ -133,9 +133,9 @@ public class SaveAsAction extends AbstractMenuAction{
     }
 
     private void handleSameKeyUse(String originalTitle, FileModel newModel, String newTitle, String content) throws Exception{
-        SecretKey oldKey = this.getController().getGui().getKeyController().getKey(originalTitle);
+        SecretKey oldKey = this.getController().getKeyStoreController().getKey(originalTitle);
         if(oldKey != null){
-            this.getController().getGui().getKeyController().storeKey(oldKey, newTitle);
+            this.getController().getKeyStoreController().storeKey(oldKey, newTitle);
 
             String encrypted = newModel.encryptContent(oldKey, content);
             String status = newModel.saveContent(encrypted);
