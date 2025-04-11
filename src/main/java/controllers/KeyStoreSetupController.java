@@ -8,11 +8,11 @@ public class KeyStoreSetupController {
     private boolean requirementsMet;
     private char[] pw;
     private Runnable onSetupComplete;
-    private KeyStoreModel keyStoreModel;
+    private KeyStoreController keyStoreController;
     public KeyStoreSetupController(KeyStoreSetupPanel setupPanel){
         this.setupPanel = setupPanel;
         this.requirementsMet = false;
-        this.keyStoreModel = new KeyStoreModel();
+        this.keyStoreController = new KeyStoreController(new KeyStoreModel());
 
     }
 
@@ -20,7 +20,7 @@ public class KeyStoreSetupController {
         this.setupPanel = setupPanel;
         this.onSetupComplete = onSetupComplete;
         this.requirementsMet = false;
-        this.keyStoreModel = new KeyStoreModel();
+        this.keyStoreController = new KeyStoreController(new KeyStoreModel());
     }
 
     public void setOnSetupComplete(Runnable onSetupComplete){
@@ -38,8 +38,8 @@ public class KeyStoreSetupController {
         return this.setupPanel;
     }
 
-    public KeyStoreModel getKeyStoreModel(){
-        return this.keyStoreModel;
+    public KeyStoreController getKeyStoreController(){
+        return this.keyStoreController;
     }
     public void setRequirementsMet(boolean requirementsMet){
         this.requirementsMet = requirementsMet;
@@ -59,12 +59,10 @@ public class KeyStoreSetupController {
     public void createKeyStore(){
 
         if(this.getPassword() != null){
-            this.getKeyStoreModel().setPw(this.getPassword());
+            this.getKeyStoreController().setPw(this.getPassword());
 
             try{
-
-                this.getKeyStoreModel().createKeyStore();
-
+                this.getKeyStoreController().create();
                 if(onSetupComplete != null){
                     onSetupComplete.run();
                 }

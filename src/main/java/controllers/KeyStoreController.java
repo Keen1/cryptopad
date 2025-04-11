@@ -12,25 +12,22 @@ import java.security.cert.CertificateException;
 public class KeyStoreController {
 
     private KeyStoreModel model;
-    private char[] pw;
 
     public KeyStoreController(){
         this.model = new KeyStoreModel();
     }
     public KeyStoreController(KeyStoreModel model, char[] pw){
         this.model = model;
-        this.pw = pw;
+        this.model.setPw(pw);
     }
     public KeyStoreController(KeyStoreModel model){
         this.model = model;
     }
 
-    private char[] getPw(){
-        return this.pw;
-    }
 
-    private void setPw(char[] pw){
-        this.pw = pw;
+
+    public void setPw(char[] pw){
+        this.getModel().setPw(pw);
     }
 
     private KeyStoreModel getModel(){
@@ -81,7 +78,7 @@ public class KeyStoreController {
 
         try{
 
-            key = this.getModel().getKey(alias, this.getPw());
+            key = this.getModel().getKey(alias, this.getModel().getPw());
 
         }catch(KeyStoreException | NoSuchAlgorithmException | UnrecoverableKeyException e){
             System.out.printf("Error retrieving key: %s", e.getMessage());

@@ -56,7 +56,6 @@ public class LoginController {
             //the main driver? Seems like it would be cleaner
 
             //it also appears that im setting this in the loadKeyStore(pw) call when password is sent...
-            result.setPw(pw);
             if(result != null){
                 this.getLoginPanel().updateMessageLabel("Success!");
                 this.getCallBack().accept(result);
