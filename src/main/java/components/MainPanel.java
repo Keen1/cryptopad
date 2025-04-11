@@ -19,16 +19,13 @@ import com.formdev.flatlaf.intellijthemes.FlatMonokaiProIJTheme;
 import com.formdev.flatlaf.intellijthemes.materialthemeuilite.*;
 import controllers.KeyStoreController;
 import controllers.MainPanelController;
-import controllers.SecretKeyController;
 import handlers.tabs.CloseTabHandler;
 import handlers.menu.UnsavedChangesHandler;
 import models.KeyStoreModel;
-import models.KeyStoreResultModel;
 
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
-import java.security.KeyStore;
 
 import static javax.swing.Action.ACCELERATOR_KEY;
 
