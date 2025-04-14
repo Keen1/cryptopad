@@ -152,11 +152,13 @@ public class KeyStoreModel {
 
     }
 
-    public void storeKey(SecretKey key, String alias) throws KeyStoreException {
+    public void storeKey(SecretKey key, String alias) throws KeyStoreException, IOException, NoSuchAlgorithmException, CertificateException {
 
         if(this.getPw() != null){
 
             this.getKeyStore().setKeyEntry(alias, key, this.getPw(), null);
+            this.saveKeyStore();
+
 
         }
 

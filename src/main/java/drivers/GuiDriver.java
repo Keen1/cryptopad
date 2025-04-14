@@ -24,7 +24,7 @@ public class GuiDriver {
     private static final String KEYSTORE_PATH = AppConstants.KEYSTORE_PATH;
 
     public static void main(String [] args){
-
+        System.setProperty("jpackage.app-name", "cryptopad");
         Security.addProvider(new BouncyCastleProvider());
         SwingUtilities.invokeLater(() ->{
             initFrame();
