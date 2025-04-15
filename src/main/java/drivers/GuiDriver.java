@@ -3,9 +3,7 @@ package drivers;
 import components.KeyStoreSetupPanel;
 import components.LoginPanel;
 import components.MainPanel;
-import controllers.KeyStoreController;
 import models.KeyStoreModel;
-import models.KeyStoreResultModel;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import util.constants.AppConstants;
 
@@ -25,6 +23,7 @@ public class GuiDriver {
 
     public static void main(String [] args){
         System.setProperty("jpackage.app-name", "cryptopad");
+
         Security.addProvider(new BouncyCastleProvider());
         SwingUtilities.invokeLater(() ->{
             initFrame();

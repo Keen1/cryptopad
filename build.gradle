@@ -14,11 +14,13 @@ repositories {
 application {
     mainClass = 'drivers.GuiDriver'
     mainModule = 'cryptopad'
+
+    applicationDefaultJvmArgs = ['-Dawt.appName=cryptopad']
 }
 
 jlink {
 
-    options = ['--ignore-signing-information']
+    options = ['--ignore-signing-information', '--strip-debug', '--compress', '2', '--no-header-files', '--no-man-pages', '--bind-services']
 
     mergedModule{
         additive = true
@@ -37,6 +39,10 @@ jlink {
         appVersion = version
         vendor = 'Keendev'
         icon = file('src/main/resources/icon.png')
+
+        installerOptions = ['--linux-menu-group','Utilities',
+                            '--linux-app-category', 'Utility',
+                            '--linux-shortcut']
 
 
     }

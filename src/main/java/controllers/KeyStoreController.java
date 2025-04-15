@@ -92,7 +92,7 @@ public class KeyStoreController {
 
             this.getModel().storeKey(key, alias);
 
-        }catch(KeyStoreException e){
+        }catch(KeyStoreException | IOException | NoSuchAlgorithmException | CertificateException e){
             System.out.printf("Error storing key: %s", e.getMessage());
         }
     }
