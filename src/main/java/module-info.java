@@ -1,11 +1,8 @@
 module cryptopad {
-    requires java.desktop;
     requires  com.formdev.flatlaf;
     requires  com.formdev.flatlaf.intellijthemes;
     requires org.bouncycastle.provider;
-
-
-
+    requires com.fasterxml.jackson.databind;
 
 
     exports actions;
