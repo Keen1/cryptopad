@@ -3,6 +3,7 @@ package drivers;
 import components.KeyStoreSetupPanel;
 import components.LoginPanel;
 import components.MainPanel;
+import controllers.PreferencesController;
 import models.KeyStoreModel;
 import models.PreferencesModel;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
@@ -12,6 +13,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.Security;
 
@@ -36,17 +38,34 @@ public class GuiDriver {
 
 
     }
+
+
     private static void checkAndShowInitialPanel(){
 
         if(keystoreExists()){
             showLoginPanel();
 
         }else{
+            initDirectoryAndPreferences();
             showKeystoreSetupPanel();
         }
     }
 
-    public static void initPreferences(){
+
+
+    private static void initDirectoryAndPreferences(){
+
+        Path cryptopadDir = Paths.get(System.getProperty(AppConstants.HOME_DIR), AppConstants.APP_FOLDER_NAME);
+        Path preferencesPath = Paths.get(AppConstants.PREFERENCES_PATH);
+
+
+        try{
+            Files.createDirectory(cryptopadDir);
+            Files.createFile(preferencesPath);
+
+        }catch(IOException e){
+            System.out.printf("error creating directory or preferences file: %s", e.getMessage());
+        }
 
     }
 

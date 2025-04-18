@@ -30,7 +30,6 @@ public class PreferencesModel {
 
     public void setDefaults() throws IOException {
 
-        initFile();
 
         String theme = UIManager.getSystemLookAndFeelClassName();
         String fontFamily = UIManager.getFont("TextArea.font").getFamily();
@@ -65,15 +64,6 @@ public class PreferencesModel {
     }
     public int getFontSize(){
         return this.fontSize;
-    }
-
-    public void initFile() throws IOException {
-
-        Path preferencesPath = Paths.get(AppConstants.PREFERENCES_PATH);
-
-        if(!Files.exists(preferencesPath)){
-            Files.createFile(preferencesPath);
-        }
     }
 
     public void readPreferences() throws IOException {

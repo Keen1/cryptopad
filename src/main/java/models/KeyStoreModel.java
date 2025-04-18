@@ -145,8 +145,6 @@ public class KeyStoreModel {
     public void createKeyStore() throws Exception {
 
         if(this.getPw()!= null){
-            Path cryptopadDir = Paths.get(System.getProperty(HOME_DIR), AppConstants.APP_FOLDER_NAME);
-            Files.createDirectories(cryptopadDir);
             this.generateKeyStore();
         }
 
