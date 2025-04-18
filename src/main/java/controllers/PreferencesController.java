@@ -28,6 +28,18 @@ public class PreferencesController {
         this.model = PreferencesModel.getInstance();
     }
 
+    public void initDefaults(){
+        Path preferencesPath = Paths.get(AppConstants.PREFERENCES_PATH);
+
+        try{
+            this.getModel().setDefaults();
+            this.getModel().writePreferences();
+
+        }catch(IOException e){
+            System.out.printf("error accessing preferences file: %s", e.getMessage());
+        }
+    }
+
     public void initPreferences(){
 
         Path preferencesPath = Paths.get(AppConstants.PREFERENCES_PATH);
