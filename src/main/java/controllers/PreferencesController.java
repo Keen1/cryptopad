@@ -29,7 +29,9 @@ public class PreferencesController {
     }
 
     public void initPreferences(){
+
         Path preferencesPath = Paths.get(AppConstants.PREFERENCES_PATH);
+
         try{
             if(Files.exists(preferencesPath)){
                 this.getModel().readPreferences();
@@ -40,6 +42,33 @@ public class PreferencesController {
             System.out.printf("error reading preferences file: %s\n", e.getMessage());
         }
     }
+    
+    public void savePreferences(String theme, String fontFamily, int fontSize){
+
+        this.getModel().setPreferences(theme, fontFamily, fontSize);
+
+        try{
+
+            this.getModel().writePreferences();
+
+        }catch(IOException e){
+            System.out.printf("error saving preferences: %s\n", e.getMessage());
+        }
+    }
+
+
+    public String getTheme(){
+        return this.getModel().getTheme();
+    }
+    public String getFontFamily(){
+        return this.getModel().getFontFamily();
+    }
+    public int getFontSize(){
+        return this.getModel().getFontSize();
+    }
+
+
+
 
 
 
