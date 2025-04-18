@@ -29,6 +29,27 @@ public class PreferencesModelTester {
         return this.prefModel;
     }
 
+    public String getTheme(){
+        return this.getPreferencesModel().getTheme();
+
+    }
+    public void setTheme(String theme){
+        this.getPreferencesModel().setTheme(theme);
+    }
+    public String getFontFamily(){
+        return this.getPreferencesModel().getFontFamily();
+    }
+    public void setFontFamily(String fontFamily){
+        this.getPreferencesModel().setFontFamily(fontFamily);
+    }
+    public int getFontSize(){
+        return this.getPreferencesModel().getFontSize();
+    }
+    public void setFontSize(int fontSize){
+        this.getPreferencesModel().setFontSize(fontSize);
+    }
+
+
 
 
 

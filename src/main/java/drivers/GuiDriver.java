@@ -48,39 +48,6 @@ public class GuiDriver {
 
     public static void initPreferences(){
 
-        String theme = UIManager.getSystemLookAndFeelClassName();
-        String fontFamily = getDefaultFontFamily();
-        int fontSize = getDefaultFontSize();
-
-        PreferencesModel model = PreferencesModel.getInstance();
-
-        model.setPreferences(theme, fontFamily, fontSize);
-
-
-    }
-
-    public static String getDefaultFontFamily(){
-        return UIManager.getFont("TextArea.font").getFamily();
-
-    }
-    public static int getDefaultFontSize(){
-        return UIManager.getFont("TextArea.font").getSize();
-    }
-
-    public static PreferencesModel readModel(){
-        PreferencesModel model = PreferencesModel.getInstance();
-        try{
-
-            //file instantiation
-            if(!Files.exists(Paths.get(AppConstants.PREFERENCES_PATH))){
-                model.initFile();
-
-            }else{
-
-            }
-        }catch(IOException e){
-            System.out.printf("Error reading preferences file: %s", e.getMessage());
-        }
     }
 
     private static boolean keystoreExists(){

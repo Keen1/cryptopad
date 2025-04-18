@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import util.constants.AppConstants;
 
+import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -20,18 +21,23 @@ public class PreferencesModel {
 
     }
 
-    private PreferencesModel(String theme, String fontFamily, int fontSize){
-        this.theme = theme;
-        this.fontFamily = fontFamily;
-        this.fontSize = fontSize;
-    }
-
-
     public static PreferencesModel getInstance(){
         if(instance == null){
             instance = new PreferencesModel();
         }
         return instance;
+    }
+
+    public void setDefaults() throws IOException {
+
+        initFile();
+
+        String theme = UIManager.getSystemLookAndFeelClassName();
+        String fontFamily = UIManager.getFont("TextArea.font").getFamily();
+        int fontSize = UIManager.getFont("TextArea.font").getSize();
+
+        this.setPreferences(theme, fontFamily, fontSize);
+
     }
 
     public void setPreferences(String theme, String fontFamily, int fontSize){
