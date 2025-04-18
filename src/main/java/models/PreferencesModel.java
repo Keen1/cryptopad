@@ -34,11 +34,10 @@ public class PreferencesModel {
         return instance;
     }
 
-    public static PreferencesModel getInstance(String theme, String fontFamily, int fontSize){
-        if(instance == null){
-            instance = new PreferencesModel(theme, fontFamily, fontSize);
-        }
-        return instance;
+    public void setPreferences(String theme, String fontFamily, int fontSize){
+        this.setTheme(theme);
+        this.setFontFamily(fontFamily);
+        this.setFontSize(fontSize);
     }
 
     public void setTheme(String theme){
@@ -71,10 +70,23 @@ public class PreferencesModel {
         }
     }
 
+    public void readPreferences() throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.enable(SerializationFeature.INDENT_OUTPUT);
+        byte[] data = Files.readAllBytes(Paths.get(AppConstants.PREFERENCES_PATH));
+        instance = mapper.readValue(data, PreferencesModel.class);
+    }
+
     public void writePreferences() throws IOException {
         ObjectMapper mapper  = new ObjectMapper();
         mapper.enable(SerializationFeature.INDENT_OUTPUT);
         mapper.writeValue(new File(AppConstants.PREFERENCES_PATH), this);
+    }
+
+    @Override
+    public String toString(){
+        return String.format("theme: %s\n font family: %s\n font size: %d\n", this.getTheme(), this.getFontFamily(), this.getFontSize());
+
     }
 
 }
