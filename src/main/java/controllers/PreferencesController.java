@@ -7,14 +7,24 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashMap;
 
 public class PreferencesController {
 
     private PreferencesModel model;
+    private HashMap<String, String> lafMap;
 
     public PreferencesController(){
         initModel();
         initPreferences();
+    }
+
+    public HashMap<String, String> getLafMap(){
+        return this.lafMap;
+    }
+
+    public void setLafMap(HashMap<String, String> lafMap){
+        this.lafMap = lafMap;
     }
 
     public void setModel(PreferencesModel model){
@@ -29,7 +39,6 @@ public class PreferencesController {
     }
 
     public void initDefaults(){
-        Path preferencesPath = Paths.get(AppConstants.PREFERENCES_PATH);
 
         try{
             this.getModel().setDefaults();
@@ -86,6 +95,10 @@ public class PreferencesController {
     }
     public void setFontSize(int fontSize){
         this.getModel().setFontSize(fontSize);
+    }
+
+    public void showPreferences(){
+        System.out.printf("preferences state: %s", this.getModel().toString());
     }
 
 

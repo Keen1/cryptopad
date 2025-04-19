@@ -47,6 +47,7 @@ public class GuiDriver {
 
         }else{
             initDirectoryAndPreferences();
+            testPreferences(true);
             showKeystoreSetupPanel();
         }
     }
@@ -65,6 +66,19 @@ public class GuiDriver {
 
         }catch(IOException e){
             System.out.printf("error creating directory or preferences file: %s", e.getMessage());
+        }
+
+    }
+
+    private static void testPreferences(boolean firstRun){
+        PreferencesController controller = new PreferencesController();
+        if(firstRun){
+            controller.initModel();
+            controller.initDefaults();
+            controller.showPreferences();
+        }else{
+            controller.initModel();
+            controller.initPreferences();
         }
 
     }

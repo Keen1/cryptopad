@@ -1,0 +1,74 @@
+package components;
+
+import com.formdev.flatlaf.intellijthemes.FlatAllIJThemes;
+import controllers.PreferencesController;
+
+import javax.swing.*;
+import java.util.HashMap;
+import javax.swing.UIManager.LookAndFeelInfo;
+
+public class PreferencesDialog extends JDialog {
+
+    private JComboBox<String> themeComboBox;
+    private JComboBox<String> fontFamilyComboBox;
+    private JFormattedTextField fontSizeField;
+    private JButton okayButton;
+    private JButton cancelButton;
+    private HashMap<String, String> lafMap;
+
+    private final PreferencesController controller;
+
+    public PreferencesDialog(PreferencesController controller, JFrame parentFrame, String title, boolean modal){
+        super(parentFrame, title, modal);
+        this.controller = controller;
+    }
+
+    public PreferencesController getController(){
+        return this.controller;
+    }
+
+    public JComboBox<String> getThemeComboBox(){
+        if(this.themeComboBox == null){
+            initThemeComboBox();
+        }
+        return this.themeComboBox;
+    }
+
+    public void initThemeComboBox(){
+        this.themeComboBox = new JComboBox<>(getLafNames());
+
+    }
+
+    public String[] getLafNames(){
+        return this.getLafMap().keySet().toArray(new String[0]);
+    }
+    public HashMap<String, String> getLafMap(){
+        if(this.lafMap == null){
+            initLafMap();
+        }
+        return this.lafMap;
+    }
+
+    public void initLafMap(){
+        this.lafMap = new HashMap<>();
+
+        this.lafMap.put("FlatLaf Light", "com.formdev.flatlaf.FlatLightLaf");
+        this.lafMap.put("FlatLaf Dark", "com.formdev.flatlaf.FlatDarkLaf");
+        this.lafMap.put("FlatLaf Intellij", "com.formdev.flatlaf.FlatIntellijLaf");
+        this.lafMap.put("FlatLaf Darcula", "com.formdev.flatlaf.FlatDarculaLaf");
+
+        LookAndFeelInfo[] installedLaf = UIManager.getInstalledLookAndFeels();
+        for(LookAndFeelInfo info : installedLaf){
+            this.lafMap.put(info.getName(), info.getClassName());
+        }
+
+        for(FlatAllIJThemes.FlatIJLookAndFeelInfo info : FlatAllIJThemes.INFOS){
+            this.lafMap.put(info.getName(), info.getClassName());
+        }
+        this.getController().setLafMap(this.lafMap);
+
+    }
+
+
+
+}
