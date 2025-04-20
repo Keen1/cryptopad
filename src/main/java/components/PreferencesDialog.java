@@ -29,6 +29,21 @@ public class PreferencesDialog extends JDialog {
         return this.controller;
     }
 
+    //TODO init all the components and lay out the dialog
+    public void initComponents(){
+
+        setLayout(new BorderLayout());
+
+        JPanel selectionPanel = new JPanel(new GridBagLayout());
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+
+        GridBagConstraints gbc = new GridBagConstraints();
+
+
+
+    }
+
+
     public JButton getCancelButton(){
 
         if(this.cancelButton == null){
