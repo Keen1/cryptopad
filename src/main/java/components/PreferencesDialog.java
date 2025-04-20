@@ -14,7 +14,7 @@ public class PreferencesDialog extends JDialog {
     private JComboBox<String> themeComboBox;
     private JComboBox<String> fontFamilyComboBox;
     private JFormattedTextField fontSizeField;
-    private JButton okayButton;
+    private JButton applyButton;
     private JButton cancelButton;
     private HashMap<String, String> lafMap;
 
@@ -29,11 +29,41 @@ public class PreferencesDialog extends JDialog {
         return this.controller;
     }
 
+    public JButton getCancelButton(){
+
+        if(this.cancelButton == null){
+            initCancelButton();
+        }
+
+        return this.cancelButton;
+    }
+
+    public void initCancelButton(){
+        this.cancelButton = new JButton("cancel");
+    }
+
+
+    public JButton getApplyButton(){
+
+        if(this.applyButton == null){
+            initApplyButton();
+        }
+
+        return this.applyButton;
+    }
+
+    public void initApplyButton(){
+        this.applyButton = new JButton("apply");
+    }
+
+
+
     public JFormattedTextField getFontSizeField(){
 
         if(this.fontSizeField == null){
             initFontSizeField();
         }
+
         return this.fontSizeField;
     }
 
@@ -44,16 +74,20 @@ public class PreferencesDialog extends JDialog {
     }
 
     public JComboBox<String> getFontFamilyComboBox(){
+
         if(this.fontFamilyComboBox == null){
             initFontFamilyComboBox();
         }
+
         return this.fontFamilyComboBox;
     }
 
     public void initFontFamilyComboBox(){
+
         this.fontFamilyComboBox = new JComboBox<>(getFontNames());
         String currentFont = this.getController().getFontFamily();
         this.fontFamilyComboBox.setSelectedItem(currentFont);
+
     }
 
     public String[] getFontNames(){
@@ -62,9 +96,11 @@ public class PreferencesDialog extends JDialog {
 
 
     public JComboBox<String> getThemeComboBox(){
+
         if(this.themeComboBox == null){
             initThemeComboBox();
         }
+
         return this.themeComboBox;
     }
 
@@ -76,10 +112,13 @@ public class PreferencesDialog extends JDialog {
     public String[] getLafNames(){
         return this.getLafMap().keySet().toArray(new String[0]);
     }
+
     public HashMap<String, String> getLafMap(){
+
         if(this.lafMap == null){
             initLafMap();
         }
+
         return this.lafMap;
     }
 
