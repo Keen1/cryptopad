@@ -4,6 +4,8 @@ import com.formdev.flatlaf.intellijthemes.FlatAllIJThemes;
 import controllers.PreferencesController;
 
 import javax.swing.*;
+import java.awt.*;
+import java.text.NumberFormat;
 import java.util.HashMap;
 import javax.swing.UIManager.LookAndFeelInfo;
 
@@ -26,6 +28,38 @@ public class PreferencesDialog extends JDialog {
     public PreferencesController getController(){
         return this.controller;
     }
+
+    public JFormattedTextField getFontSizeField(){
+
+        if(this.fontSizeField == null){
+            initFontSizeField();
+        }
+        return this.fontSizeField;
+    }
+
+    public void initFontSizeField(){
+        this.fontSizeField = new JFormattedTextField(NumberFormat.getIntegerInstance());
+        this.fontSizeField.setValue(this.getController().getFontSize());
+
+    }
+
+    public JComboBox<String> getFontFamilyComboBox(){
+        if(this.fontFamilyComboBox == null){
+            initFontFamilyComboBox();
+        }
+        return this.fontFamilyComboBox;
+    }
+
+    public void initFontFamilyComboBox(){
+        this.fontFamilyComboBox = new JComboBox<>(getFontNames());
+        String currentFont = this.getController().getFontFamily();
+        this.fontFamilyComboBox.setSelectedItem(currentFont);
+    }
+
+    public String[] getFontNames(){
+        return GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
+    }
+
 
     public JComboBox<String> getThemeComboBox(){
         if(this.themeComboBox == null){
