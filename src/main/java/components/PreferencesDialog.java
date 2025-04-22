@@ -23,6 +23,7 @@ public class PreferencesDialog extends JDialog {
     public PreferencesDialog(PreferencesController controller, JFrame parentFrame, String title, boolean modal){
         super(parentFrame, title, modal);
         this.controller = controller;
+        initComponents();
     }
 
     public PreferencesController getController(){

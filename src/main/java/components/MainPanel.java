@@ -19,6 +19,7 @@ import com.formdev.flatlaf.intellijthemes.FlatMonokaiProIJTheme;
 import com.formdev.flatlaf.intellijthemes.materialthemeuilite.*;
 import controllers.KeyStoreController;
 import controllers.MainPanelController;
+import controllers.PreferencesController;
 import handlers.tabs.CloseTabHandler;
 import handlers.menu.UnsavedChangesHandler;
 import models.KeyStoreModel;
@@ -51,6 +52,7 @@ public class MainPanel extends JPanel{
     private KeyStoreController keyController;
 
     private JMenu themeMenu;
+    private JMenu preferencesMenu;
 
     private StatusLabel statusLabel;
 
@@ -326,18 +328,9 @@ public class MainPanel extends JPanel{
         return file;
     }
 
-    public int showNoKeyFoundDialog(String title){
-        String message = String.format("<html><div style='text-align: center'>No encryption key was found for this file:%s" +
-                " Would you like to create one?</div></html>", title);
-        String dialogTitle = String.format("no key found for %s", title);
-        return JOptionPane.showConfirmDialog(this, message, dialogTitle, JOptionPane.YES_NO_OPTION);
-    }
 
-    public void showCipherDialog(){
-        CipherDialog dialog = new CipherDialog(this.getKeyController(), this.getController());
-        dialog.setLocationRelativeTo(this);
-        dialog.setVisible(true);
-    }
+
+
 
     public void showCipherDialog(String selectedTab){
         CipherDialog dialog = new CipherDialog(this.getKeyController(), this.getController());
@@ -477,6 +470,24 @@ public class MainPanel extends JPanel{
             initThemeMenu();
         }
         return this.themeMenu;
+    }
+
+    private void initPreferencesMenu(){
+        this.preferencesMenu = new JMenu("preferences");
+        this.preferencesMenu.addActionListener(event -> {
+            PreferencesController prefController = new PreferencesController();
+           PreferencesDialog prefDialog = new PreferencesDialog(prefController,null, "preferences", true);
+           prefDialog.setVisible(true);
+        });
+
+    }
+
+    private JMenu getPreferencesMenu(){
+        if(this.preferencesMenu == null){
+            initPreferencesMenu();
+        }
+
+        return this.preferencesMenu;
     }
 
 
