@@ -37,9 +37,46 @@ public class PreferencesDialog extends JDialog {
         JPanel selectionPanel = new JPanel(new GridBagLayout());
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 
+        JLabel fontSizeLabel = new JLabel("font size: ");
+        JLabel themeLabel = new JLabel("theme: ");
+        JLabel fontFamilyLabel = new JLabel("font: ");
+
         GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(5,5,5,5);
 
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.gridx = 0;
+        gbc.gridy = 0;
 
+        selectionPanel.add(themeLabel, gbc);
+        gbc.gridx = 1;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        selectionPanel.add(getThemeComboBox());
+
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.fill = GridBagConstraints.NONE;
+        selectionPanel.add(fontFamilyLabel, gbc);
+
+        gbc.gridx = 1;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        selectionPanel.add(getFontFamilyComboBox(), gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        gbc.fill = GridBagConstraints.NONE;
+        selectionPanel.add(fontSizeLabel, gbc);
+        gbc.gridx = 1;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        selectionPanel.add(getFontSizeField(), gbc);
+
+        add(selectionPanel, BorderLayout.SOUTH);
+
+        buttonPanel.add(getApplyButton());
+        buttonPanel.add(getCancelButton());
+        add(buttonPanel, BorderLayout.SOUTH);
+
+        pack();
 
     }
 
