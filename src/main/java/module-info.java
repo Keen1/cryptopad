@@ -17,4 +17,6 @@ module cryptopad {
     exports util;
     exports util.enums;
     exports util.constants;
+    exports handlers.keystore;
+    exports handlers.preferences;
 }
