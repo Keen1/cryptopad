@@ -167,6 +167,18 @@ public class PreferencesDialog extends JDialog {
         return this.getLafMap().keySet().toArray(new String[0]);
     }
 
+    public String getSelectedTheme(){
+        return (String)this.getThemeComboBox().getSelectedItem();
+    }
+
+    public String getSelectedFontFamily(){
+        return (String)this.getFontFamilyComboBox().getSelectedItem();
+    }
+
+    public int getSelectedFontSize(){
+        return Integer.parseInt(this.getFontSizeField().getText());
+    }
+
     public HashMap<String, String> getLafMap(){
 
         if(this.lafMap == null){

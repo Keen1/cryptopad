@@ -13,7 +13,9 @@ public class PreferencesDialogHandler implements ActionListener {
     }
 
     @Override
-    public void actionPerformed(ActionEvent event){}
+    public void actionPerformed(ActionEvent event){
+
+    }
 
     public PreferencesController getController(){
         return this.controller;
