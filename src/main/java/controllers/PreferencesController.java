@@ -1,5 +1,6 @@
 package controllers;
 
+import components.PreferencesDialog;
 import models.PreferencesModel;
 import util.constants.AppConstants;
 
@@ -12,12 +13,26 @@ import java.util.HashMap;
 public class PreferencesController {
 
     private PreferencesModel model;
+    private PreferencesDialog prefDialog;
     private HashMap<String, String> lafMap;
 
+    public PreferencesController(PreferencesDialog prefDialog){
+        this.prefDialog = prefDialog;
+        initModel();
+        initPreferences();
+    }
     public PreferencesController(){
         initModel();
         initPreferences();
     }
+
+    public PreferencesDialog getPreferencesDialog(){
+        return this.prefDialog;
+    }
+    public void setPreferencesDialog(PreferencesDialog prefDialog){
+        this.prefDialog = prefDialog;
+    }
+
 
     public HashMap<String, String> getLafMap(){
         return this.lafMap;

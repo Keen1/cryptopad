@@ -477,6 +477,7 @@ public class MainPanel extends JPanel{
         this.preferencesMenu.addActionListener(event -> {
             PreferencesController prefController = new PreferencesController();
            PreferencesDialog prefDialog = new PreferencesDialog(prefController,null, "preferences", true);
+           prefController.setPreferencesDialog(prefDialog);
            prefDialog.setVisible(true);
         });
 
