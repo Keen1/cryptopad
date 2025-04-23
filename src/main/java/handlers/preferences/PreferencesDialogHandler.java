@@ -6,7 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class PreferencesDialogHandler implements ActionListener {
-    private PreferencesController controller;
+    private final PreferencesController controller;
 
     public PreferencesDialogHandler(PreferencesController controller){
         this.controller = controller;
@@ -15,6 +15,11 @@ public class PreferencesDialogHandler implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent event){
 
+        String selectedTheme = this.getController().getPreferencesDialog().getSelectedTheme();
+        String selectedFontFamily = this.getController().getPreferencesDialog().getSelectedFontFamily();
+        int selectedFontSize = this.getController().getPreferencesDialog().getSelectedFontSize();
+
+        this.getController().savePreferences(selectedTheme, selectedFontFamily, selectedFontSize);
     }
 
     public PreferencesController getController(){
