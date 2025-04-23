@@ -79,10 +79,4 @@ public class PreferencesModel {
         mapper.writeValue(new File(AppConstants.PREFERENCES_PATH), this);
     }
 
-    @Override
-    public String toString(){
-        return String.format("theme: %s\n font family: %s\n font size: %d\n", this.getTheme(), this.getFontFamily(), this.getFontSize());
-
-    }
-
 }
