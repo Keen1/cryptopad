@@ -38,6 +38,10 @@ public class PreferencesController {
         return this.lafMap;
     }
 
+    public String getLafClassName(String name){
+        return this.getLafMap().get(name);
+    }
+
     public void setLafMap(HashMap<String, String> lafMap){
         this.lafMap = lafMap;
     }

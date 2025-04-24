@@ -20,6 +20,7 @@ public class PreferencesDialogHandler implements ActionListener {
         int selectedFontSize = this.getController().getPreferencesDialog().getSelectedFontSize();
 
         this.getController().savePreferences(selectedTheme, selectedFontFamily, selectedFontSize);
+
     }
 
     public PreferencesController getController(){
