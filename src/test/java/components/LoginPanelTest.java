@@ -1,5 +1,6 @@
 package components;
 
+import components.panels.LoginPanel;
 import controllers.LoginController;
 import models.KeyStoreModel;
 import org.junit.jupiter.api.BeforeEach;

@@ -1,4 +1,4 @@
-package components;
+package components.panels;
 
 import actions.*;
 import com.formdev.flatlaf.FlatDarculaLaf;

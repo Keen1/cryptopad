@@ -20,4 +20,5 @@ module cryptopad {
     exports handlers.keystore;
     exports handlers.preferences;
     exports components.dialogs;
+    exports components.panels;
 }

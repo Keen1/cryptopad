@@ -1,6 +1,6 @@
 package controllers;
 
-import components.MainPanel;
+import components.panels.MainPanel;
 import models.FileModel;
 import java.io.IOException;
 import java.util.ArrayList;

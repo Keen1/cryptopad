@@ -1,11 +1,10 @@
 package drivers;
 
-import components.KeyStoreSetupPanel;
-import components.LoginPanel;
-import components.MainPanel;
+import components.panels.KeyStoreSetupPanel;
+import components.panels.LoginPanel;
+import components.panels.MainPanel;
 import controllers.PreferencesController;
 import models.KeyStoreModel;
-import models.PreferencesModel;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import util.constants.AppConstants;
 

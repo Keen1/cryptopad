@@ -1,5 +1,6 @@
 package components;
 
+import components.panels.KeyStoreSetupPanel;
 import controllers.KeyStoreSetupController;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

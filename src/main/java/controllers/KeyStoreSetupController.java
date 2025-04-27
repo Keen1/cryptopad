@@ -1,6 +1,6 @@
 package controllers;
 
-import components.KeyStoreSetupPanel;
+import components.panels.KeyStoreSetupPanel;
 import models.KeyStoreModel;
 
 public class KeyStoreSetupController {

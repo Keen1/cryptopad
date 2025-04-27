@@ -1,4 +1,4 @@
-package components;
+package components.panels;
 
 import controllers.LoginController;
 import models.KeyStoreModel;

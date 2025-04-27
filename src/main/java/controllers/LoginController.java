@@ -1,6 +1,6 @@
 package controllers;
 
-import components.LoginPanel;
+import components.panels.LoginPanel;
 import models.KeyStoreModel;
 import java.io.IOException;
 import java.security.KeyStoreException;

@@ -1,4 +1,4 @@
-package components;
+package components.panels;
 
 import controllers.KeyStoreSetupController;
 import handlers.matcher.PasswordMatchHandler;
