@@ -7,7 +7,6 @@ module cryptopad {
 
 
     exports actions;
-    exports components;
     exports controllers;
     exports drivers;
     exports handlers.matcher;
