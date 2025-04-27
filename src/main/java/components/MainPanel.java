@@ -17,6 +17,8 @@ import com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMaterialPaleni
 import com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMaterialDeepOceanIJTheme;
 import com.formdev.flatlaf.intellijthemes.FlatMonokaiProIJTheme;
 import com.formdev.flatlaf.intellijthemes.materialthemeuilite.*;
+import components.dialogs.CipherDialog;
+import components.dialogs.PreferencesDialog;
 import controllers.KeyStoreController;
 import controllers.MainPanelController;
 import controllers.PreferencesController;

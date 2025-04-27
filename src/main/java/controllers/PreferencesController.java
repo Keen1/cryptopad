@@ -1,6 +1,6 @@
 package controllers;
 
-import components.PreferencesDialog;
+import components.dialogs.PreferencesDialog;
 import models.PreferencesModel;
 import util.constants.AppConstants;
 

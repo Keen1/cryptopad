@@ -1,6 +1,6 @@
 package actions;
 
-import components.CipherDialog;
+import components.dialogs.CipherDialog;
 import controllers.MainPanelController;
 import models.FileModel;
 

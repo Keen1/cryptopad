@@ -1,4 +1,4 @@
-package components;
+package components.dialogs;
 
 import com.formdev.flatlaf.intellijthemes.FlatAllIJThemes;
 import controllers.PreferencesController;

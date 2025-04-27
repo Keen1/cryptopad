@@ -1,6 +1,5 @@
 package actions;
 
-import components.CipherDialog;
 import controllers.MainPanelController;
 import models.FileModel;
 
@@ -11,8 +10,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.io.File;
-import java.io.IOException;
-import java.security.KeyStoreException;
 
 /*
 * save-as action - implements the shortcut and general action handler for saving contents of a given tab(AT LEAST to a new

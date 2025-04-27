@@ -1,8 +1,7 @@
-package components;
+package components.dialogs;
 
 import controllers.KeyStoreController;
 import controllers.MainPanelController;
-import controllers.SecretKeyController;
 import models.FileModel;
 import util.enums.CipherAlgorithms;
 import util.enums.CipherBlockModes;
@@ -13,7 +12,6 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
 import javax.swing.*;
 import java.awt.*;
-import java.security.KeyStoreException;
 import java.security.SecureRandom;
 import java.util.List;
 
