@@ -46,3 +46,7 @@ bin/
 .DS_Store
 /test_ks.jks
 **/*.jks
+
+linuxOverride/cryptopad.desktop
+
+
