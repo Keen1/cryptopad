@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'app.keendev'
-version = '1.0-RELEASE'
+version = '1.0'
 
 repositories {
     mavenCentral()
@@ -13,14 +13,14 @@ repositories {
 
 application {
     mainClass = 'drivers.GuiDriver'
-    mainModule = 'cryptopad'
+    mainModule = 'cryptopad.main'
 
-    applicationDefaultJvmArgs = ['-Dawt.appName=cryptopad']
+    applicationDefaultJvmArgs = ['--add-opens', 'java.desktop/sun.awt.X11=cryptopad.main']
 }
 
 jlink {
 
-    options = ['--ignore-signing-information', '--strip-debug', '--compress', '2', '--no-header-files', '--no-man-pages', '--bind-services']
+    options = ['--ignore-signing-information', '--strip-debug', '--no-header-files', '--no-man-pages', '--bind-services']
 
     mergedModule{
         additive = true
@@ -28,6 +28,8 @@ jlink {
 
     launcher {
         name = 'cryptopad'
+        jvmArgs = ['--add-opens', 'java.desktop/sun.awt.X11=cryptopad.main']
+
 
     }
 
@@ -36,13 +38,14 @@ jlink {
 
         installerType ='deb'
         imageName = 'cryptopad'
+        installerName = 'cryptopad'
         appVersion = version
         vendor = 'Keendev'
         icon = file('src/main/resources/icon.png')
 
-        installerOptions = ['--linux-menu-group','Utilities',
-                            '--linux-app-category', 'Utility',
-                            '--linux-shortcut']
+        installerOptions = ['--linux-menu-group','Utilities', '--linux-shortcut', '--resource-dir', 'linuxOverride']
+
+        jvmArgs = ['--add-opens', 'java.desktop/sun.awt.X11=cryptopad.main']
 
 
     }
@@ -65,7 +68,7 @@ dependencies {
     implementation group: 'org.bouncycastle', name: 'bcprov-jdk18on', version: '1.80'
     implementation 'com.formdev:flatlaf:3.4'
     implementation 'com.formdev:flatlaf-intellij-themes:3.5.4'
-    implementation 'com.fasterxml.jackson.core:jackson-databind:2.19.0-rc2'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.19.0'
 
 
 }

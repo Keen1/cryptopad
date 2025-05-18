@@ -1,5 +1,6 @@
 package drivers;
 
+import components.frames.MainFrame;
 import components.panels.KeyStoreSetupPanel;
 import components.panels.LoginPanel;
 import components.panels.MainPanel;
@@ -11,6 +12,7 @@ import util.constants.AppConstants;
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -25,34 +27,23 @@ public class GuiDriver {
     private static final String KEYSTORE_PATH = AppConstants.KEYSTORE_PATH;
 
     public static void main(String [] args){
-        System.setProperty("jpackage.app-name", "cryptopad");
 
         Security.addProvider(new BouncyCastleProvider());
+        setApplicationName();
+
+
         SwingUtilities.invokeLater(() ->{
-            initFrame();
-            checkAndShowInitialPanel();
+            if(!keystoreExists()){
+                initDirectoryAndPreferences();
+            }
+            MainFrame mainFrame = new MainFrame();
+            mainFrame.initialize();
         });
 
 
 
 
     }
-
-
-    private static void checkAndShowInitialPanel(){
-
-        if(keystoreExists()){
-            showLoginPanel();
-
-        }else{
-            initDirectoryAndPreferences();
-            testPreferences(true);
-            showKeystoreSetupPanel();
-        }
-    }
-
-
-
     private static void initDirectoryAndPreferences(){
 
         Path cryptopadDir = Paths.get(System.getProperty(AppConstants.HOME_DIR), AppConstants.APP_FOLDER_NAME);
@@ -69,64 +60,23 @@ public class GuiDriver {
 
     }
 
-    private static void testPreferences(boolean firstRun){
-        PreferencesController controller = new PreferencesController();
-        if(firstRun){
-            controller.initModel();
-            controller.initDefaults();
-            controller.showPreferences();
-        }else{
-            controller.initModel();
-            controller.initPreferences();
-        }
-
-    }
-
     private static boolean keystoreExists(){
         return Files.exists(Paths.get(KEYSTORE_PATH));
     }
-    private static void initFrame(){
-        frame = new JFrame("cryptopad");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLaf(frame);
 
-    }
-
-    private static void showKeystoreSetupPanel(){
-        frame.setPreferredSize(KEYSTORE_SETUP_DIM);
-        KeyStoreSetupPanel setupPanel = new KeyStoreSetupPanel();
-        setupPanel.getController().setOnSetupComplete(GuiDriver::showLoginPanel);
-        frame.setContentPane(setupPanel);
-        frame.pack();
-        frame.setVisible(true);
-    }
-
-    public static void showLoginPanel(){
-        frame.setPreferredSize(LOGIN_DIM);
-        frame.setContentPane(new LoginPanel(GuiDriver::showMainPanel));
-        frame.pack();
-        frame.setVisible(true);
-    }
-
-
-    public static void showMainPanel(KeyStoreModel model){
-        frame.setPreferredSize(MAIN_DIM);
-        frame.setContentPane(new MainPanel(model));
-        frame.pack();
-        frame.setLocationRelativeTo(null);
-    }
-
-
-    public static void setLaf(JFrame frame){
-
+    private static void setApplicationName(){
         try{
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-            SwingUtilities.updateComponentTreeUI(frame);
-        }catch(UnsupportedLookAndFeelException | ClassNotFoundException | InstantiationException |
-               IllegalAccessException e){
-            System.out.printf("Unsupported look and feel: %s\n", "Test");
-            System.out.printf("Error: %s", e.getMessage());
+            Toolkit toolkit = Toolkit.getDefaultToolkit();
+            java.lang.reflect.Field awtAppClassNameField = toolkit.getClass().getDeclaredField("awtAppClassName");
+            awtAppClassNameField.setAccessible(true);
+            awtAppClassNameField.set(toolkit, "cryptopad");
+        }catch(NoSuchFieldException e){
+            System.out.printf("no field name: %s", e.getMessage());
+        }catch(IllegalAccessException e){
+            System.out.printf("illegal access: %s", e.getMessage());
         }
-
     }
+
+
+
 }
