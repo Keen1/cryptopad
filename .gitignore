@@ -47,6 +47,6 @@ bin/
 /test_ks.jks
 **/*.jks
 
-linuxOverride/cryptopad.desktop
+
 
 

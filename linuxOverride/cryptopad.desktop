@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=cryptopad
+Type=Application
+Comment=an encrypted text editor
+Exec=/opt/cryptopad/bin/cryptopad
+Icon=/opt/cryptopad/lib/cryptopad.png
+Terminal=false
+Type=Application
+Categories=Utility
+StartupWMClass=cryptopad
