@@ -46,6 +46,7 @@ jlink {
         installerOptions = ['--linux-menu-group','Utilities', '--linux-app-category', 'text',
                             '--linux-shortcut',
                             '--resource-dir', 'linuxOverride',
+                            '--about-url', 'https://keendev.app/cryptopad',
                             '--linux-deb-maintainer', 'zach@keendev.app',
                             '--description', 'an encrypted notepad and journal.']
 
