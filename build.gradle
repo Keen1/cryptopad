@@ -39,11 +39,15 @@ jlink {
         installerType ='deb'
         imageName = 'cryptopad'
         installerName = 'cryptopad'
+        vendor = 'Zach Keener'
         appVersion = version
-        vendor = 'Keendev'
         icon = file('src/main/resources/icon.png')
 
-        installerOptions = ['--linux-menu-group','Utilities', '--linux-shortcut', '--resource-dir', 'linuxOverride']
+        installerOptions = ['--linux-menu-group','Utilities', '--linux-app-category', 'text',
+                            '--linux-shortcut',
+                            '--resource-dir', 'linuxOverride',
+                            '--linux-deb-maintainer', 'zach@keendev.app',
+                            '--description', 'an encrypted notepad and journal.']
 
         jvmArgs = ['--add-opens', 'java.desktop/sun.awt.X11=cryptopad.main']
 
