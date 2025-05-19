@@ -16,7 +16,6 @@ import java.util.Arrays;
 
 public class KeyStoreModel {
     private static final String KS_TYPE = "JCEKS";
-    private static final String HOME_DIR = "user.home";
     private KeyStore ks;
     private char[] pw;
 
