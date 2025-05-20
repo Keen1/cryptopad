@@ -485,6 +485,8 @@ public class MainPanel extends JPanel{
 
     }
 
+
+    //TODO: Call this to add our preferences menu
     private JMenu getPreferencesMenu(){
         if(this.preferencesMenu == null){
             initPreferencesMenu();
