@@ -27,7 +27,13 @@ public class CipherDialogTest {
 
     //test that generating a key generates a non-null value for the generated key attribute of the dialog
     @Test
-    public void generatedKeyTest(){
+    public void generateKeyTest(){
+
+    }
+
+    //test that the generated key is successfully stored in the keystore
+    @Test
+    public void applyKeyTest(){
 
     }
 }
